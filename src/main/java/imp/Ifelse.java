@@ -4,13 +4,14 @@ import java.util.ArrayList;
 
 import com.microsoft.z3.BoolExpr;
 import com.microsoft.z3.Context;
+import com.microsoft.z3.Expr;
 
 public class Ifelse {
 
     // arguments the AST for an ifelse statement are post condition Q
     // first element returned is Q, the remainder is the AVC of the ifelse statement
 
-    public static ArrayList<BoolExpr> eval(Context ctx, BoolExpr Q, ArrayList<String> ast) {
+    public static ArrayList<BoolExpr> eval(Context ctx, BoolExpr Q, ArrayList<Expr> ast) {
         // ensure that ast is of type ifelse
         assert(ast.size() == 3);
 
@@ -27,10 +28,10 @@ public class Ifelse {
     }
 
     
-    public static BoolExpr awp(Context ctx, BoolExpr Q, ArrayList<String> ast) {
+    public static BoolExpr awp(Context ctx, BoolExpr Q, ArrayList<Expr> ast) {
             // get statement 1 and 2 and condition from AST when its done
-            ArrayList<String> statement1 = new ArrayList<String>();
-            ArrayList<String> statement2 = new ArrayList<String>();
+            ArrayList<Expr> statement1 = new ArrayList<>();
+            ArrayList<Expr> statement2 = new ArrayList<>();
             BoolExpr condition = ctx.mkTrue();
             BoolExpr A, B;
             switch(statement1.size()) {
@@ -65,7 +66,7 @@ public class Ifelse {
         return ctx.mkAnd(A, B);
     }
 
-    public static BoolExpr avc(Context ctx, BoolExpr Q, ArrayList<String> ast) {
+    public static BoolExpr avc(Context ctx, BoolExpr Q, ArrayList<Expr> ast) {
         throw new RuntimeException("To be implemented");
     }
 

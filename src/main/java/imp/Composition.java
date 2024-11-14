@@ -4,13 +4,14 @@ import java.util.ArrayList;
 
 import com.microsoft.z3.BoolExpr;
 import com.microsoft.z3.Context;
+import com.microsoft.z3.Expr;
 
 public class Composition {
 
     // arguments the AST for an ifelse statement are post condition Q
     // first element returned is Q, the remainder is the AVC of the ifelse statement
 
-    public static ArrayList<BoolExpr> eval(Context ctx, BoolExpr Q, ArrayList<String> ast) {
+    public static ArrayList<BoolExpr> eval(Context ctx, BoolExpr Q, ArrayList<Expr> ast) {
         // ensure that ast is of type ifelse
         assert(ast.size() == 2);
 
@@ -27,10 +28,10 @@ public class Composition {
     }
 
     
-    public static BoolExpr awp(Context ctx, BoolExpr Q, ArrayList<String> ast) {
+    public static BoolExpr awp(Context ctx, BoolExpr Q, ArrayList<Expr> ast) {
             // get the variable and expr from the AST when its done
-            ArrayList<String> statement1 = new ArrayList<String>();
-            ArrayList<String> statement2 = new ArrayList<String>();
+            ArrayList<Expr> statement1 = new ArrayList<>();
+            ArrayList<Expr> statement2 = new ArrayList<>();
             BoolExpr A, B;
 
             switch(statement2.size()) {
@@ -62,7 +63,7 @@ public class Composition {
         return B;
     }
 
-    public static BoolExpr avc(Context ctx, BoolExpr Q, ArrayList<String> ast) {
+    public static BoolExpr avc(Context ctx, BoolExpr Q, ArrayList<Expr> ast) {
         return ctx.mkTrue();
     }
 
