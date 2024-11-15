@@ -44,7 +44,7 @@ public class Z3ImpInterpreter {
 
     // Methods to convert Expressions
 
-    private static ArithExpr convertExpression(Context ctx, Expression expr) {
+    public static ArithExpr convertExpression(Context ctx, Expression expr) {
         if (expr instanceof IntegerExpr) {
             return convertIntegerExpr(ctx, (IntegerExpr) expr);
         } else if (expr instanceof VariableExpr) {
