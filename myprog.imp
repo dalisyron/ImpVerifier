@@ -1,7 +1,7 @@
 x := 5;
-y := 10;
 if x <= y then
     z := x + y
 else
-    z := x * y;
+    z := x * y
+done;
 w := z

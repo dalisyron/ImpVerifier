@@ -23,6 +23,18 @@ public class Z3ImpInterpreter {
             return convertEqualCond(ctx, (EqualCond) cond);
         } else if (cond instanceof LeqCond) {
             return convertLeqCond(ctx, (LeqCond) cond);
+        } else if (cond instanceof LtCond) {
+            return convertLtCond(ctx, (LtCond) cond);
+        } else if (cond instanceof GeqCond) {
+            return convertGeqCond(ctx, (GeqCond) cond);
+        } else if (cond instanceof GtCond) {
+            return convertGtCond(ctx, (GtCond) cond);
+        } else if (cond instanceof AndCond) {
+            return convertAndCond(ctx, (AndCond) cond);
+        } else if (cond instanceof OrCond) {
+            return convertOrCond(ctx, (OrCond) cond);
+        } else if (cond instanceof ImpliesCond) {
+            return convertImpliesCond(ctx, (ImpliesCond) cond);
         } else {
             throw new UnsupportedOperationException("Unknown Conditional type: " + cond.getClass());
         }
@@ -40,6 +52,42 @@ public class Z3ImpInterpreter {
         ArithExpr leftExpr = convertExpression(ctx, cond.left());
         ArithExpr rightExpr = convertExpression(ctx, cond.right());
         return ctx.mkLe(leftExpr, rightExpr);
+    }
+
+    private static BoolExpr convertLtCond(Context ctx, LtCond cond) {
+        ArithExpr leftExpr = convertExpression(ctx, cond.left());
+        ArithExpr rightExpr = convertExpression(ctx, cond.right());
+        return ctx.mkLt(leftExpr, rightExpr);
+    }
+
+    private static BoolExpr convertGeqCond(Context ctx, GeqCond cond) {
+        ArithExpr leftExpr = convertExpression(ctx, cond.left());
+        ArithExpr rightExpr = convertExpression(ctx, cond.right());
+        return ctx.mkGe(leftExpr, rightExpr);
+    }
+
+    private static BoolExpr convertGtCond(Context ctx, GtCond cond) {
+        ArithExpr leftExpr = convertExpression(ctx, cond.left());
+        ArithExpr rightExpr = convertExpression(ctx, cond.right());
+        return ctx.mkGt(leftExpr, rightExpr);
+    }
+
+    private static BoolExpr convertAndCond(Context ctx, AndCond cond) {
+        BoolExpr leftExpr = convertConditional(ctx, cond.left());
+        BoolExpr rightExpr = convertConditional(ctx, cond.right());
+        return ctx.mkAnd(leftExpr, rightExpr);
+    }
+
+    private static BoolExpr convertOrCond(Context ctx, OrCond cond) {
+        BoolExpr leftExpr = convertConditional(ctx, cond.left());
+        BoolExpr rightExpr = convertConditional(ctx, cond.right());
+        return ctx.mkOr(leftExpr, rightExpr);
+    }
+
+    private static BoolExpr convertImpliesCond(Context ctx, ImpliesCond cond) {
+        BoolExpr leftExpr = convertConditional(ctx, cond.left());
+        BoolExpr rightExpr = convertConditional(ctx, cond.right());
+        return ctx.mkImplies(leftExpr, rightExpr);
     }
 
     // Methods to convert Expressions

@@ -10,9 +10,11 @@ statement
 
 simpleStatement
     : VARIABLE ASSIGN expression                                   # AssignStmt
-    | IF conditional THEN statement ELSE statement                 # IfStmt
-    | WHILE conditional DO block                                   # WhileStmt
+    | IF conditional THEN statement ELSE statement DONE            # IfStmt
+    | WHILE conditional INVARIANT conditional DO block             # WhileStmt
     | block                                                        # BlockStmt
+    | PRECOND conditional                                          # Precondition
+    | POSTCOND conditional                                         # Postcondition
     ;
 
 block
@@ -22,8 +24,15 @@ block
 conditional
     : TRUE                                                         # TrueCond
     | FALSE                                                        # FalseCond
+    | expression                                                   # BaseCase
     | expression EQUAL expression                                  # EqualCond
     | expression LEQ expression                                    # LeqCond
+    | expression LT expression                                     # LtCond
+    | expression GEQ expression                                    # GeqCond
+    | expression GT expression                                     # GtCond
+    | conditional AND conditional                                  # AndCond
+    | conditional OR conditional                                   # OrCond
+    | conditional IMPLIES conditional                              # ImpliesCond
     ;
 
 // Expression grammar
@@ -40,6 +49,7 @@ FALSE     : 'false';
 IF        : 'if';
 THEN      : 'then';
 ELSE      : 'else';
+DONE      : 'done';
 WHILE     : 'while';
 DO        : 'do';
 BEGIN     : 'begin';
@@ -49,6 +59,15 @@ PLUS      : '+';
 TIMES     : '*';
 EQUAL     : '=';
 LEQ       : '<=';
+LT        : '<';
+GEQ       : '>=';
+GT        : '>';
+AND       : '&&';
+OR        : '||';
+IMPLIES   : '==>';
+PRECOND   : 'preq';
+POSTCOND  : 'post';
+INVARIANT : 'invariant';
 SEMICOLON : ';';
 
 VARIABLE

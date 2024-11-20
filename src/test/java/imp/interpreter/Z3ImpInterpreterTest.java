@@ -1,7 +1,6 @@
 package imp.interpreter;
 
 import com.microsoft.z3.*;
-import imp.interpreter.Z3ImpInterpreter;
 import imp.ast.*;
 import imp.ast.conditional.*;
 import imp.ast.expression.*;

@@ -5,10 +5,12 @@ import imp.ast.Statement;
 
 public class WhileStmt implements Statement {
     private final Conditional condition;
+    private final Conditional invariant;
     private final Statement body;
 
-    public WhileStmt(Conditional condition, Statement body) {
+    public WhileStmt(Conditional condition, Conditional invariant, Statement body) {
         this.condition = condition;
+        this.invariant = invariant;
         this.body = body;
     }
 
@@ -20,8 +22,12 @@ public class WhileStmt implements Statement {
         return body;
     }
 
+    public Conditional getInvariant() {
+        return invariant;
+    }
+
     @Override
     public String toString() {
-        return "while " + condition.toString() + " do " + body.toString();
+        return "while " + condition.toString() + "invariant " + invariant.toString() + " do " + body.toString();
     }
 }

@@ -10,6 +10,8 @@ import imp.ast.Statement;
 import imp.ast.statement.AssignStmt;
 import imp.ast.statement.IfStmt;
 import imp.ast.statement.SequenceStmt;
+import imp.ast.statement.WhileStmt;
+
 
 public class Composition {
 
@@ -45,16 +47,20 @@ public class Composition {
                 B = awp(ctx, Q, (SequenceStmt)statement2);
             } else if (statement2.getClass() == IfStmt.class) {
                 B = Ifelse.awp(ctx, Q, (IfStmt)statement2);
+
+            } else if (statement2.getClass() == WhileStmt.class) {
+                B = While.awp(ctx, Q, (WhileStmt)statement2);
             } else {
                 throw new RuntimeException("Non-implemented AWP");
             }
-
             if (statement1.getClass() == AssignStmt.class) {
                 A = Assign.awp(ctx, B, (AssignStmt)statement1);
             } else if (statement1.getClass() == SequenceStmt.class) {
                 A = awp(ctx, B, (SequenceStmt)statement1);
             } else if (statement1.getClass() == IfStmt.class) {
                 A = Ifelse.awp(ctx, B, (IfStmt)statement1);
+            } else if (statement1.getClass() == WhileStmt.class) {
+                A = While.awp(ctx, B, (WhileStmt)statement1);
             } else {
                 throw new RuntimeException("Non-implemented AWP");
             }
@@ -76,6 +82,9 @@ public class Composition {
         } else if (statement2.getClass() == IfStmt.class) {
             B = Ifelse.avc(ctx, Q, (IfStmt)statement2);
             awpS2 = Ifelse.awp(ctx, Q, (IfStmt)statement2);
+        } else if (statement2.getClass() == WhileStmt.class) {
+            B = While.avc(ctx, Q, (WhileStmt)statement2);
+            awpS2 = While.awp(ctx, Q, (WhileStmt)statement2);
         } else {
             throw new RuntimeException("Non-implemented AVC");
         }
@@ -86,6 +95,8 @@ public class Composition {
             A = avc(ctx, awpS2, (SequenceStmt)statement1);
         } else if (statement1.getClass() == IfStmt.class) {
             A = Ifelse.avc(ctx, awpS2, (IfStmt)statement1);
+        }  else if (statement1.getClass() == WhileStmt.class) {
+            A = While.avc(ctx, awpS2, (WhileStmt)statement1);
         } else {
             throw new RuntimeException("Non-implemented AVC");
         }

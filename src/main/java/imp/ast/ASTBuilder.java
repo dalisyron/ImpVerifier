@@ -7,6 +7,8 @@ import imp.ast.expression.MulExpr;
 import imp.ast.expression.VariableExpr;
 import imp.ast.statement.AssignStmt;
 import imp.ast.statement.IfStmt;
+import imp.ast.statement.PostcondStmt;
+import imp.ast.statement.PrecondStmt;
 import imp.ast.statement.SequenceStmt;
 import imp.ast.statement.WhileStmt;
 import imp.parser.antlr.ImpBaseListener;
@@ -69,12 +71,23 @@ public class ASTBuilder extends ImpBaseListener {
         Statement elseBranch = (Statement) values.get(ctx.statement(1));
         values.put(ctx, new IfStmt(condition, thenBranch, elseBranch));
     }
+    @Override
+    public void exitPrecondition(ImpParser.PreconditionContext ctx) {
+        Conditional condition = (Conditional) values.get(ctx.conditional());
+        values.put(ctx, new PrecondStmt(condition));
+    }
+    @Override
+    public void exitPostcondition(ImpParser.PostconditionContext ctx) {
+        Conditional condition = (Conditional) values.get(ctx.conditional());
+        values.put(ctx, new PostcondStmt(condition));
+    }
 
     @Override
     public void exitWhileStmt(ImpParser.WhileStmtContext ctx) {
-        Conditional condition = (Conditional) values.get(ctx.conditional());
+        Conditional condition = (Conditional) values.get(ctx.conditional(0));
+        Conditional invariant = (Conditional) values.get(ctx.conditional(1));
         Statement body = (Statement) values.get(ctx.block());
-        values.put(ctx, new WhileStmt(condition, body));
+        values.put(ctx, new WhileStmt(condition, invariant ,body));
     }
 
     @Override
@@ -112,6 +125,49 @@ public class ASTBuilder extends ImpBaseListener {
         Expression right = (Expression) values.get(ctx.expression(1));
         values.put(ctx, new LeqCond(left, right));
     }
+
+    @Override
+    public void exitLtCond(ImpParser.LtCondContext ctx) {
+        Expression left = (Expression) values.get(ctx.expression(0));
+        Expression right = (Expression) values.get(ctx.expression(1));
+        values.put(ctx, new LtCond(left, right));
+    }
+
+    @Override
+    public void exitGeqCond(ImpParser.GeqCondContext ctx) {
+        Expression left = (Expression) values.get(ctx.expression(0));
+        Expression right = (Expression) values.get(ctx.expression(1));
+        values.put(ctx, new GeqCond(left, right));
+    }
+
+    @Override
+    public void exitGtCond(ImpParser.GtCondContext ctx) {
+        Expression left = (Expression) values.get(ctx.expression(0));
+        Expression right = (Expression) values.get(ctx.expression(1));
+        values.put(ctx, new GtCond(left, right));
+    }
+
+    @Override
+    public void exitAndCond(ImpParser.AndCondContext ctx) {
+        Conditional left = (Conditional) values.get(ctx.conditional(0));
+        Conditional right = (Conditional) values.get(ctx.conditional(1));
+        values.put(ctx, new AndCond(left, right));
+    }
+
+    @Override
+    public void exitOrCond(ImpParser.OrCondContext ctx) {
+        Conditional left = (Conditional) values.get(ctx.conditional(0));
+        Conditional right = (Conditional) values.get(ctx.conditional(1));
+        values.put(ctx, new OrCond(left, right));
+    }
+
+    @Override
+    public void exitImpliesCond(ImpParser.ImpliesCondContext ctx) {
+        Conditional left = (Conditional) values.get(ctx.conditional(0));
+        Conditional right = (Conditional) values.get(ctx.conditional(1));
+        values.put(ctx, new ImpliesCond(left, right));
+    }
+    
 
     @Override
     public void exitIntegerExpr(ImpParser.IntegerExprContext ctx) {

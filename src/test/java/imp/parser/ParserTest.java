@@ -48,18 +48,19 @@ public class ParserTest {
 
     @Test
     public void testParseWhileLoop() {
-        String program = "while x <= 10 do begin x := x + 1 end";
+        String program = "while x <= 10 invariant x < 10 do begin x := x + 1 end";
         Statement ast = Parser.parseString(program);
 
         // Expected AST
         Expression x = new VariableExpr("x");
         Expression ten = new IntegerExpr(10);
         Conditional condition = new LeqCond(x, ten);
+        Conditional invariant = new LtCond(x, ten);
 
         Expression increment = new AddExpr(x, new IntegerExpr(1));
         Statement body = new AssignStmt("x", increment);
 
-        Statement expectedAst = new WhileStmt(condition, body);
+        Statement expectedAst = new WhileStmt(condition, invariant, body);
 
         // Compare ASTs
         assertStatementsEqual(expectedAst, ast);
@@ -114,6 +115,7 @@ public class ParserTest {
         String program =
                 "x := 0;\n" +
                         "while x <= 10 do\n" +
+                        "invariant x < 10\n" +
                         "begin\n" +
                         "    x := x + 1\n" +
                         "end;\n" +
@@ -137,9 +139,10 @@ public class ParserTest {
         Statement stmt1 = new AssignStmt("x", new IntegerExpr(0));
 
         Conditional whileCond = new LeqCond(x, new IntegerExpr(10));
+        Conditional whileInvariant = new LtCond(x, new IntegerExpr(10));
         Expression xPlusOne = new AddExpr(x, new IntegerExpr(1));
         Statement whileBody = new AssignStmt("x", xPlusOne);
-        Statement whileStmt = new WhileStmt(whileCond, whileBody);
+        Statement whileStmt = new WhileStmt(whileCond, whileInvariant, whileBody);
 
         Conditional ifCond = new EqualCond(x, new IntegerExpr(11));
         Statement thenStmt = new AssignStmt("y", new MulExpr(x, new IntegerExpr(2)));

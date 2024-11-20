@@ -9,6 +9,7 @@ import imp.ast.Statement;
 import imp.ast.statement.AssignStmt;
 import imp.ast.statement.IfStmt;
 import imp.ast.statement.SequenceStmt;
+import imp.ast.statement.WhileStmt;
 import imp.interpreter.Z3ImpInterpreter;
 
 public class Ifelse {
@@ -42,8 +43,11 @@ public class Ifelse {
             if (statement1.getClass() == AssignStmt.class) {
                 A = Assign.awp(ctx, Q, statement1);
             } else if (statement1.getClass() == SequenceStmt.class) {
-                //A = Composition.awp(ctx, Q, statement1);
-                A = ctx.mkTrue();
+                A = Composition.awp(ctx, Q, (SequenceStmt)statement1);
+            } else if (statement1.getClass() == IfStmt.class) {
+                A = awp(ctx, Q, (IfStmt)statement1);
+            } else if (statement1.getClass() == WhileStmt.class) {
+                A = While.awp(ctx, Q, (WhileStmt)statement1);
             } else if (statement1.getClass() == IfStmt.class) {
                 A = awp(ctx, Q, (IfStmt)statement1);
             } else {
@@ -53,8 +57,11 @@ public class Ifelse {
             if (statement2.getClass() == AssignStmt.class) {
                 B = Assign.awp(ctx, Q, statement2);
             } else if (statement2.getClass() == SequenceStmt.class) {
-                //B = Composition.awp(ctx, Q, statement2);
-                B = ctx.mkTrue();
+                B = Composition.awp(ctx, Q, (SequenceStmt)statement2);
+            } else if (statement2.getClass() == IfStmt.class) {
+                B = awp(ctx, Q, (IfStmt)statement2);
+            } else if (statement2.getClass() == WhileStmt.class) {
+                B = While.awp(ctx, Q, (WhileStmt)statement2);
             } else if (statement2.getClass() == IfStmt.class) {
                 B = awp(ctx, Q, (IfStmt)statement2);
             } else {
@@ -73,8 +80,12 @@ public class Ifelse {
         if (statement1.getClass() == AssignStmt.class) {
             A = Assign.avc(ctx, Q, statement1);
         } else if (statement1.getClass() == SequenceStmt.class) {
-            //A = Composition.avc(ctx, Q, statement1);
+            A = Composition.avc(ctx, Q, (SequenceStmt)statement1);
             A = ctx.mkTrue();
+        } else if (statement1.getClass() == IfStmt.class) {
+            A = avc(ctx, Q, (IfStmt)statement1);
+        }  else if (statement1.getClass() == WhileStmt.class) {
+            A = While.avc(ctx, Q, (WhileStmt)statement1);
         } else if (statement1.getClass() == IfStmt.class) {
             A = avc(ctx, Q, (IfStmt)statement1);
         } else {
@@ -84,8 +95,11 @@ public class Ifelse {
         if (statement2.getClass() == AssignStmt.class) {
             B = Assign.avc(ctx, Q, statement2);
         } else if (statement2.getClass() == SequenceStmt.class) {
-            //B = Composition.avc(ctx, Q, statement2);
-            B = ctx.mkTrue();
+            B = Composition.avc(ctx, Q, (SequenceStmt)statement2);
+        } else if (statement2.getClass() == IfStmt.class) {
+            B = avc(ctx, Q, (IfStmt)statement2);
+        } else if (statement2.getClass() == WhileStmt.class) {
+            B = While.avc(ctx, Q, (WhileStmt)statement2);
         } else if (statement2.getClass() == IfStmt.class) {
             B = avc(ctx, Q, (IfStmt)statement2);
         } else {

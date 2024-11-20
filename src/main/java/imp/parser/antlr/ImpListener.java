@@ -1,4 +1,4 @@
-package imp.parser.antlr;// Generated from Imp.g4 by ANTLR 4.13.2
+package imp.parser.antlr; // Generated from Imp.g4 by ANTLR 4.13.2
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -77,6 +77,30 @@ public interface ImpListener extends ParseTreeListener {
 	 */
 	void exitBlockStmt(ImpParser.BlockStmtContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code Precondition}
+	 * labeled alternative in {@link ImpParser#simpleStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrecondition(ImpParser.PreconditionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Precondition}
+	 * labeled alternative in {@link ImpParser#simpleStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrecondition(ImpParser.PreconditionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Postcondition}
+	 * labeled alternative in {@link ImpParser#simpleStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterPostcondition(ImpParser.PostconditionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Postcondition}
+	 * labeled alternative in {@link ImpParser#simpleStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitPostcondition(ImpParser.PostconditionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ImpParser#block}.
 	 * @param ctx the parse tree
 	 */
@@ -87,29 +111,17 @@ public interface ImpListener extends ParseTreeListener {
 	 */
 	void exitBlock(ImpParser.BlockContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code TrueCond}
+	 * Enter a parse tree produced by the {@code OrCond}
 	 * labeled alternative in {@link ImpParser#conditional}.
 	 * @param ctx the parse tree
 	 */
-	void enterTrueCond(ImpParser.TrueCondContext ctx);
+	void enterOrCond(ImpParser.OrCondContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code TrueCond}
+	 * Exit a parse tree produced by the {@code OrCond}
 	 * labeled alternative in {@link ImpParser#conditional}.
 	 * @param ctx the parse tree
 	 */
-	void exitTrueCond(ImpParser.TrueCondContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code FalseCond}
-	 * labeled alternative in {@link ImpParser#conditional}.
-	 * @param ctx the parse tree
-	 */
-	void enterFalseCond(ImpParser.FalseCondContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code FalseCond}
-	 * labeled alternative in {@link ImpParser#conditional}.
-	 * @param ctx the parse tree
-	 */
-	void exitFalseCond(ImpParser.FalseCondContext ctx);
+	void exitOrCond(ImpParser.OrCondContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code EqualCond}
 	 * labeled alternative in {@link ImpParser#conditional}.
@@ -134,6 +146,102 @@ public interface ImpListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitLeqCond(ImpParser.LeqCondContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ImpliesCond}
+	 * labeled alternative in {@link ImpParser#conditional}.
+	 * @param ctx the parse tree
+	 */
+	void enterImpliesCond(ImpParser.ImpliesCondContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ImpliesCond}
+	 * labeled alternative in {@link ImpParser#conditional}.
+	 * @param ctx the parse tree
+	 */
+	void exitImpliesCond(ImpParser.ImpliesCondContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code AndCond}
+	 * labeled alternative in {@link ImpParser#conditional}.
+	 * @param ctx the parse tree
+	 */
+	void enterAndCond(ImpParser.AndCondContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code AndCond}
+	 * labeled alternative in {@link ImpParser#conditional}.
+	 * @param ctx the parse tree
+	 */
+	void exitAndCond(ImpParser.AndCondContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code FalseCond}
+	 * labeled alternative in {@link ImpParser#conditional}.
+	 * @param ctx the parse tree
+	 */
+	void enterFalseCond(ImpParser.FalseCondContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code FalseCond}
+	 * labeled alternative in {@link ImpParser#conditional}.
+	 * @param ctx the parse tree
+	 */
+	void exitFalseCond(ImpParser.FalseCondContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code GtCond}
+	 * labeled alternative in {@link ImpParser#conditional}.
+	 * @param ctx the parse tree
+	 */
+	void enterGtCond(ImpParser.GtCondContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code GtCond}
+	 * labeled alternative in {@link ImpParser#conditional}.
+	 * @param ctx the parse tree
+	 */
+	void exitGtCond(ImpParser.GtCondContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code BaseCase}
+	 * labeled alternative in {@link ImpParser#conditional}.
+	 * @param ctx the parse tree
+	 */
+	void enterBaseCase(ImpParser.BaseCaseContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code BaseCase}
+	 * labeled alternative in {@link ImpParser#conditional}.
+	 * @param ctx the parse tree
+	 */
+	void exitBaseCase(ImpParser.BaseCaseContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code LtCond}
+	 * labeled alternative in {@link ImpParser#conditional}.
+	 * @param ctx the parse tree
+	 */
+	void enterLtCond(ImpParser.LtCondContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code LtCond}
+	 * labeled alternative in {@link ImpParser#conditional}.
+	 * @param ctx the parse tree
+	 */
+	void exitLtCond(ImpParser.LtCondContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code GeqCond}
+	 * labeled alternative in {@link ImpParser#conditional}.
+	 * @param ctx the parse tree
+	 */
+	void enterGeqCond(ImpParser.GeqCondContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code GeqCond}
+	 * labeled alternative in {@link ImpParser#conditional}.
+	 * @param ctx the parse tree
+	 */
+	void exitGeqCond(ImpParser.GeqCondContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code TrueCond}
+	 * labeled alternative in {@link ImpParser#conditional}.
+	 * @param ctx the parse tree
+	 */
+	void enterTrueCond(ImpParser.TrueCondContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code TrueCond}
+	 * labeled alternative in {@link ImpParser#conditional}.
+	 * @param ctx the parse tree
+	 */
+	void exitTrueCond(ImpParser.TrueCondContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code MulExpr}
 	 * labeled alternative in {@link ImpParser#expression}.
