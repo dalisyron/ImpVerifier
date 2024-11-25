@@ -1,2 +1,2 @@
-preq y > 0;
-post w > 5
+preq n = 10 && sum = 0;
+post sum = 110

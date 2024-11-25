@@ -22,7 +22,7 @@ public class While {
 
     public static ArrayList<BoolExpr> eval(Context ctx, BoolExpr Q, Statement ast) {
         // ensure that ast is of type assign
-        assert(ast.getClass() == AssignStmt.class);
+        assert(ast.getClass() == WhileStmt.class);
 
         ArrayList<BoolExpr> ret = new ArrayList<>();
         // get awp
@@ -64,20 +64,20 @@ public class While {
         BoolExpr clause1;
 
         if (body.getClass() == AssignStmt.class) {
-            clause1 = Assign.awp(ctx, invariant, body);
+            clause1 = Assign.avc(ctx, invariant, body);
         } else if (body.getClass() == SequenceStmt.class) {
-            clause1 = Composition.awp(ctx, invariant, (SequenceStmt)body);
+            clause1 = Composition.avc(ctx, invariant, (SequenceStmt)body);
         } else if (body.getClass() == IfStmt.class) {
-            clause1 = Ifelse.awp(ctx, invariant, (IfStmt)body);
+            clause1 = Ifelse.avc(ctx, invariant, (IfStmt)body);
         } else if (body.getClass() == WhileStmt.class) {
-            clause1 = While.awp(ctx, invariant, (WhileStmt)body);
+            clause1 = While.avc(ctx, invariant, (WhileStmt)body);
         } else {
-            throw new RuntimeException("Non-implemented AWP");
+            throw new RuntimeException("Non-implemented AVC");
         }
 
         BoolExpr clause2 = ctx.mkImplies(ctx.mkAnd(invariant, condition), awpSI);
         BoolExpr clause3 = ctx.mkImplies(ctx.mkAnd(invariant, ctx.mkNot(condition)), Q);
-        return ctx.mkAnd(ctx.mkAnd(clause1, clause2, clause3));
+        return ctx.mkAnd(clause1, clause2, clause3);
     }
 
 }

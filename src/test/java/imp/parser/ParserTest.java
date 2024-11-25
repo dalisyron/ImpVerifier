@@ -11,6 +11,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.*;
+import java.lang.Thread.State;
 
 public class ParserTest {
 
@@ -29,7 +30,7 @@ public class ParserTest {
 
     @Test
     public void testParseIfStatement() {
-        String program = "if x <= 5 then y := 1 else y := 2";
+        String program = "if x <= 5 then y := 1 else y := 2 done";
         Statement ast = Parser.parseString(program);
 
         // Expected AST
@@ -111,18 +112,64 @@ public class ParserTest {
     }
 
     @Test
+    public void testParseNestedWhileLoop() {
+        String program = 
+        "i := 0\n" + //
+                        "while i < 10\n" + //
+                        "invariant i <= 10\n" + //
+                        "do\n" + //
+                        "begin\n" + //
+                        "    j := 0;\n" + //
+                        "    while j < i\n" + //
+                        "    invariant j <= i\n" + //
+                        "    do\n" + //
+                        "    begin\n" + //
+                        "        j := j + 1\n" + //
+                        "    end;\n" + //
+                        "    i := i + 1\n" + //
+                        "end";
+        Statement ast = Parser.parseString(program);
+
+        // Expected AST
+        Expression i = new VariableExpr("i");
+        Expression j = new VariableExpr("j");
+        Expression zero = new IntegerExpr(0);
+        Expression ten = new IntegerExpr(10);
+        Statement initi = new AssignStmt("i", zero);
+        Statement initj = new AssignStmt("j", zero);
+        Conditional condition1 = new LtCond(i, ten);
+        Conditional invariant1 = new LeqCond(i, ten);
+        Conditional condition2 = new LtCond(j, i);
+        Conditional invariant2 = new LeqCond(j, i);
+        
+        Expression incrementj = new AddExpr(j, new IntegerExpr(1));
+        Statement innerbody = new AssignStmt("j", incrementj);
+        Statement innerloop = new WhileStmt(condition2, invariant2, innerbody);
+
+        Expression incrementi = new AddExpr(i, new IntegerExpr(1));
+        Statement outerassign = new AssignStmt("i", incrementi);
+        Statement outerbody = new SequenceStmt(new SequenceStmt(initj, innerloop), outerassign);
+        Statement outerloop = new WhileStmt(condition1, invariant1, outerbody);
+        Statement expectedAst = new SequenceStmt(initi, outerloop);
+
+        // Compare ASTs
+        assertStatementsEqual(expectedAst, ast);
+    }
+
+    @Test
     public void testParseFileComplexProgram() throws IOException {
         String program =
                 "x := 0;\n" +
-                        "while x <= 10 do\n" +
-                        "invariant x < 10\n" +
+                        "while x <= 10\n" +
+                        "invariant x < 10 do\n" +
                         "begin\n" +
                         "    x := x + 1\n" +
-                        "end;\n" +
+                        "end\n" +
                         "if x = 11 then\n" +
                         "    y := x * 2\n" +
                         "else\n" +
-                        "    y := x * 3";
+                        "    y := x * 3"+
+                        "done";
 
         File tempFile = File.createTempFile("testProgram", ".imp");
         tempFile.deleteOnExit();
@@ -232,6 +279,10 @@ public class ParserTest {
             LeqCond actualLeq = (LeqCond) actual;
             assertExpressionsEqual(expectedLeq.left(), actualLeq.left());
             assertExpressionsEqual(expectedLeq.right(), actualLeq.right());
+        } else if (expected instanceof LtCond expectedLt) {
+            LtCond actualLt = (LtCond)actual;
+            assertExpressionsEqual(expectedLt.left(), actualLt.left());
+            assertExpressionsEqual(expectedLt.right(), actualLt.right());
         } else {
             Assert.fail("Unknown conditional type: " + expected.getClass());
         }
