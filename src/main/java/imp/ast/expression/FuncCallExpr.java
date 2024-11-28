@@ -1,5 +1,6 @@
 package imp.ast.expression;
 
+import imp.ast.expression.bool.Expr;
 import imp.ast.variable.Identifier;
 
 import java.util.List;

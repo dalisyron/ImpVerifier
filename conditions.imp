@@ -1,2 +1,0 @@
-preq n = 10 && sum = 0;
-post sum = 110

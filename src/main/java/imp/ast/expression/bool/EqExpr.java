@@ -1,4 +1,7 @@
-package imp.ast.expression;
+package imp.ast.expression.bool;
+
+import imp.ast.expression.BinaryExpr;
+import imp.ast.expression.bool.Expr;
 
 public final class EqExpr extends BinaryExpr {
 

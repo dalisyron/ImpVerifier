@@ -1,4 +1,4 @@
-procedure Baz() returns (int x) 
+method Baz() returns (int x) 
     requires forall x :: exists y :: y ==> z
 {
 

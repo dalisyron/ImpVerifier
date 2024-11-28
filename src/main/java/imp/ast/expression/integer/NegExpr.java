@@ -1,4 +1,6 @@
-package imp.ast.expression;
+package imp.ast.expression.integer;
+
+import imp.ast.expression.bool.Expr;
 
 public final class NegExpr extends Expr {
 

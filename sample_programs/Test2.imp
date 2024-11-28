@@ -1,4 +1,4 @@
-procedure Bar() returns (int x, int y)
+method Bar() returns (int x)
     ensures y == 10
 {
     if (foo(x, y)) {

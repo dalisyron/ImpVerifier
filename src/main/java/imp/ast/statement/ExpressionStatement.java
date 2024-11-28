@@ -1,7 +1,6 @@
 package imp.ast.statement;
 
-import imp.ast.expression.Expr;
-import imp.ast.statement.Statement;
+import imp.ast.expression.bool.Expr;
 
 public record ExpressionStatement(Expr expr) implements Statement {
 

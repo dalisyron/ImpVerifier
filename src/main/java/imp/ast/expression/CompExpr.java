@@ -1,6 +1,8 @@
 package imp.ast.expression;
 
-public final class CompExpr extends BinaryExpr {
+import imp.ast.expression.bool.Expr;
+
+public abstract class CompExpr extends BinaryExpr {
 
     private final String operator;
 

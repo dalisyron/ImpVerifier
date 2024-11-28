@@ -1,4 +1,6 @@
-package imp.ast.expression;
+package imp.ast.expression.bool;
+
+import imp.ast.expression.BinaryExpr;
 
 public final class AndExpr extends BinaryExpr {
 

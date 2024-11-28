@@ -1,9 +1,7 @@
 package imp.ast.statement;
 
-import imp.ast.expression.Expr;
+import imp.ast.expression.bool.Expr;
 import imp.ast.expression.InvariantList;
-import imp.ast.statement.BlockStatement;
-import imp.ast.statement.Statement;
 
 import java.util.Optional;
 

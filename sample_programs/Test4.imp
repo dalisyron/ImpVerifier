@@ -1,4 +1,4 @@
-procedure Bar()
+method Bar()
     ensures y == 10
     requires x == (z + 10) * 20
 {

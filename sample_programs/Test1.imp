@@ -1,4 +1,4 @@
-procedure Foo() returns (int x, int y)
+method Foo() returns (int x)
     ensures y == 10
 {
     if (true) {
@@ -16,7 +16,7 @@ procedure Foo() returns (int x, int y)
     }
 }
 
-procedure Bar() returns (int x, int y)
+method Bar() returns (int x)
     ensures y == 10
 {
     t1 = Foo(2);

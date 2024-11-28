@@ -1,4 +1,6 @@
-package imp.ast.expression;
+package imp.ast.expression.array;
+
+import imp.ast.expression.bool.Expr;
 
 public final class ArrayLengthExpr extends Expr {
 

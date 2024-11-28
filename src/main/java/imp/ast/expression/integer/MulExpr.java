@@ -1,4 +1,7 @@
-package imp.ast.expression;
+package imp.ast.expression.integer;
+
+import imp.ast.expression.BinaryExpr;
+import imp.ast.expression.bool.Expr;
 
 public final class MulExpr extends BinaryExpr {
 

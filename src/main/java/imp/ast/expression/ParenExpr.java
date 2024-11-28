@@ -1,5 +1,7 @@
 package imp.ast.expression;
 
+import imp.ast.expression.bool.Expr;
+
 public final class ParenExpr extends Expr {
 
     private final Expr expr;

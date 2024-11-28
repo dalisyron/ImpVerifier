@@ -1,4 +1,4 @@
-package imp.ast.expression;
+package imp.ast.expression.bool;
 
 public final class FalseExpr extends Expr {
 

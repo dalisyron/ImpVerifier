@@ -1,7 +1,8 @@
 package imp.ast.expression;
 
-public abstract sealed class BinaryExpr extends Expr permits AddExpr, SubExpr, MulExpr, DivExpr, CompExpr,
-        AndExpr, OrExpr, EqExpr, ImpliesExpr {
+import imp.ast.expression.bool.Expr;
+
+public abstract class BinaryExpr extends Expr {
 
     private final Expr left;
     private final Expr right;

@@ -1,4 +1,4 @@
-procedure Bar()
+method Bar()
     requires y > 10 && true
 {
     while (x > 10 && y > 30 ==> y || z) {

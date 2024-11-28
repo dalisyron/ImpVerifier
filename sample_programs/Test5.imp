@@ -1,4 +1,4 @@
-procedure Bar()
+method Bar()
     requires y > 10 && true
 {
     x = (x || y) && z;

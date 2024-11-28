@@ -1,7 +1,7 @@
 
 package imp.ast.statement;
 
-import imp.ast.expression.Expr;
+import imp.ast.expression.bool.Expr;
 
 import java.util.Optional;
 
