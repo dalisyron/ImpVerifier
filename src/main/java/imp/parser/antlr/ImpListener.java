@@ -1,4 +1,4 @@
-package imp.parser.antlr; // Generated from Imp.g4 by ANTLR 4.13.2
+// Generated from Imp.g4 by ANTLR 4.13.2
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -189,6 +189,16 @@ public interface ImpListener extends ParseTreeListener {
 	 */
 	void exitWhileStatement(ImpParser.WhileStatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ImpParser#invariantList}.
+	 * @param ctx the parse tree
+	 */
+	void enterInvariantList(ImpParser.InvariantListContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ImpParser#invariantList}.
+	 * @param ctx the parse tree
+	 */
+	void exitInvariantList(ImpParser.InvariantListContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ImpParser#parenthesizedCondition}.
 	 * @param ctx the parse tree
 	 */
@@ -291,6 +301,18 @@ public interface ImpListener extends ParseTreeListener {
 	 */
 	void exitTrueExpr(ImpParser.TrueExprContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code ReferenceExpr}
+	 * labeled alternative in {@link ImpParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterReferenceExpr(ImpParser.ReferenceExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ReferenceExpr}
+	 * labeled alternative in {@link ImpParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitReferenceExpr(ImpParser.ReferenceExprContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code NegExpr}
 	 * labeled alternative in {@link ImpParser#expr}.
 	 * @param ctx the parse tree
@@ -375,18 +397,6 @@ public interface ImpListener extends ParseTreeListener {
 	 */
 	void exitNewArray(ImpParser.NewArrayContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ArrayAccess}
-	 * labeled alternative in {@link ImpParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void enterArrayAccess(ImpParser.ArrayAccessContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code ArrayAccess}
-	 * labeled alternative in {@link ImpParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void exitArrayAccess(ImpParser.ArrayAccessContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code MulDivExpr}
 	 * labeled alternative in {@link ImpParser#expr}.
 	 * @param ctx the parse tree
@@ -434,18 +444,6 @@ public interface ImpListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitEqExpr(ImpParser.EqExprContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code VarExpr}
-	 * labeled alternative in {@link ImpParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void enterVarExpr(ImpParser.VarExprContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code VarExpr}
-	 * labeled alternative in {@link ImpParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void exitVarExpr(ImpParser.VarExprContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code NotExpr}
 	 * labeled alternative in {@link ImpParser#expr}.
@@ -495,15 +493,29 @@ public interface ImpListener extends ParseTreeListener {
 	 */
 	void exitAddSubExpr(ImpParser.AddSubExprContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ImpParser#var}.
+	 * Enter a parse tree produced by the {@code VarRef}
+	 * labeled alternative in {@link ImpParser#reference}.
 	 * @param ctx the parse tree
 	 */
-	void enterVar(ImpParser.VarContext ctx);
+	void enterVarRef(ImpParser.VarRefContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ImpParser#var}.
+	 * Exit a parse tree produced by the {@code VarRef}
+	 * labeled alternative in {@link ImpParser#reference}.
 	 * @param ctx the parse tree
 	 */
-	void exitVar(ImpParser.VarContext ctx);
+	void exitVarRef(ImpParser.VarRefContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ArrayRef}
+	 * labeled alternative in {@link ImpParser#reference}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayRef(ImpParser.ArrayRefContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ArrayRef}
+	 * labeled alternative in {@link ImpParser#reference}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayRef(ImpParser.ArrayRefContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ImpParser#exprList}.
 	 * @param ctx the parse tree
