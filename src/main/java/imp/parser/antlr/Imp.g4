@@ -1,80 +1,160 @@
 grammar Imp;
 
 parse
-    : statement+ EOF
-    ;
+	: (procDecl)+ EOF
+	;
+
+procDecl
+	: 'procedure' ID LPAREN formalParameters? RPAREN returnsBlock? conditionBlock block
+	;
+
+formalParameters
+	: formalParameter (',' formalParameter)*
+	;
+
+formalParameter
+	: type ID
+	;
+
+returnsBlock
+	: RETURNS LPAREN formalParameters RPAREN
+	;
+
+conditionBlock
+	: (requiresClause | ensuresClause)*
+	;
+
+requiresClause
+	: REQUIRES expr
+	;
+
+ensuresClause
+	: ENSURES expr
+	;
 
 statement
-    : simpleStatement (';' simpleStatement)*                        # SequenceStmt
-    ;
-
-simpleStatement
-    : VARIABLE ASSIGN expression                                   # AssignStmt
-    | IF conditional THEN statement ELSE statement DONE            # IfStmt
-    | WHILE conditional INVARIANT conditional DO block             # WhileStmt
-    | block                                                        # BlockStmt
-    | PRECOND conditional                                          # Precondition
-    | POSTCOND conditional                                         # Postcondition
-    ;
+	: assignStatement                                            # AssignStmt
+	| ifStatement                                                # IfStmt
+	| whileStatement                                             # WhileStmt
+	| block                                                      # BlockStmt
+	| varDecl                                                    # VarDeclStmt
+	| expr SEMICOLON                                             # ExprStmt
+	;
 
 block
-    : BEGIN statement END
+	: LBRACE statement* RBRACE
+	;
+
+ifStatement
+	: IF parenthesizedCondition block (ELSE block)?
+	;
+
+whileStatement
+	: WHILE parenthesizedCondition (INVARIANT expr)* block
+	;
+
+parenthesizedCondition
+	: LPAREN expr RPAREN
+	;
+
+assignStatement
+	: var ASSIGN expr SEMICOLON
+	;
+
+varDecl
+	: type ID (ASSIGN expr)? SEMICOLON
+	;
+
+type
+	: 'bool'                 # BoolType
+	| 'int'                  # IntType
+	| type '[]'              # ArrayType
+	| LPAREN type RPAREN     # ParenType
+	;
+
+expr
+	: MINUS expr                                                  # NegExpr // Level 35
+	| expr (TIMES | INTDIV) expr                                  # MulDivExpr // Level 40
+	| expr (PLUS | MINUS) expr                                    # AddSubExpr // Level 50
+	| expr (LEQ | GEQ | GREATER | LESS) expr                      # CompExpr // Level 70
+	| NOT expr                                                    # NotExpr // Level 75
+	| expr AND expr                                               # AndExpr // Level 80
+	| expr OR expr                                                # OrExpr // Level 85
+	| expr EQUAL expr                                             # EqExpr // Level 71
+	| LPAREN expr RPAREN                                          # ParenExpr
+	| ID LPAREN exprList? RPAREN                                  # FuncCall
+	| INT                                                         # IntExpr
+    | TRUE                                                        # TrueExpr
+    | FALSE                                                       # FalseExpr
+	| ID                                                          # VarExpr
+	| expr IMPLIES (expr)                                         # F_Implies
+	| (FORALL || EXISTS) ID DOUBLECOLON expr                      # F_Quant
+	| NEW type '[' expr ']'                                       # NewArray
+	| ID '[' expr ']'                                             # ArrayAccess
+	| expr'.length'                                               # ArrayLength
+	;
+
+var:
+    | ID
+    | ID '[' expr ']'
+    | LPAREN var RPAREN
     ;
 
-conditional
-    : TRUE                                                         # TrueCond
-    | FALSE                                                        # FalseCond
-    | expression                                                   # BaseCase
-    | expression EQUAL expression                                  # EqualCond
-    | expression LEQ expression                                    # LeqCond
-    | expression LT expression                                     # LtCond
-    | expression GEQ expression                                    # GeqCond
-    | expression GT expression                                     # GtCond
-    | conditional AND conditional                                  # AndCond
-    | conditional OR conditional                                   # OrCond
-    | conditional IMPLIES conditional                              # ImpliesCond
-    ;
+exprList
+	: expr (ARGSEP expr)*
+	;
 
-// Expression grammar
-expression
-    : INTEGER                     # IntegerExpr
-    | VARIABLE                    # VariableExpr
-    | expression TIMES expression # MulExpr
-    | expression PLUS expression  # AddExpr
-    | '(' expression ')'          # ParenExpr
-    ;
+TRUE       : 'true';
+FALSE      : 'false';
+IF         : 'if';
+ELSE       : 'else';
+WHILE      : 'while';
+ASSIGN     : '=';
+PLUS       : '+';
+TIMES      : '*';
+EQUAL      : '==';
+LEQ        : '<=';
+GEQ        : '>=';
+SEMICOLON  : ';';
+GREATER    : '>';
+LESS       : '<';
+NOT        : '!';
+AND        : '&&';
+OR         : '||';
+LPAREN     : '(';
+RPAREN     : ')';
+LBRACE     : '{';
+RBRACE     : '}';
+REQUIRES   : 'requires';
+ENSURES    : 'ensures';
+INVARIANT  : 'invariant';
+FORALL     : 'forall';
+EXISTS     : 'exists';
+IMPLIES    : '==>';
+DOUBLECOLON: '::';
+MINUS      : '-';
+INTDIV     : '/';
+RETURNS    : 'returns';
+ARGSEP     : ',';
+NEW        : 'new';
 
-TRUE      : 'true';
-FALSE     : 'false';
-IF        : 'if';
-THEN      : 'then';
-ELSE      : 'else';
-DONE      : 'done';
-WHILE     : 'while';
-DO        : 'do';
-BEGIN     : 'begin';
-END       : 'end';
-ASSIGN    : ':=';
-PLUS      : '+';
-TIMES     : '*';
-EQUAL     : '=';
-LEQ       : '<=';
-LT        : '<';
-GEQ       : '>=';
-GT        : '>';
-AND       : '&&';
-OR        : '||';
-IMPLIES   : '==>';
-PRECOND   : 'preq';
-POSTCOND  : 'post';
-INVARIANT : 'invariant';
-SEMICOLON : ';';
+ID
+	: LETTER (LETTER | [0-9])*
+	;
 
-VARIABLE
-    : [a-zA-Z][a-zA-Z0-9]*;
+fragment LETTER
+	: [a-zA-Z]
+	;
 
-INTEGER
-    : [0-9]+;
+INT
+	: [0-9]+
+	;
 
 WS
-    : [ \t\r\n]+ -> skip;
+	: [ \t\r\n]+ -> skip
+	;
+
+SL_COMMENT
+	: '//' .*? '\n' -> skip
+	;
+
