@@ -5,7 +5,7 @@ parse
 	;
 
 procDecl
-	: 'procedure' ID LPAREN formalParameters? RPAREN returnsBlock? conditionBlock block
+	: 'method' ID LPAREN formalParameters? RPAREN returnsBlock? conditionBlock block
 	;
 
 formalParameters
@@ -17,7 +17,7 @@ formalParameter
 	;
 
 returnsBlock
-	: RETURNS LPAREN formalParameters RPAREN
+	: RETURNS LPAREN formalParameter RPAREN
 	;
 
 conditionBlock
@@ -50,15 +50,19 @@ ifStatement
 	;
 
 whileStatement
-	: WHILE parenthesizedCondition (INVARIANT expr)* block
+	: WHILE parenthesizedCondition invariantList? block
 	;
+
+invariantList
+    : (INVARIANT expr)+
+    ;
 
 parenthesizedCondition
 	: LPAREN expr RPAREN
 	;
 
 assignStatement
-	: var ASSIGN expr SEMICOLON
+	: reference ASSIGN expr SEMICOLON
 	;
 
 varDecl
@@ -86,18 +90,16 @@ expr
 	| INT                                                         # IntExpr
     | TRUE                                                        # TrueExpr
     | FALSE                                                       # FalseExpr
-	| ID                                                          # VarExpr
 	| expr IMPLIES (expr)                                         # F_Implies
 	| (FORALL || EXISTS) ID DOUBLECOLON expr                      # F_Quant
 	| NEW type '[' expr ']'                                       # NewArray
-	| ID '[' expr ']'                                             # ArrayAccess
+	| reference                                                   # ReferenceExpr
 	| expr'.length'                                               # ArrayLength
 	;
 
-var:
-    | ID
-    | ID '[' expr ']'
-    | LPAREN var RPAREN
+reference:
+      ID                                             # VarRef
+    | ID '[' expr ']'                                # ArrayRef
     ;
 
 exprList

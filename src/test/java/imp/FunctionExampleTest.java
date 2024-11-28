@@ -14,10 +14,10 @@ public class FunctionExampleTest {
     @Test
     public void test() {
         Context ctx = new Context();
-        IntExpr a = ctx.mkIntConst("a");
-        FuncDecl f = ctx.mkFuncDecl("f", new Sort[] {ctx.getIntSort()}, ctx.getIntSort());
+        BoolExpr a = ctx.mkBoolConst("a");
+        FuncDecl f = ctx.mkFuncDecl("f", new Sort[] {ctx.getBoolSort()}, ctx.getBoolSort());
         // Build formula: f(f(f(a))) == a
-        BoolExpr p1 = ctx.mkEq(ctx.mkApp(f, ctx.mkApp(f, ctx.mkApp(f, a))), a);
+        BoolExpr p1 = ctx.mkAnd(ctx.mk(f, a), a);
         // Build formula: f(f(f(f(f(a))))) == a
         BoolExpr p2 = ctx.mkEq(ctx.mkApp(f, ctx.mkApp(f, ctx.mkApp(f, ctx.mkApp(f, ctx.mkApp(f, a))))), a);
         // Build formula: f(a) != a

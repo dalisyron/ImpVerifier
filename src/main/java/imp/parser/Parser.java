@@ -1,7 +1,5 @@
 package imp.parser;
 
-import imp.ast.ASTBuilder;
-import imp.ast.Statement;
 import imp.parser.antlr.ImpLexer;
 import imp.parser.antlr.ImpParser;
 import org.antlr.v4.runtime.*;
@@ -21,7 +19,7 @@ public class Parser {
      * @throws IllegalArgumentException If the file does not have a .imp extension.
      * @throws RuntimeException         If a syntax error is encountered during parsing.
      */
-    public static Statement parseFile(String filePath) throws IOException {
+    public static ParseTree parseFile(String filePath) throws IOException {
         // Check if file exists
         File file = new File(filePath);
         if (!file.exists()) {
@@ -47,7 +45,7 @@ public class Parser {
      * @return The AST (Abstract Syntax Tree) of the parsed program.
      * @throws RuntimeException If a syntax error is encountered during parsing.
      */
-    public static Statement parseString(String program) {
+    public static ParseTree parseString(String program) {
         // Load input from the string
         CharStream input = CharStreams.fromString(program);
 
@@ -56,7 +54,7 @@ public class Parser {
     }
 
     // Common parsing code used by both parseFile and parseString methods
-    private static Statement parseInput(CharStream input) {
+    private static ParseTree parseInput(CharStream input) {
         ImpLexer lexer = new ImpLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         ImpParser parser = new ImpParser(tokens);
@@ -80,12 +78,6 @@ public class Parser {
         ParseTree tree = parser.parse();
 
         // Build the AST using the listener
-        ParseTreeWalker walker = new ParseTreeWalker();
-        ASTBuilder astBuilder = new ASTBuilder();
-        walker.walk(astBuilder, tree);
-
-        // Get the root of the AST
-
-        return astBuilder.getRoot();
+        return tree;
     }
 }

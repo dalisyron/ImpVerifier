@@ -1,10 +1,10 @@
 package imp.ast.expression;
 
-public final class ParenExpr extends Expr {
+public final class NegExpr extends Expr {
 
     private final Expr expr;
 
-    public ParenExpr(Expr expr) {
+    public NegExpr(Expr expr) {
         this.expr = expr;
     }
 
@@ -14,6 +14,6 @@ public final class ParenExpr extends Expr {
 
     @Override
     public String toString() {
-        return "(" + expr.toString() + ")";
+        return "-" + expr.toString();
     }
 }

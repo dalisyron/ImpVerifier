@@ -17,89 +17,147 @@ public interface ImpListener extends ParseTreeListener {
 	 */
 	void exitParse(ImpParser.ParseContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code SequenceStmt}
-	 * labeled alternative in {@link ImpParser#statement}.
+	 * Enter a parse tree produced by {@link ImpParser#procDecl}.
 	 * @param ctx the parse tree
 	 */
-	void enterSequenceStmt(ImpParser.SequenceStmtContext ctx);
+	void enterProcDecl(ImpParser.ProcDeclContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code SequenceStmt}
-	 * labeled alternative in {@link ImpParser#statement}.
+	 * Exit a parse tree produced by {@link ImpParser#procDecl}.
 	 * @param ctx the parse tree
 	 */
-	void exitSequenceStmt(ImpParser.SequenceStmtContext ctx);
+	void exitProcDecl(ImpParser.ProcDeclContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ImpParser#formalParameters}.
+	 * @param ctx the parse tree
+	 */
+	void enterFormalParameters(ImpParser.FormalParametersContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ImpParser#formalParameters}.
+	 * @param ctx the parse tree
+	 */
+	void exitFormalParameters(ImpParser.FormalParametersContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ImpParser#formalParameter}.
+	 * @param ctx the parse tree
+	 */
+	void enterFormalParameter(ImpParser.FormalParameterContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ImpParser#formalParameter}.
+	 * @param ctx the parse tree
+	 */
+	void exitFormalParameter(ImpParser.FormalParameterContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ImpParser#returnsBlock}.
+	 * @param ctx the parse tree
+	 */
+	void enterReturnsBlock(ImpParser.ReturnsBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ImpParser#returnsBlock}.
+	 * @param ctx the parse tree
+	 */
+	void exitReturnsBlock(ImpParser.ReturnsBlockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ImpParser#conditionBlock}.
+	 * @param ctx the parse tree
+	 */
+	void enterConditionBlock(ImpParser.ConditionBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ImpParser#conditionBlock}.
+	 * @param ctx the parse tree
+	 */
+	void exitConditionBlock(ImpParser.ConditionBlockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ImpParser#requiresClause}.
+	 * @param ctx the parse tree
+	 */
+	void enterRequiresClause(ImpParser.RequiresClauseContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ImpParser#requiresClause}.
+	 * @param ctx the parse tree
+	 */
+	void exitRequiresClause(ImpParser.RequiresClauseContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ImpParser#ensuresClause}.
+	 * @param ctx the parse tree
+	 */
+	void enterEnsuresClause(ImpParser.EnsuresClauseContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ImpParser#ensuresClause}.
+	 * @param ctx the parse tree
+	 */
+	void exitEnsuresClause(ImpParser.EnsuresClauseContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code AssignStmt}
-	 * labeled alternative in {@link ImpParser#simpleStatement}.
+	 * labeled alternative in {@link ImpParser#statement}.
 	 * @param ctx the parse tree
 	 */
 	void enterAssignStmt(ImpParser.AssignStmtContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code AssignStmt}
-	 * labeled alternative in {@link ImpParser#simpleStatement}.
+	 * labeled alternative in {@link ImpParser#statement}.
 	 * @param ctx the parse tree
 	 */
 	void exitAssignStmt(ImpParser.AssignStmtContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code IfStmt}
-	 * labeled alternative in {@link ImpParser#simpleStatement}.
+	 * labeled alternative in {@link ImpParser#statement}.
 	 * @param ctx the parse tree
 	 */
 	void enterIfStmt(ImpParser.IfStmtContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code IfStmt}
-	 * labeled alternative in {@link ImpParser#simpleStatement}.
+	 * labeled alternative in {@link ImpParser#statement}.
 	 * @param ctx the parse tree
 	 */
 	void exitIfStmt(ImpParser.IfStmtContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code WhileStmt}
-	 * labeled alternative in {@link ImpParser#simpleStatement}.
+	 * labeled alternative in {@link ImpParser#statement}.
 	 * @param ctx the parse tree
 	 */
 	void enterWhileStmt(ImpParser.WhileStmtContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code WhileStmt}
-	 * labeled alternative in {@link ImpParser#simpleStatement}.
+	 * labeled alternative in {@link ImpParser#statement}.
 	 * @param ctx the parse tree
 	 */
 	void exitWhileStmt(ImpParser.WhileStmtContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code BlockStmt}
-	 * labeled alternative in {@link ImpParser#simpleStatement}.
+	 * labeled alternative in {@link ImpParser#statement}.
 	 * @param ctx the parse tree
 	 */
 	void enterBlockStmt(ImpParser.BlockStmtContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code BlockStmt}
-	 * labeled alternative in {@link ImpParser#simpleStatement}.
+	 * labeled alternative in {@link ImpParser#statement}.
 	 * @param ctx the parse tree
 	 */
 	void exitBlockStmt(ImpParser.BlockStmtContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Precondition}
-	 * labeled alternative in {@link ImpParser#simpleStatement}.
+	 * Enter a parse tree produced by the {@code VarDeclStmt}
+	 * labeled alternative in {@link ImpParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void enterPrecondition(ImpParser.PreconditionContext ctx);
+	void enterVarDeclStmt(ImpParser.VarDeclStmtContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code Precondition}
-	 * labeled alternative in {@link ImpParser#simpleStatement}.
+	 * Exit a parse tree produced by the {@code VarDeclStmt}
+	 * labeled alternative in {@link ImpParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void exitPrecondition(ImpParser.PreconditionContext ctx);
+	void exitVarDeclStmt(ImpParser.VarDeclStmtContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Postcondition}
-	 * labeled alternative in {@link ImpParser#simpleStatement}.
+	 * Enter a parse tree produced by the {@code ExprStmt}
+	 * labeled alternative in {@link ImpParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void enterPostcondition(ImpParser.PostconditionContext ctx);
+	void enterExprStmt(ImpParser.ExprStmtContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code Postcondition}
-	 * labeled alternative in {@link ImpParser#simpleStatement}.
+	 * Exit a parse tree produced by the {@code ExprStmt}
+	 * labeled alternative in {@link ImpParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void exitPostcondition(ImpParser.PostconditionContext ctx);
+	void exitExprStmt(ImpParser.ExprStmtContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ImpParser#block}.
 	 * @param ctx the parse tree
@@ -111,195 +169,349 @@ public interface ImpListener extends ParseTreeListener {
 	 */
 	void exitBlock(ImpParser.BlockContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code OrCond}
-	 * labeled alternative in {@link ImpParser#conditional}.
+	 * Enter a parse tree produced by {@link ImpParser#ifStatement}.
 	 * @param ctx the parse tree
 	 */
-	void enterOrCond(ImpParser.OrCondContext ctx);
+	void enterIfStatement(ImpParser.IfStatementContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code OrCond}
-	 * labeled alternative in {@link ImpParser#conditional}.
+	 * Exit a parse tree produced by {@link ImpParser#ifStatement}.
 	 * @param ctx the parse tree
 	 */
-	void exitOrCond(ImpParser.OrCondContext ctx);
+	void exitIfStatement(ImpParser.IfStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code EqualCond}
-	 * labeled alternative in {@link ImpParser#conditional}.
+	 * Enter a parse tree produced by {@link ImpParser#whileStatement}.
 	 * @param ctx the parse tree
 	 */
-	void enterEqualCond(ImpParser.EqualCondContext ctx);
+	void enterWhileStatement(ImpParser.WhileStatementContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code EqualCond}
-	 * labeled alternative in {@link ImpParser#conditional}.
+	 * Exit a parse tree produced by {@link ImpParser#whileStatement}.
 	 * @param ctx the parse tree
 	 */
-	void exitEqualCond(ImpParser.EqualCondContext ctx);
+	void exitWhileStatement(ImpParser.WhileStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code LeqCond}
-	 * labeled alternative in {@link ImpParser#conditional}.
+	 * Enter a parse tree produced by {@link ImpParser#parenthesizedCondition}.
 	 * @param ctx the parse tree
 	 */
-	void enterLeqCond(ImpParser.LeqCondContext ctx);
+	void enterParenthesizedCondition(ImpParser.ParenthesizedConditionContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code LeqCond}
-	 * labeled alternative in {@link ImpParser#conditional}.
+	 * Exit a parse tree produced by {@link ImpParser#parenthesizedCondition}.
 	 * @param ctx the parse tree
 	 */
-	void exitLeqCond(ImpParser.LeqCondContext ctx);
+	void exitParenthesizedCondition(ImpParser.ParenthesizedConditionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ImpliesCond}
-	 * labeled alternative in {@link ImpParser#conditional}.
+	 * Enter a parse tree produced by {@link ImpParser#assignStatement}.
 	 * @param ctx the parse tree
 	 */
-	void enterImpliesCond(ImpParser.ImpliesCondContext ctx);
+	void enterAssignStatement(ImpParser.AssignStatementContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code ImpliesCond}
-	 * labeled alternative in {@link ImpParser#conditional}.
+	 * Exit a parse tree produced by {@link ImpParser#assignStatement}.
 	 * @param ctx the parse tree
 	 */
-	void exitImpliesCond(ImpParser.ImpliesCondContext ctx);
+	void exitAssignStatement(ImpParser.AssignStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code AndCond}
-	 * labeled alternative in {@link ImpParser#conditional}.
+	 * Enter a parse tree produced by {@link ImpParser#varDecl}.
 	 * @param ctx the parse tree
 	 */
-	void enterAndCond(ImpParser.AndCondContext ctx);
+	void enterVarDecl(ImpParser.VarDeclContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code AndCond}
-	 * labeled alternative in {@link ImpParser#conditional}.
+	 * Exit a parse tree produced by {@link ImpParser#varDecl}.
 	 * @param ctx the parse tree
 	 */
-	void exitAndCond(ImpParser.AndCondContext ctx);
+	void exitVarDecl(ImpParser.VarDeclContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code FalseCond}
-	 * labeled alternative in {@link ImpParser#conditional}.
+	 * Enter a parse tree produced by the {@code ArrayType}
+	 * labeled alternative in {@link ImpParser#type}.
 	 * @param ctx the parse tree
 	 */
-	void enterFalseCond(ImpParser.FalseCondContext ctx);
+	void enterArrayType(ImpParser.ArrayTypeContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code FalseCond}
-	 * labeled alternative in {@link ImpParser#conditional}.
+	 * Exit a parse tree produced by the {@code ArrayType}
+	 * labeled alternative in {@link ImpParser#type}.
 	 * @param ctx the parse tree
 	 */
-	void exitFalseCond(ImpParser.FalseCondContext ctx);
+	void exitArrayType(ImpParser.ArrayTypeContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code GtCond}
-	 * labeled alternative in {@link ImpParser#conditional}.
+	 * Enter a parse tree produced by the {@code BoolType}
+	 * labeled alternative in {@link ImpParser#type}.
 	 * @param ctx the parse tree
 	 */
-	void enterGtCond(ImpParser.GtCondContext ctx);
+	void enterBoolType(ImpParser.BoolTypeContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code GtCond}
-	 * labeled alternative in {@link ImpParser#conditional}.
+	 * Exit a parse tree produced by the {@code BoolType}
+	 * labeled alternative in {@link ImpParser#type}.
 	 * @param ctx the parse tree
 	 */
-	void exitGtCond(ImpParser.GtCondContext ctx);
+	void exitBoolType(ImpParser.BoolTypeContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code BaseCase}
-	 * labeled alternative in {@link ImpParser#conditional}.
+	 * Enter a parse tree produced by the {@code ParenType}
+	 * labeled alternative in {@link ImpParser#type}.
 	 * @param ctx the parse tree
 	 */
-	void enterBaseCase(ImpParser.BaseCaseContext ctx);
+	void enterParenType(ImpParser.ParenTypeContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code BaseCase}
-	 * labeled alternative in {@link ImpParser#conditional}.
+	 * Exit a parse tree produced by the {@code ParenType}
+	 * labeled alternative in {@link ImpParser#type}.
 	 * @param ctx the parse tree
 	 */
-	void exitBaseCase(ImpParser.BaseCaseContext ctx);
+	void exitParenType(ImpParser.ParenTypeContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code LtCond}
-	 * labeled alternative in {@link ImpParser#conditional}.
+	 * Enter a parse tree produced by the {@code IntType}
+	 * labeled alternative in {@link ImpParser#type}.
 	 * @param ctx the parse tree
 	 */
-	void enterLtCond(ImpParser.LtCondContext ctx);
+	void enterIntType(ImpParser.IntTypeContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code LtCond}
-	 * labeled alternative in {@link ImpParser#conditional}.
+	 * Exit a parse tree produced by the {@code IntType}
+	 * labeled alternative in {@link ImpParser#type}.
 	 * @param ctx the parse tree
 	 */
-	void exitLtCond(ImpParser.LtCondContext ctx);
+	void exitIntType(ImpParser.IntTypeContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code GeqCond}
-	 * labeled alternative in {@link ImpParser#conditional}.
+	 * Enter a parse tree produced by the {@code AndExpr}
+	 * labeled alternative in {@link ImpParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void enterGeqCond(ImpParser.GeqCondContext ctx);
+	void enterAndExpr(ImpParser.AndExprContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code GeqCond}
-	 * labeled alternative in {@link ImpParser#conditional}.
+	 * Exit a parse tree produced by the {@code AndExpr}
+	 * labeled alternative in {@link ImpParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void exitGeqCond(ImpParser.GeqCondContext ctx);
+	void exitAndExpr(ImpParser.AndExprContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code TrueCond}
-	 * labeled alternative in {@link ImpParser#conditional}.
+	 * Enter a parse tree produced by the {@code TrueExpr}
+	 * labeled alternative in {@link ImpParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void enterTrueCond(ImpParser.TrueCondContext ctx);
+	void enterTrueExpr(ImpParser.TrueExprContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code TrueCond}
-	 * labeled alternative in {@link ImpParser#conditional}.
+	 * Exit a parse tree produced by the {@code TrueExpr}
+	 * labeled alternative in {@link ImpParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void exitTrueCond(ImpParser.TrueCondContext ctx);
+	void exitTrueExpr(ImpParser.TrueExprContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code MulExpr}
-	 * labeled alternative in {@link ImpParser#expression}.
+	 * Enter a parse tree produced by the {@code NegExpr}
+	 * labeled alternative in {@link ImpParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void enterMulExpr(ImpParser.MulExprContext ctx);
+	void enterNegExpr(ImpParser.NegExprContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code MulExpr}
-	 * labeled alternative in {@link ImpParser#expression}.
+	 * Exit a parse tree produced by the {@code NegExpr}
+	 * labeled alternative in {@link ImpParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void exitMulExpr(ImpParser.MulExprContext ctx);
+	void exitNegExpr(ImpParser.NegExprContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code IntegerExpr}
-	 * labeled alternative in {@link ImpParser#expression}.
+	 * Enter a parse tree produced by the {@code ArrayLength}
+	 * labeled alternative in {@link ImpParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void enterIntegerExpr(ImpParser.IntegerExprContext ctx);
+	void enterArrayLength(ImpParser.ArrayLengthContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code IntegerExpr}
-	 * labeled alternative in {@link ImpParser#expression}.
+	 * Exit a parse tree produced by the {@code ArrayLength}
+	 * labeled alternative in {@link ImpParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void exitIntegerExpr(ImpParser.IntegerExprContext ctx);
+	void exitArrayLength(ImpParser.ArrayLengthContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code VariableExpr}
-	 * labeled alternative in {@link ImpParser#expression}.
+	 * Enter a parse tree produced by the {@code CompExpr}
+	 * labeled alternative in {@link ImpParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void enterVariableExpr(ImpParser.VariableExprContext ctx);
+	void enterCompExpr(ImpParser.CompExprContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code VariableExpr}
-	 * labeled alternative in {@link ImpParser#expression}.
+	 * Exit a parse tree produced by the {@code CompExpr}
+	 * labeled alternative in {@link ImpParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void exitVariableExpr(ImpParser.VariableExprContext ctx);
+	void exitCompExpr(ImpParser.CompExprContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code AddExpr}
-	 * labeled alternative in {@link ImpParser#expression}.
+	 * Enter a parse tree produced by the {@code OrExpr}
+	 * labeled alternative in {@link ImpParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void enterAddExpr(ImpParser.AddExprContext ctx);
+	void enterOrExpr(ImpParser.OrExprContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code AddExpr}
-	 * labeled alternative in {@link ImpParser#expression}.
+	 * Exit a parse tree produced by the {@code OrExpr}
+	 * labeled alternative in {@link ImpParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void exitAddExpr(ImpParser.AddExprContext ctx);
+	void exitOrExpr(ImpParser.OrExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code FalseExpr}
+	 * labeled alternative in {@link ImpParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterFalseExpr(ImpParser.FalseExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code FalseExpr}
+	 * labeled alternative in {@link ImpParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitFalseExpr(ImpParser.FalseExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code FuncCall}
+	 * labeled alternative in {@link ImpParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterFuncCall(ImpParser.FuncCallContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code FuncCall}
+	 * labeled alternative in {@link ImpParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitFuncCall(ImpParser.FuncCallContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code NewArray}
+	 * labeled alternative in {@link ImpParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterNewArray(ImpParser.NewArrayContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code NewArray}
+	 * labeled alternative in {@link ImpParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitNewArray(ImpParser.NewArrayContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ArrayAccess}
+	 * labeled alternative in {@link ImpParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayAccess(ImpParser.ArrayAccessContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ArrayAccess}
+	 * labeled alternative in {@link ImpParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayAccess(ImpParser.ArrayAccessContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code MulDivExpr}
+	 * labeled alternative in {@link ImpParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterMulDivExpr(ImpParser.MulDivExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code MulDivExpr}
+	 * labeled alternative in {@link ImpParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitMulDivExpr(ImpParser.MulDivExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code F_Implies}
+	 * labeled alternative in {@link ImpParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterF_Implies(ImpParser.F_ImpliesContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code F_Implies}
+	 * labeled alternative in {@link ImpParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitF_Implies(ImpParser.F_ImpliesContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code F_Quant}
+	 * labeled alternative in {@link ImpParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterF_Quant(ImpParser.F_QuantContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code F_Quant}
+	 * labeled alternative in {@link ImpParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitF_Quant(ImpParser.F_QuantContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code EqExpr}
+	 * labeled alternative in {@link ImpParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterEqExpr(ImpParser.EqExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code EqExpr}
+	 * labeled alternative in {@link ImpParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitEqExpr(ImpParser.EqExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code VarExpr}
+	 * labeled alternative in {@link ImpParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterVarExpr(ImpParser.VarExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code VarExpr}
+	 * labeled alternative in {@link ImpParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitVarExpr(ImpParser.VarExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code NotExpr}
+	 * labeled alternative in {@link ImpParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterNotExpr(ImpParser.NotExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code NotExpr}
+	 * labeled alternative in {@link ImpParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitNotExpr(ImpParser.NotExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code IntExpr}
+	 * labeled alternative in {@link ImpParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterIntExpr(ImpParser.IntExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code IntExpr}
+	 * labeled alternative in {@link ImpParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitIntExpr(ImpParser.IntExprContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code ParenExpr}
-	 * labeled alternative in {@link ImpParser#expression}.
+	 * labeled alternative in {@link ImpParser#expr}.
 	 * @param ctx the parse tree
 	 */
 	void enterParenExpr(ImpParser.ParenExprContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code ParenExpr}
-	 * labeled alternative in {@link ImpParser#expression}.
+	 * labeled alternative in {@link ImpParser#expr}.
 	 * @param ctx the parse tree
 	 */
 	void exitParenExpr(ImpParser.ParenExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code AddSubExpr}
+	 * labeled alternative in {@link ImpParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterAddSubExpr(ImpParser.AddSubExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code AddSubExpr}
+	 * labeled alternative in {@link ImpParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitAddSubExpr(ImpParser.AddSubExprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ImpParser#var}.
+	 * @param ctx the parse tree
+	 */
+	void enterVar(ImpParser.VarContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ImpParser#var}.
+	 * @param ctx the parse tree
+	 */
+	void exitVar(ImpParser.VarContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ImpParser#exprList}.
+	 * @param ctx the parse tree
+	 */
+	void enterExprList(ImpParser.ExprListContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ImpParser#exprList}.
+	 * @param ctx the parse tree
+	 */
+	void exitExprList(ImpParser.ExprListContext ctx);
 }
