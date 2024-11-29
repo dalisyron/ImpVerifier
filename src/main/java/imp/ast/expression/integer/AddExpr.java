@@ -20,6 +20,19 @@ public class AddExpr extends Expr {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof AddExpr addExpr) {
+            return left.equals(addExpr.left) && right.equals(addExpr.right);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return 31 * left.hashCode() + right.hashCode();
+    }
+
+    @Override
     public String toString() {
         return left + " + " + right;
     }

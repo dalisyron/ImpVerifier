@@ -7,11 +7,6 @@ import imp.ast.variable.Identifier;
 public final class ExistsExpr extends QuantifiedExpr {
 
     public ExistsExpr(Identifier variable, Expr expr) {
-        super(variable, expr);
-    }
-
-    @Override
-    public String toString() {
-        return "exists " + variable + " :: " + expr;
+        super("exists", variable, expr);
     }
 }

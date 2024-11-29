@@ -2,7 +2,7 @@ package imp.ast.expression.formula;
 
 import imp.ast.expression.Expr;
 
-public class ImpliesExpr extends Expr {
+public final class ImpliesExpr extends Expr {
     private final Expr left;
     private final Expr right;
 
@@ -17,6 +17,19 @@ public class ImpliesExpr extends Expr {
 
     public Expr right() {
         return right;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ImpliesExpr expr) {
+            return left.equals(expr.left) && right.equals(expr.right);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return left.hashCode() ^ right.hashCode();
     }
 
     @Override

@@ -13,6 +13,19 @@ public final class NewArrayExpr extends Expr {
         this.sizeExpr = sizeExpr;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof NewArrayExpr expr) {
+            return elementType.equals(expr.elementType) && sizeExpr.equals(expr.sizeExpr);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return elementType.hashCode() ^ sizeExpr.hashCode();
+    }
+
     public Type elementType() {
         return elementType;
     }

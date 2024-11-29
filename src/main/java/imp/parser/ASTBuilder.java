@@ -108,11 +108,14 @@ public class ASTBuilder extends ImpBaseListener {
 
     @Override
     public void exitConditionBlock(ImpParser.ConditionBlockContext ctx) {
-        List<ConditionClause> clauses = ctx.children.stream()
-                .map(child -> (ConditionClause) values.get(child))
-                .collect(Collectors.toList());
-
-        values.put(ctx, clauses.isEmpty() ? Optional.empty() : Optional.of(new ConditionList(clauses)));
+        if (ctx.children == null) {
+            values.put(ctx, Optional.empty());
+        } else {
+            List<ConditionClause> clauses = ctx.children.stream()
+                    .map(child -> (ConditionClause) values.get(child))
+                    .collect(Collectors.toList());
+            values.put(ctx, Optional.of(new ConditionList(clauses)));
+        }
     }
 
     @Override
@@ -325,12 +328,12 @@ public class ASTBuilder extends ImpBaseListener {
 
     @Override
     public void exitTrueExpr(ImpParser.TrueExprContext ctx) {
-        values.put(ctx, new TrueExpr());
+        values.put(ctx, TrueExpr.getInstance());
     }
 
     @Override
     public void exitFalseExpr(ImpParser.FalseExprContext ctx) {
-        values.put(ctx, new FalseExpr());
+        values.put(ctx, FalseExpr.getInstance());
     }
 
     @Override

@@ -7,12 +7,14 @@ import imp.ast.variable.Identifier;
 public abstract sealed class QuantifiedExpr extends Expr
         permits ExistsExpr, ForallExpr {
 
+    protected final String quantifier;
     protected final Identifier variable;
     protected final Expr expr;
 
-    protected QuantifiedExpr(Identifier variable, Expr expr) {
+    protected QuantifiedExpr(String quantifier, Identifier variable, Expr expr) {
         this.variable = variable;
         this.expr = expr;
+        this.quantifier = quantifier;
     }
 
     public Identifier variable() {
@@ -24,6 +26,24 @@ public abstract sealed class QuantifiedExpr extends Expr
     }
 
     @Override
-    public abstract String toString();
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof QuantifiedExpr other)) {
+            return false;
+        }
+        return quantifier.equals(other.quantifier) && variable.equals(other.variable) && expr.equals(other.expr);
+    }
+
+    @Override
+    public int hashCode() {
+        return quantifier.hashCode() ^ variable.hashCode() ^ expr.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return quantifier + " " + variable + " :: " + expr;
+    }
 }
 

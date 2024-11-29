@@ -12,6 +12,19 @@ public class LessThanExpr extends Expr {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof LessThanExpr lessThanExpr) {
+            return left.equals(lessThanExpr.left) && right.equals(lessThanExpr.right);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return 31 * left.hashCode() + right.hashCode();
+    }
+
+    @Override
     public String toString() {
         return left + " < " + right;
     }

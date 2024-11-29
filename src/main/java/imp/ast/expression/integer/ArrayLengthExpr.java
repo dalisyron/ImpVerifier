@@ -15,6 +15,19 @@ public final class ArrayLengthExpr extends Expr {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ArrayLengthExpr arrayLengthExpr) {
+            return arrayExpr.equals(arrayLengthExpr.arrayExpr);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return 31 * arrayExpr.hashCode();
+    }
+
+    @Override
     public String toString() {
         return arrayExpr.toString() + ".length";
     }

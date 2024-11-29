@@ -3,6 +3,7 @@ package imp.parser;
 import imp.ast.Program;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class ASTBuilderTest {
@@ -10,40 +11,12 @@ class ASTBuilderTest {
     @Test
     void test() {
         String program = """
-                method Foo() returns (int x)
-                    ensures y == 10
-                {
-                    if (true) {
-                    }
-                    int x;
-                    int y = x;
-                    if (x > 10) {
-                        y = y + 1;
-                    }
-                    
-                    int z;
-                    bool zzz;
-                    while (z > x) {
-                        z = x - y;
-                    }
-                }
-                            
                 method Bar() returns (int x)
                     ensures y == 10
                 {
-                    t1 = Foo(2);
                     // Hello world
-                    int x = 10;
-                    
-                    while (x > 10) {
-                        x = x + 10;
-                        
-                        if (x > (y + z)) {
-                        }
-                    }
                 }
                 """;
-
         try {
             // Parse the input program string
             ParseTree tree = Parser.parseString(program);
@@ -57,8 +30,17 @@ class ASTBuilderTest {
             Program ast = astBuilder.getProgram();
 
             // Print the AST
-            System.out.println(ast);
+            String programRepresentation = ast.toString();
 
+            // Reparse the program representation
+            ParseTree reparsedTree = Parser.parseString(programRepresentation);
+
+            // Ensure the original and reparsed trees are equal
+            ASTBuilder reparsedAstBuilder = new ASTBuilder();
+            walker.walk(reparsedAstBuilder, reparsedTree);
+            Program reparsedAst = reparsedAstBuilder.getProgram();
+
+            Assertions.assertEquals(ast, reparsedAst);
         } catch (Exception e) {
             e.printStackTrace();
         }

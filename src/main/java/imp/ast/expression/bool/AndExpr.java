@@ -20,6 +20,19 @@ public final class AndExpr extends Expr {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof AndExpr expr) {
+            return left.equals(expr.left) && right.equals(expr.right);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return left.hashCode() ^ right.hashCode();
+    }
+
+    @Override
     public String toString() {
         return left.toString() + " && " + right.toString();
     }

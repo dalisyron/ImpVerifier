@@ -13,6 +13,24 @@ public final class ArrayRefExpr extends ReferenceExpr {
         this.indexExpr = indexExpr;
     }
 
+    public Identifier arrayName() {
+        return arrayName;
+    }
+
+    public Expr indexExpr() {
+        return indexExpr;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        ArrayRefExpr other = (ArrayRefExpr) obj;
+        return arrayName.equals(other.arrayName) && indexExpr.equals(other.indexExpr);
+    }
+
     @Override
     public String toString() {
         return arrayName + "[" + indexExpr + "]";

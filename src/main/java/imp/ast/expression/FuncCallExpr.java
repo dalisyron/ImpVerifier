@@ -23,6 +23,15 @@ public final class FuncCallExpr extends Expr {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof FuncCallExpr that)) return false;
+
+        if (!functionName.equals(that.functionName)) return false;
+        return arguments.equals(that.arguments);
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(functionName).append("(");

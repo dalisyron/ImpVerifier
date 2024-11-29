@@ -7,11 +7,16 @@ import imp.ast.variable.Identifier;
 public final class ForallExpr extends QuantifiedExpr {
 
     public ForallExpr(Identifier variable, Expr expr) {
-        super(variable, expr);
+        super("forall", variable, expr);
     }
 
     @Override
-    public String toString() {
-        return "forall " + variable + " :: " + expr;
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

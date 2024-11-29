@@ -15,6 +15,19 @@ public final class IntExpr extends Expr {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof IntExpr that) {
+            return this.value == that.value;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(value);
+    }
+
+    @Override
     public String toString() {
         return Integer.toString(value);
     }
