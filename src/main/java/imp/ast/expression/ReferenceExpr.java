@@ -1,4 +1,4 @@
 package imp.ast.expression;
 
-public interface ReferenceExpr {
+public sealed class ReferenceExpr extends Expr permits ArrayRefExpr, VarRefExpr {
 }

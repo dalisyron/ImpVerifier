@@ -1,5 +1,7 @@
 package imp.ast.expression.bool;
 
+import imp.ast.expression.Expr;
+
 public final class NotExpr extends Expr {
 
     private final Expr expr;

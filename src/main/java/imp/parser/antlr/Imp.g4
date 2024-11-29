@@ -1,10 +1,10 @@
 grammar Imp;
 
 parse
-	: (procDecl)+ EOF
+	: (methodDeclaration)+ EOF
 	;
 
-procDecl
+methodDeclaration
 	: 'method' ID LPAREN formalParameters? RPAREN returnsBlock? conditionBlock block
 	;
 
@@ -91,7 +91,7 @@ expr
     | TRUE                                                        # TrueExpr
     | FALSE                                                       # FalseExpr
 	| expr IMPLIES (expr)                                         # F_Implies
-	| (FORALL || EXISTS) ID DOUBLECOLON expr                      # F_Quant
+	| (FORALL | EXISTS) ID DOUBLECOLON expr                       # F_Quant
 	| NEW type '[' expr ']'                                       # NewArray
 	| reference                                                   # ReferenceExpr
 	| expr'.length'                                               # ArrayLength

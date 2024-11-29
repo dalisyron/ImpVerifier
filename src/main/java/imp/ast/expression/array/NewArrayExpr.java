@@ -1,6 +1,6 @@
 package imp.ast.expression.array;
 
-import imp.ast.expression.bool.Expr;
+import imp.ast.expression.Expr;
 import imp.ast.type.Type;
 
 public final class NewArrayExpr extends Expr {

@@ -1,6 +1,6 @@
 package imp.ast.statement;
 
-import imp.ast.expression.bool.Expr;
+import imp.ast.expression.Expr;
 import imp.ast.expression.InvariantList;
 
 import java.util.Optional;

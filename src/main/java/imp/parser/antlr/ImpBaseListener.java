@@ -1,3 +1,4 @@
+package imp.parser.antlr;
 // Generated from Imp.g4 by ANTLR 4.13.2
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -28,13 +29,13 @@ public class ImpBaseListener implements ImpListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterProcDecl(ImpParser.ProcDeclContext ctx) { }
+	@Override public void enterMethodDeclaration(ImpParser.MethodDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitProcDecl(ImpParser.ProcDeclContext ctx) { }
+	@Override public void exitMethodDeclaration(ImpParser.MethodDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

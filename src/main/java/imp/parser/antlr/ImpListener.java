@@ -1,3 +1,4 @@
+package imp.parser.antlr;
 // Generated from Imp.g4 by ANTLR 4.13.2
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -17,15 +18,15 @@ public interface ImpListener extends ParseTreeListener {
 	 */
 	void exitParse(ImpParser.ParseContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ImpParser#procDecl}.
+	 * Enter a parse tree produced by {@link ImpParser#methodDeclaration}.
 	 * @param ctx the parse tree
 	 */
-	void enterProcDecl(ImpParser.ProcDeclContext ctx);
+	void enterMethodDeclaration(ImpParser.MethodDeclarationContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ImpParser#procDecl}.
+	 * Exit a parse tree produced by {@link ImpParser#methodDeclaration}.
 	 * @param ctx the parse tree
 	 */
-	void exitProcDecl(ImpParser.ProcDeclContext ctx);
+	void exitMethodDeclaration(ImpParser.MethodDeclarationContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ImpParser#formalParameters}.
 	 * @param ctx the parse tree

@@ -1,6 +1,6 @@
 package imp.ast.expression.integer;
 
-import imp.ast.expression.bool.Expr;
+import imp.ast.expression.Expr;
 
 public final class IntExpr extends Expr {
 

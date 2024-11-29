@@ -1,6 +1,6 @@
 package imp.ast.condition;
 
-import imp.ast.expression.bool.Expr;
+import imp.ast.expression.Expr;
 
 public record EnsuresClause(Expr expr) implements ConditionClause {
 

@@ -1,3 +1,4 @@
+package imp.parser.antlr;
 // Generated from Imp.g4 by ANTLR 4.13.2
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;

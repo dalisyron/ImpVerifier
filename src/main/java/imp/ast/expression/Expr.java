@@ -1,4 +1,4 @@
-package imp.ast.expression.bool;
+package imp.ast.expression;
 
 import imp.ast.type.Type;
 
