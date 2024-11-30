@@ -24,4 +24,19 @@ public record BlockStatement(List<Statement> statements) implements Statement {
         sb.append("}");
         return sb.toString();
     }
+
+    public Statement getHead() {
+        return statements.get(0);
+    }
+
+    public BlockStatement getTail() {
+        if (statements.isEmpty()) {
+            throw new IllegalStateException("Cannot get tail of empty block");
+        }
+
+        if (statements.size() == 1) {
+            return new BlockStatement(List.of());
+        }
+        return new BlockStatement(statements.subList(1, statements.size()));
+    }
 }

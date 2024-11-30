@@ -1,11 +1,11 @@
 package imp.ast.statement;
 
-import imp.ast.expression.Expr;
+import imp.ast.expression.Expression;
 import imp.ast.expression.InvariantList;
 
 import java.util.Optional;
 
-public record WhileStatement(Expr condition, Optional<InvariantList> invariants, BlockStatement body) implements Statement {
+public record WhileStatement(Expression condition, Optional<InvariantList> invariants, BlockStatement body) implements Statement {
 
     @Override
     public String toString() {

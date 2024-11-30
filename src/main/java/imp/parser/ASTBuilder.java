@@ -6,13 +6,12 @@ import imp.ast.condition.ConditionList;
 import imp.ast.condition.EnsuresClause;
 import imp.ast.condition.RequiresClause;
 import imp.ast.expression.*;
-import imp.ast.expression.ArrayRefExpr;
-import imp.ast.expression.array.NewArrayExpr;
+import imp.ast.expression.ArrayRefExpression;
+import imp.ast.expression.array.NewArrayExpression;
 import imp.ast.expression.bool.*;
-import imp.ast.expression.formula.ExistsExpr;
-import imp.ast.expression.formula.ForallExpr;
-import imp.ast.expression.formula.ImpliesExpr;
-import imp.ast.expression.formula.QuantifiedExpr;
+import imp.ast.expression.formula.*;
+import imp.ast.expression.formula.ImpliesExpression;
+import imp.ast.expression.formula.QuantifiedExpression;
 import imp.ast.expression.integer.*;
 import imp.ast.method.*;
 import imp.ast.statement.*;
@@ -120,26 +119,26 @@ public class ASTBuilder extends ImpBaseListener {
 
     @Override
     public void exitRequiresClause(ImpParser.RequiresClauseContext ctx) {
-        Expr expr = (Expr) values.get(ctx.expr());
-        values.put(ctx, new RequiresClause(expr));
+        Expression expression = (Expression) values.get(ctx.expr());
+        values.put(ctx, new RequiresClause(expression));
     }
 
     @Override
     public void exitEnsuresClause(ImpParser.EnsuresClauseContext ctx) {
-        Expr expr = (Expr) values.get(ctx.expr());
-        values.put(ctx, new EnsuresClause(expr));
+        Expression expression = (Expression) values.get(ctx.expr());
+        values.put(ctx, new EnsuresClause(expression));
     }
 
     @Override
     public void exitAssignStmt(ImpParser.AssignStmtContext ctx) {
-        ReferenceExpr lhs = (ReferenceExpr) values.get(ctx.assignStatement().reference());
-        Expr rhs = (Expr) values.get(ctx.assignStatement().expr());
+        ReferenceExpression lhs = (ReferenceExpression) values.get(ctx.assignStatement().reference());
+        Expression rhs = (Expression) values.get(ctx.assignStatement().expr());
         values.put(ctx, new AssignStatement(lhs, rhs));
     }
 
     @Override
     public void exitIfStmt(ImpParser.IfStmtContext ctx) {
-        Expr condition = (Expr) values.get(ctx.ifStatement().parenthesizedCondition());
+        Expression condition = (Expression) values.get(ctx.ifStatement().parenthesizedCondition());
         BlockStatement thenBlock = (BlockStatement) values.get(ctx.ifStatement().block(0));
 
         Optional<BlockStatement> elseBlock = Optional.empty();
@@ -152,7 +151,7 @@ public class ASTBuilder extends ImpBaseListener {
 
     @Override
     public void exitWhileStmt(ImpParser.WhileStmtContext ctx) {
-        Expr condition = (Expr) values.get(ctx.whileStatement().parenthesizedCondition());
+        Expression condition = (Expression) values.get(ctx.whileStatement().parenthesizedCondition());
 
         Optional<InvariantList> invariants = Optional.empty();
         if (ctx.whileStatement().invariantList() != null) {
@@ -173,9 +172,9 @@ public class ASTBuilder extends ImpBaseListener {
         Type type = (Type) values.get(ctx.varDecl().type());
         Identifier name = new Identifier(ctx.varDecl().ID().getText());
 
-        Optional<Expr> initializer = Optional.empty();
+        Optional<Expression> initializer = Optional.empty();
         if (ctx.varDecl().expr() != null) {
-            initializer = Optional.of((Expr) values.get(ctx.varDecl().expr()));
+            initializer = Optional.of((Expression) values.get(ctx.varDecl().expr()));
         }
 
         values.put(ctx, new VariableDeclaration(type, name, initializer));
@@ -183,8 +182,8 @@ public class ASTBuilder extends ImpBaseListener {
 
     @Override
     public void exitExprStmt(ImpParser.ExprStmtContext ctx) {
-        Expr expr = (Expr) values.get(ctx.expr());
-        values.put(ctx, new ExpressionStatement(expr));
+        Expression expression = (Expression) values.get(ctx.expr());
+        values.put(ctx, new ExpressionStatement(expression));
     }
 
     @Override
@@ -198,7 +197,7 @@ public class ASTBuilder extends ImpBaseListener {
     @Override
     public void exitInvariantList(ImpParser.InvariantListContext ctx) {
         List<Invariant> invariants = ctx.expr().stream()
-                .map(exprCtx -> new Invariant((Expr) values.get(exprCtx)))
+                .map(exprCtx -> new Invariant((Expression) values.get(exprCtx)))
                 .collect(Collectors.toList());
         values.put(ctx, new InvariantList(invariants));
     }
@@ -231,49 +230,49 @@ public class ASTBuilder extends ImpBaseListener {
 
     @Override
     public void exitNegExpr(ImpParser.NegExprContext ctx) {
-        Expr expr = (Expr) values.get(ctx.expr());
-        values.put(ctx, new NegExpr(expr));
+        Expression expression = (Expression) values.get(ctx.expr());
+        values.put(ctx, new NegExpression(expression));
     }
 
     @Override
     public void exitMulDivExpr(ImpParser.MulDivExprContext ctx) {
-        Expr left = (Expr) values.get(ctx.expr(0));
-        Expr right = (Expr) values.get(ctx.expr(1));
+        Expression left = (Expression) values.get(ctx.expr(0));
+        Expression right = (Expression) values.get(ctx.expr(1));
         String op = ctx.getChild(1).getText();
 
-        Expr result = op.equals("*") ? new MulExpr(left, right) : new DivExpr(left, right);
+        Expression result = op.equals("*") ? new MulExpression(left, right) : new DivExpression(left, right);
         values.put(ctx, result);
     }
 
     @Override
     public void exitAddSubExpr(ImpParser.AddSubExprContext ctx) {
-        Expr left = (Expr) values.get(ctx.expr(0));
-        Expr right = (Expr) values.get(ctx.expr(1));
+        Expression left = (Expression) values.get(ctx.expr(0));
+        Expression right = (Expression) values.get(ctx.expr(1));
         String op = ctx.getChild(1).getText();
 
-        Expr result = op.equals("+") ? new AddExpr(left, right) : new SubExpr(left, right);
+        Expression result = op.equals("+") ? new AddExpression(left, right) : new SubExpression(left, right);
         values.put(ctx, result);
     }
 
     @Override
     public void exitCompExpr(ImpParser.CompExprContext ctx) {
-        Expr left = (Expr) values.get(ctx.expr(0));
-        Expr right = (Expr) values.get(ctx.expr(1));
+        Expression left = (Expression) values.get(ctx.expr(0));
+        Expression right = (Expression) values.get(ctx.expr(1));
         String op = ctx.getChild(1).getText();
 
-        Expr result;
+        Expression result;
         switch (op) {
             case "<":
-                result = new LessThanExpr(left, right);
+                result = new LessThanExpression(left, right);
                 break;
             case "<=":
-                result = new LessThanOrEqualExpr(left, right);
+                result = new LessThanOrEqualExpression(left, right);
                 break;
             case ">":
-                result = new GreaterThanExpr(left, right);
+                result = new GreaterThanExpression(left, right);
                 break;
             case ">=":
-                result = new GreaterThanOrEqualExpr(left, right);
+                result = new GreaterThanOrEqualExpression(left, right);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown operator: " + op);
@@ -283,29 +282,29 @@ public class ASTBuilder extends ImpBaseListener {
 
     @Override
     public void exitNotExpr(ImpParser.NotExprContext ctx) {
-        Expr expr = (Expr) values.get(ctx.expr());
-        values.put(ctx, new NotExpr(expr));
+        Expression expression = (Expression) values.get(ctx.expr());
+        values.put(ctx, new NotExpression(expression));
     }
 
     @Override
     public void exitAndExpr(ImpParser.AndExprContext ctx) {
-        Expr left = (Expr) values.get(ctx.expr(0));
-        Expr right = (Expr) values.get(ctx.expr(1));
-        values.put(ctx, new AndExpr(left, right));
+        Expression left = (Expression) values.get(ctx.expr(0));
+        Expression right = (Expression) values.get(ctx.expr(1));
+        values.put(ctx, new AndExpression(left, right));
     }
 
     @Override
     public void exitOrExpr(ImpParser.OrExprContext ctx) {
-        Expr left = (Expr) values.get(ctx.expr(0));
-        Expr right = (Expr) values.get(ctx.expr(1));
-        values.put(ctx, new OrExpr(left, right));
+        Expression left = (Expression) values.get(ctx.expr(0));
+        Expression right = (Expression) values.get(ctx.expr(1));
+        values.put(ctx, new OrExpression(left, right));
     }
 
     @Override
     public void exitEqExpr(ImpParser.EqExprContext ctx) {
-        Expr left = (Expr) values.get(ctx.expr(0));
-        Expr right = (Expr) values.get(ctx.expr(1));
-        values.put(ctx, new EqExpr(left, right));
+        Expression left = (Expression) values.get(ctx.expr(0));
+        Expression right = (Expression) values.get(ctx.expr(1));
+        values.put(ctx, new EqExpression(left, right));
     }
 
     @Override
@@ -316,42 +315,42 @@ public class ASTBuilder extends ImpBaseListener {
     @Override
     public void exitFuncCall(ImpParser.FuncCallContext ctx) {
         Identifier funcName = new Identifier(ctx.ID().getText());
-        List<Expr> args = ctx.exprList() != null ? (List<Expr>) values.get(ctx.exprList()) : new ArrayList<>();
-        values.put(ctx, new FuncCallExpr(funcName, args));
+        List<Expression> args = ctx.exprList() != null ? (List<Expression>) values.get(ctx.exprList()) : new ArrayList<>();
+        values.put(ctx, new FuncCallExpression(funcName, args));
     }
 
     @Override
     public void exitIntExpr(ImpParser.IntExprContext ctx) {
         int value = Integer.parseInt(ctx.INT().getText());
-        values.put(ctx, new IntExpr(value));
+        values.put(ctx, new IntExpression(value));
     }
 
     @Override
     public void exitTrueExpr(ImpParser.TrueExprContext ctx) {
-        values.put(ctx, TrueExpr.getInstance());
+        values.put(ctx, TrueExpression.getInstance());
     }
 
     @Override
     public void exitFalseExpr(ImpParser.FalseExprContext ctx) {
-        values.put(ctx, FalseExpr.getInstance());
+        values.put(ctx, FalseExpression.getInstance());
     }
 
     @Override
     public void exitF_Implies(ImpParser.F_ImpliesContext ctx) {
-        Expr left = (Expr) values.get(ctx.expr(0));
-        Expr right = (Expr) values.get(ctx.expr(1));
-        values.put(ctx, new ImpliesExpr(left, right));
+        Expression left = (Expression) values.get(ctx.expr(0));
+        Expression right = (Expression) values.get(ctx.expr(1));
+        values.put(ctx, new ImpliesExpression(left, right));
     }
 
     @Override
     public void exitF_Quant(ImpParser.F_QuantContext ctx) {
         String quantifier = ctx.getChild(0).getText();
         Identifier variable = new Identifier(ctx.ID().getText());
-        Expr expr = (Expr) values.get(ctx.expr());
+        Expression expression = (Expression) values.get(ctx.expr());
 
-        QuantifiedExpr result = quantifier.equals("forall")
-                ? new ForallExpr(variable, expr)
-                : new ExistsExpr(variable, expr);
+        QuantifiedExpression result = quantifier.equals("forall")
+                ? new ForallExpression(variable, expression)
+                : new ExistsExpression(variable, expression);
 
         values.put(ctx, result);
     }
@@ -359,8 +358,8 @@ public class ASTBuilder extends ImpBaseListener {
     @Override
     public void exitNewArray(ImpParser.NewArrayContext ctx) {
         Type elementType = (Type) values.get(ctx.type());
-        Expr sizeExpr = (Expr) values.get(ctx.expr());
-        values.put(ctx, new NewArrayExpr(elementType, sizeExpr));
+        Expression sizeExpression = (Expression) values.get(ctx.expr());
+        values.put(ctx, new NewArrayExpression(elementType, sizeExpression));
     }
 
     @Override
@@ -370,27 +369,27 @@ public class ASTBuilder extends ImpBaseListener {
 
     @Override
     public void exitArrayLength(ImpParser.ArrayLengthContext ctx) {
-        Expr arrayExpr = (Expr) values.get(ctx.expr());
-        values.put(ctx, new ArrayLengthExpr(arrayExpr));
+        Expression arrayExpression = (Expression) values.get(ctx.expr());
+        values.put(ctx, new ArrayLengthExpression(arrayExpression));
     }
 
     @Override
     public void exitVarRef(ImpParser.VarRefContext ctx) {
         Identifier name = new Identifier(ctx.ID().getText());
-        values.put(ctx, new VarRefExpr(name));
+        values.put(ctx, new VarRefExpression(name));
     }
 
     @Override
     public void exitArrayRef(ImpParser.ArrayRefContext ctx) {
         Identifier arrayName = new Identifier(ctx.ID().getText());
-        Expr index = (Expr) values.get(ctx.expr());
-        values.put(ctx, new ArrayRefExpr(arrayName, index));
+        Expression index = (Expression) values.get(ctx.expr());
+        values.put(ctx, new ArrayRefExpression(arrayName, index));
     }
 
     @Override
     public void exitExprList(ImpParser.ExprListContext ctx) {
-        List<Expr> expressions = ctx.expr().stream()
-                .map(exprCtx -> (Expr) values.get(exprCtx))
+        List<Expression> expressions = ctx.expr().stream()
+                .map(exprCtx -> (Expression) values.get(exprCtx))
                 .collect(Collectors.toList());
         values.put(ctx, expressions);
     }

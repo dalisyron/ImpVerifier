@@ -25,11 +25,11 @@ conditionBlock
 	;
 
 requiresClause
-	: REQUIRES expr
+	: REQUIRES expression
 	;
 
 ensuresClause
-	: ENSURES expr
+	: ENSURES expression
 	;
 
 statement
@@ -38,7 +38,7 @@ statement
 	| whileStatement                                             # WhileStmt
 	| block                                                      # BlockStmt
 	| varDecl                                                    # VarDeclStmt
-	| expr SEMICOLON                                             # ExprStmt
+	| expression SEMICOLON                                             # ExprStmt
 	;
 
 block
@@ -54,19 +54,19 @@ whileStatement
 	;
 
 invariantList
-    : (INVARIANT expr)+
+    : (INVARIANT expression)+
     ;
 
 parenthesizedCondition
-	: LPAREN expr RPAREN
+	: LPAREN expression RPAREN
 	;
 
 assignStatement
-	: reference ASSIGN expr SEMICOLON
+	: reference ASSIGN expression SEMICOLON
 	;
 
 varDecl
-	: type ID (ASSIGN expr)? SEMICOLON
+	: type ID (ASSIGN expression)? SEMICOLON
 	;
 
 type
@@ -76,34 +76,34 @@ type
 	| LPAREN type RPAREN     # ParenType
 	;
 
-expr
-	: MINUS expr                                                  # NegExpr // Level 35
-	| expr (TIMES | INTDIV) expr                                  # MulDivExpr // Level 40
-	| expr (PLUS | MINUS) expr                                    # AddSubExpr // Level 50
-	| expr (LEQ | GEQ | GREATER | LESS) expr                      # CompExpr // Level 70
-	| NOT expr                                                    # NotExpr // Level 75
-	| expr AND expr                                               # AndExpr // Level 80
-	| expr OR expr                                                # OrExpr // Level 85
-	| expr EQUAL expr                                             # EqExpr // Level 71
-	| LPAREN expr RPAREN                                          # ParenExpr
+expression
+	: MINUS expression                                                  # NegExpr // Level 35
+	| expression (TIMES | INTDIV) expression                                  # MulDivExpr // Level 40
+	| expression (PLUS | MINUS) expression                                    # AddSubExpr // Level 50
+	| expression (LEQ | GEQ | GREATER | LESS) expression                      # CompExpr // Level 70
+	| NOT expression                                                    # NotExpr // Level 75
+	| expression AND expression                                               # AndExpr // Level 80
+	| expression OR expression                                                # OrExpr // Level 85
+	| expression EQUAL expression                                             # EqExpr // Level 71
+	| LPAREN expression RPAREN                                          # ParenExpr
 	| ID LPAREN exprList? RPAREN                                  # FuncCall
 	| INT                                                         # IntExpr
     | TRUE                                                        # TrueExpr
     | FALSE                                                       # FalseExpr
-	| expr IMPLIES (expr)                                         # F_Implies
-	| (FORALL | EXISTS) ID DOUBLECOLON expr                       # F_Quant
-	| NEW type '[' expr ']'                                       # NewArray
+	| expression IMPLIES (expression)                                         # F_Implies
+	| (FORALL | EXISTS) ID DOUBLECOLON expression                       # F_Quant
+	| NEW type '[' expression ']'                                       # NewArray
 	| reference                                                   # ReferenceExpr
-	| expr'.length'                                               # ArrayLength
+	| expression'.length'                                               # ArrayLength
 	;
 
 reference:
       ID                                             # VarRef
-    | ID '[' expr ']'                                # ArrayRef
+    | ID '[' expression ']'                                # ArrayRef
     ;
 
 exprList
-	: expr (ARGSEP expr)*
+	: expression (ARGSEP expression)*
 	;
 
 TRUE       : 'true';

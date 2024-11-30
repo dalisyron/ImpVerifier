@@ -1,11 +1,11 @@
 
 package imp.ast.statement;
 
-import imp.ast.expression.Expr;
+import imp.ast.expression.Expression;
 
 import java.util.Optional;
 
-public record IfStatement(Expr condition, BlockStatement thenBlock, Optional<BlockStatement> elseBlock) implements Statement {
+public record IfStatement(Expression condition, BlockStatement thenBlock, Optional<BlockStatement> elseBlock) implements Statement {
 
     @Override
     public String toString() {

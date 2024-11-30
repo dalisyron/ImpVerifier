@@ -1,11 +1,11 @@
 package imp.ast.statement;
 
-import imp.ast.expression.Expr;
+import imp.ast.expression.Expression;
 
-public record ExpressionStatement(Expr expr) implements Statement {
+public record ExpressionStatement(Expression expression) implements Statement {
 
     @Override
     public String toString() {
-        return expr.toString() + ";";
+        return expression.toString() + ";";
     }
 }

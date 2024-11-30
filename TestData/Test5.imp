@@ -1,0 +1,21 @@
+method Bar()
+    requires y > 10 && true
+{
+    x = (x || y) && z;
+    
+    if (x < 10) {
+        y = z ==> z;
+    }
+    
+    if (x == 10) {
+        while (true) 
+            invariant y > 10
+            invariant forall x :: x == y + 20
+        {
+            if (x == 10) {
+            
+            }
+        }
+    }
+}
+

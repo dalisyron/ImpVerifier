@@ -1,9 +1,9 @@
 package imp.ast.condition;
 
-import imp.ast.expression.Expr;
+import imp.ast.expression.Expression;
 
 public sealed interface ConditionClause permits EnsuresClause, RequiresClause {
-    Expr expr();
+    Expression expr();
 
     @Override
     String toString();

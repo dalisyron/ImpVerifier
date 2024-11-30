@@ -1,9 +1,9 @@
 package imp.ast.expression;
 
-public record Invariant(Expr expr) {
+public record Invariant(Expression expression) {
 
     @Override
     public String toString() {
-        return "invariant " + expr + ";";
+        return "invariant " + expression + ";";
     }
 }

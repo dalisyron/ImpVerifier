@@ -1,11 +1,16 @@
 package imp.ast.condition;
 
-import imp.ast.expression.Expr;
+import imp.ast.expression.Expression;
 
-public record EnsuresClause(Expr expr) implements ConditionClause {
+public record EnsuresClause(Expression expression) implements ConditionClause {
+
+    @Override
+    public Expression expr() {
+        return expression;
+    }
 
     @Override
     public String toString() {
-        return "ensures " + expr.toString();
+        return "ensures " + expression.toString();
     }
 }
