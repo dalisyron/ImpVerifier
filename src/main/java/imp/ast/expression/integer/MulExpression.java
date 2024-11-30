@@ -11,6 +11,19 @@ public final class MulExpression extends Expression {
         this.right = right;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof MulExpression expr) {
+            return left.equals(expr.left) && right.equals(expr.right);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return left.hashCode() ^ right.hashCode();
+    }
+
     public Expression left() {
         return left;
     }
@@ -21,6 +34,6 @@ public final class MulExpression extends Expression {
 
     @Override
     public String toString() {
-        return left.toString() + " * " + right.toString();
+        return "(" + left.toString() + " * " + right.toString() + ")";
     }
 }

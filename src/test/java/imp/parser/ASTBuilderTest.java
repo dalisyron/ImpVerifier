@@ -36,14 +36,44 @@ class ASTBuilderTest {
 
     @Test
     void testTmp() throws IOException {
-        String filePath = "TestData/Test1.imp";
+        String filePath = "TestData/Test8.imp";
 
         testAstEqualsReparsedAst(filePath);
     }
 
+    @Test
+    void testWithProgramString() {
+        String program = """
+                method Bar()
+                    requires y > 10 && true
+                {
+                    x = (x || y) && z;
+                    if (x < 10) {
+                        y = z ==> z;
+                    }
+                    if (x == 10) {
+                        while (true)
+                            invariant y > 10
+                            invariant forall x :: x == y + 20
+                        {
+                            if (x == 10) {
+                            }
+                        }
+                    }
+                }
+                        
+                        
+        """;
+
+        testAstEqualsReparsedAstFromString(program);
+    }
+
     private void testAstEqualsReparsedAst(String filePath) throws IOException {
         String program = readProgramFromFile(filePath);
+        testAstEqualsReparsedAstFromString(program);
+    }
 
+    private void testAstEqualsReparsedAstFromString(String program) {
         try {
             // Parse the input program string
             ParseTree tree = Parser.parseString(program);

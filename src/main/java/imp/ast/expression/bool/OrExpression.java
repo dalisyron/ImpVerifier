@@ -34,6 +34,6 @@ public final class OrExpression extends Expression {
 
     @Override
     public String toString() {
-        return left.toString() + " || " + right.toString();
+        return "(" + left + " || " + right + ")";
     }
 }
