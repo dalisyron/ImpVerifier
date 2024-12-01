@@ -1,6 +1,5 @@
 package imp.ast.typing;
 
-import imp.ast.expression.type.Type;
 import imp.ast.variable.Identifier;
 
 import java.util.HashMap;

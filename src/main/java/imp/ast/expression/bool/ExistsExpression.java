@@ -23,8 +23,5 @@ public final class ExistsExpression extends QuantifiedExpression {
         return super.hashCode();
     }
 
-    @Override
-    public List<ASTNode> getChildren() {
-        return super.getChildren();
-    }
+    
 }

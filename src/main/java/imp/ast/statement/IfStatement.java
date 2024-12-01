@@ -1,11 +1,33 @@
-
 package imp.ast.statement;
 
 import imp.ast.expression.Expression;
 
+import java.util.Objects;
 import java.util.Optional;
 
-public record IfStatement(Expression condition, BlockStatement thenBlock, Optional<BlockStatement> elseBlock) implements Statement {
+public final class IfStatement implements Statement {
+
+    private final Expression condition;
+    private final BlockStatement thenBlock;
+    private final Optional<BlockStatement> elseBlock;
+
+    public IfStatement(Expression condition, BlockStatement thenBlock, Optional<BlockStatement> elseBlock) {
+        this.condition = condition;
+        this.thenBlock = thenBlock;
+        this.elseBlock = elseBlock;
+    }
+
+    public Expression condition() {
+        return condition;
+    }
+
+    public BlockStatement thenBlock() {
+        return thenBlock;
+    }
+
+    public Optional<BlockStatement> elseBlock() {
+        return elseBlock;
+    }
 
     @Override
     public String toString() {
@@ -14,5 +36,22 @@ public record IfStatement(Expression condition, BlockStatement thenBlock, Option
         sb.append(thenBlock.toString());
         elseBlock.ifPresent(block -> sb.append(" else ").append(block));
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        IfStatement that = (IfStatement) o;
+
+        if (!Objects.equals(condition, that.condition)) return false;
+        if (!Objects.equals(thenBlock, that.thenBlock)) return false;
+        return Objects.equals(elseBlock, that.elseBlock);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(condition, thenBlock, elseBlock);
     }
 }

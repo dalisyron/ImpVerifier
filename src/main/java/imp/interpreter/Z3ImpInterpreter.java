@@ -2,9 +2,13 @@ package imp.interpreter;
 
 import com.microsoft.z3.*;
 import imp.ast.expression.Expression;
-import imp.ast.expression.bool.*;
+import imp.ast.expression.binary.bool.compare.*;
+import imp.ast.expression.binary.bool.logic.AndExpression;
+import imp.ast.expression.binary.bool.logic.OrExpression;
 import imp.ast.expression.bool.ForallExpression;
-import imp.ast.expression.bool.ImpliesExpression;
+import imp.ast.expression.binary.bool.logic.ImpliesExpression;
+import imp.ast.expression.constant.bool.FalseExpression;
+import imp.ast.expression.constant.bool.TrueExpression;
 
 public class Z3ImpInterpreter {
 
@@ -30,8 +34,8 @@ public class Z3ImpInterpreter {
             return convertGeqCond(ctx, (GreaterThanOrEqualExpression) cond);
         } else if (cond instanceof GreaterThanExpression) {
             return convertGtCond(ctx, (GreaterThanExpression) cond);
-        } else if (cond instanceof AndExpectedType) {
-            return convertAndCond(ctx, (AndExpectedType) cond);
+        } else if (cond instanceof AndExpression) {
+            return convertAndCond(ctx, (AndExpression) cond);
         } else if (cond instanceof OrExpression) {
             return convertOrCond(ctx, (OrExpression) cond);
         } else if (cond instanceof ImpliesExpression) {
@@ -44,11 +48,12 @@ public class Z3ImpInterpreter {
     }
 
     private static BoolExpr convertForallCond(Context ctx, ForallExpression cond) {
-        BoolExpr body = convertConditional(ctx, cond.body());
-
-        BoolExpr quantified = ctx.mkForall(new Expr[] {
-                ctx.mkConst(cond.variable().name(), ctx.getIntSort())
-        }, body, 1, null, null, null, null);
+//        BoolExpr body = convertConditional(ctx, cond.body());
+//
+//        BoolExpr quantified = ctx.mkForall(new Expr[] {
+//                ctx.mkConst(cond.variable().name(), ctx.getIntSort())
+//        }, body, 1, null, null, null, null);
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
     public static BoolExpr convertImpliesCond(Context ctx, ImpliesExpression cond) {
@@ -59,7 +64,7 @@ public class Z3ImpInterpreter {
         return ctx.mkOr(convertConditional(ctx, cond.left()), convertConditional(ctx, cond.right()));
     }
 
-    private static BoolExpr convertAndCond(Context ctx, AndExpectedType cond) {
+    private static BoolExpr convertAndCond(Context ctx, AndExpression cond) {
         return ctx.mkAnd(convertConditional(ctx, cond.left()), convertConditional(ctx, cond.right()));
     }
 

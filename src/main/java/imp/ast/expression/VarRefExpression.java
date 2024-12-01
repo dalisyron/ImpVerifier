@@ -1,6 +1,8 @@
 package imp.ast.expression;
 
 import imp.ast.ASTNode;
+import imp.ast.typing.Type;
+import imp.ast.typing.TypingContext;
 import imp.ast.variable.Identifier;
 
 import java.util.List;
@@ -34,8 +36,4 @@ public final class VarRefExpression extends ReferenceExpression {
         return variableName.toString();
     }
 
-    @Override
-    public List<ASTNode> getChildren() {
-        return List.of(variableName);
-    }
 }

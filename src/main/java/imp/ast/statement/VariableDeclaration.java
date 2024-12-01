@@ -1,22 +1,42 @@
 package imp.ast.statement;
 
-import imp.ast.ASTNode;
 import imp.ast.expression.Expression;
-import imp.ast.expression.type.TypeExpression;
+import imp.ast.typing.Type;
 import imp.ast.variable.Identifier;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
-public record VariableDeclaration(TypeExpression declaredType, Identifier variableName, Optional<Expression> initializer) implements Statement {
+public final class VariableDeclaration implements Statement {
 
-    public VariableDeclaration(TypeExpression declaredType, Identifier variableName) {
+    private final Type declaredType;
+    private final Identifier variableName;
+    private final Optional<Expression> initializer;
+
+    public VariableDeclaration(Type declaredType, Identifier variableName, Optional<Expression> initializer) {
+        this.declaredType = declaredType;
+        this.variableName = variableName;
+        this.initializer = initializer;
+    }
+
+    public VariableDeclaration(Type declaredType, Identifier variableName) {
         this(declaredType, variableName, Optional.empty());
     }
 
-    public VariableDeclaration(TypeExpression declaredType, Identifier variableName, Expression initializer) {
+    public VariableDeclaration(Type declaredType, Identifier variableName, Expression initializer) {
         this(declaredType, variableName, Optional.of(initializer));
+    }
+
+    public Type declaredType() {
+        return declaredType;
+    }
+
+    public Identifier variableName() {
+        return variableName;
+    }
+
+    public Optional<Expression> initializer() {
+        return initializer;
     }
 
     @Override
@@ -29,9 +49,19 @@ public record VariableDeclaration(TypeExpression declaredType, Identifier variab
     }
 
     @Override
-    public List<ASTNode> getChildren() {
-        List<ASTNode> children = new ArrayList<>(List.of(declaredType, variableName));
-        initializer.ifPresent(children::add);
-        return children;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        VariableDeclaration that = (VariableDeclaration) o;
+
+        if (!Objects.equals(declaredType, that.declaredType)) return false;
+        if (!Objects.equals(variableName, that.variableName)) return false;
+        return Objects.equals(initializer, that.initializer);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(declaredType, variableName, initializer);
     }
 }

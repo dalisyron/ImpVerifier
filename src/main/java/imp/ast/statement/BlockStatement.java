@@ -1,17 +1,30 @@
 package imp.ast.statement;
 
+import imp.ast.ASTNode;
+
 import java.util.List;
+import java.util.Objects;
 
 /**
- *  Represents a block of statements enclosed in curly braces.
- *  For example:
- *  {
- *    x = 1;
- *    y = 2;
- *    z = x + y;
- *  }
+ * Represents a block of statements enclosed in curly braces.
+ * For example:
+ * {
+ *   x = 1;
+ *   y = 2;
+ *   z = x + y;
+ * }
  */
-public record BlockStatement(List<Statement> statements) implements Statement {
+public final class BlockStatement implements Statement {
+
+    private final List<Statement> statements;
+
+    public BlockStatement(List<Statement> statements) {
+        this.statements = statements;
+    }
+
+    public List<Statement> statements() {
+        return statements;
+    }
 
     @Override
     public String toString() {
@@ -38,5 +51,20 @@ public record BlockStatement(List<Statement> statements) implements Statement {
             return new BlockStatement(List.of());
         }
         return new BlockStatement(statements.subList(1, statements.size()));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        BlockStatement that = (BlockStatement) o;
+
+        return Objects.equals(statements, that.statements);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(statements);
     }
 }

@@ -5,14 +5,21 @@ import imp.ast.ASTNode;
 import java.util.List;
 import java.util.Objects;
 
-public record ConditionList(List<ConditionClause> conditions) implements ASTNode {
+public final class ConditionList implements ASTNode {
 
-    public ConditionList {
+    private final List<ConditionClause> conditions;
+
+    public ConditionList(List<ConditionClause> conditions) {
         // Ensure the list is not null and not empty
         Objects.requireNonNull(conditions, "conditions must not be null");
         if (conditions.isEmpty()) {
             throw new IllegalArgumentException("conditions must not be empty");
         }
+        this.conditions = conditions;
+    }
+
+    public List<ConditionClause> conditions() {
+        return conditions;
     }
 
     @Override
@@ -24,7 +31,6 @@ public record ConditionList(List<ConditionClause> conditions) implements ASTNode
                 sb.append("\n");
             }
         }
-
         return sb.toString();
     }
 
@@ -38,20 +44,30 @@ public record ConditionList(List<ConditionClause> conditions) implements ASTNode
 
     public List<EnsuresClause> ensuresClauses() {
         return conditions.stream()
-            .filter(c -> c instanceof EnsuresClause)
-            .map(c -> (EnsuresClause) c)
-            .toList();
+                .filter(c -> c instanceof EnsuresClause)
+                .map(c -> (EnsuresClause) c)
+                .toList();
     }
 
     public List<RequiresClause> requiresClauses() {
         return conditions.stream()
-            .filter(c -> c instanceof RequiresClause)
-            .map(c -> (RequiresClause) c)
-            .toList();
+                .filter(c -> c instanceof RequiresClause)
+                .map(c -> (RequiresClause) c)
+                .toList();
     }
 
     @Override
-    public List<ASTNode> getChildren() {
-        return List.copyOf(conditions);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ConditionList that = (ConditionList) o;
+
+        return Objects.equals(conditions, that.conditions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(conditions);
     }
 }

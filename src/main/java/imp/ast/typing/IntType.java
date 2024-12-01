@@ -9,4 +9,9 @@ public class IntType extends Type {
     public static IntType getInstance() {
         return instance;
     }
+
+    @Override
+    public String toString() {
+        return "int";
+    }
 }

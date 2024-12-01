@@ -4,8 +4,19 @@ import imp.ast.ASTNode;
 import imp.ast.Invariant;
 
 import java.util.List;
+import java.util.Objects;
 
-public record InvariantList(List<Invariant> invariants) implements ASTNode {
+public final class InvariantList implements ASTNode {
+
+    private final List<Invariant> invariants;
+
+    public InvariantList(List<Invariant> invariants) {
+        this.invariants = invariants;
+    }
+
+    public List<Invariant> invariants() {
+        return invariants;
+    }
 
     @Override
     public String toString() {
@@ -17,7 +28,17 @@ public record InvariantList(List<Invariant> invariants) implements ASTNode {
     }
 
     @Override
-    public List<ASTNode> getChildren() {
-        return List.copyOf(invariants);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        InvariantList that = (InvariantList) o;
+
+        return Objects.equals(invariants, that.invariants);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(invariants);
     }
 }

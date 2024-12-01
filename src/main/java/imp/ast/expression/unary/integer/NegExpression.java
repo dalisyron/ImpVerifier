@@ -1,15 +1,12 @@
-package imp.ast.expression.bool;
+package imp.ast.expression.unary.integer;
 
-import imp.ast.ASTNode;
 import imp.ast.expression.Expression;
 
-import java.util.List;
-
-public final class NotExpression extends Expression implements BoolExpectedType {
+public final class NegExpression extends Expression {
 
     private final Expression expression;
 
-    public NotExpression(Expression expression) {
+    public NegExpression(Expression expression) {
         this.expression = expression;
     }
 
@@ -19,7 +16,7 @@ public final class NotExpression extends Expression implements BoolExpectedType 
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof NotExpression that) {
+        if (obj instanceof NegExpression that) {
             return this.expression.equals(that.expression);
         }
         return false;
@@ -32,11 +29,8 @@ public final class NotExpression extends Expression implements BoolExpectedType 
 
     @Override
     public String toString() {
-        return "!" + expression.toString();
+        return "-" + expression.toString();
     }
 
-    @Override
-    public List<ASTNode> getChildren() {
-        return List.of(expression);
-    }
+    
 }

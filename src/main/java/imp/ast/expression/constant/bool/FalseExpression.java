@@ -1,11 +1,8 @@
-package imp.ast.expression.bool;
+package imp.ast.expression.constant.bool;
 
-import imp.ast.ASTNode;
 import imp.ast.expression.Expression;
 
-import java.util.List;
-
-public final class FalseExpression extends Expression implements BoolExpectedType {
+public final class FalseExpression extends Expression {
 
     private static final FalseExpression INSTANCE = new FalseExpression();
 
@@ -20,8 +17,5 @@ public final class FalseExpression extends Expression implements BoolExpectedTyp
         return "false";
     }
 
-    @Override
-    public List<ASTNode> getChildren() {
-        return List.of();
-    }
+    
 }

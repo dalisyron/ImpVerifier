@@ -4,11 +4,22 @@ import imp.ast.ASTNode;
 import imp.ast.statement.Statement;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
- *  Syntactically similar to {@link imp.ast.statement.BlockStatement} but not implementing {@link imp.ast.statement.Statement}.
+ * Syntactically similar to {@link imp.ast.statement.BlockStatement} but not implementing {@link imp.ast.statement.Statement}.
  */
-public record MethodBody(List<Statement> statements) implements ASTNode {
+public final class MethodBody implements ASTNode {
+
+    private final List<Statement> statements;
+
+    public MethodBody(List<Statement> statements) {
+        this.statements = statements;
+    }
+
+    public List<Statement> statements() {
+        return statements;
+    }
 
     @Override
     public String toString() {
@@ -21,7 +32,17 @@ public record MethodBody(List<Statement> statements) implements ASTNode {
     }
 
     @Override
-    public List<ASTNode> getChildren() {
-        return List.copyOf(statements);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        MethodBody that = (MethodBody) o;
+
+        return Objects.equals(statements, that.statements);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(statements);
     }
 }

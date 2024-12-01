@@ -7,7 +7,7 @@ import imp.ast.variable.Identifier;
 import java.util.List;
 
 // Define an abstract sealed class for quantified expressions
-public abstract sealed class QuantifiedExpression extends Expression implements BoolExpectedType
+public abstract sealed class QuantifiedExpression extends Expression
         permits ExistsExpression, ForallExpression {
 
     protected final String quantifier;
@@ -49,8 +49,5 @@ public abstract sealed class QuantifiedExpression extends Expression implements 
         return quantifier + " " + variable + " :: " + body;
     }
 
-    @Override
-    public List<ASTNode> getChildren() {
-        return List.of(variable, body);
-    }
+    
 }

@@ -1,4 +1,3 @@
-
 package imp.ast.method;
 
 import imp.ast.ASTNode;
@@ -6,17 +5,50 @@ import imp.ast.condition.ConditionList;
 import imp.ast.statement.Statement;
 import imp.ast.variable.Identifier;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
+import java.util.Objects;
 
-public record MethodDeclaration(
-        Identifier name,
-        Optional<ParameterList> parameterList,
-        Optional<ReturnValue> returnValue,
-        Optional<ConditionList> conditionList,
-        MethodBody methodBody
-) implements ASTNode {
+public final class MethodDeclaration implements ASTNode {
+
+    private final Identifier name;
+    private final Optional<ParameterList> parameterList;
+    private final Optional<ReturnValue> returnValue;
+    private final Optional<ConditionList> conditionList;
+    private final MethodBody methodBody;
+
+    public MethodDeclaration(
+            Identifier name,
+            Optional<ParameterList> parameterList,
+            Optional<ReturnValue> returnValue,
+            Optional<ConditionList> conditionList,
+            MethodBody methodBody
+    ) {
+        this.name = name;
+        this.parameterList = parameterList;
+        this.returnValue = returnValue;
+        this.conditionList = conditionList;
+        this.methodBody = methodBody;
+    }
+
+    public Identifier name() {
+        return name;
+    }
+
+    public Optional<ParameterList> parameterList() {
+        return parameterList;
+    }
+
+    public Optional<ReturnValue> returnValue() {
+        return returnValue;
+    }
+
+    public Optional<ConditionList> conditionList() {
+        return conditionList;
+    }
+
+    public MethodBody methodBody() {
+        return methodBody;
+    }
 
     @Override
     public String toString() {
@@ -47,19 +79,21 @@ public record MethodDeclaration(
     }
 
     @Override
-    public List<ASTNode> getChildren() {
-        ArrayList<ASTNode> children = new ArrayList<>();
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-        children.add(name);
+        MethodDeclaration that = (MethodDeclaration) o;
 
-        parameterList.ifPresent(children::add);
+        return Objects.equals(name, that.name) &&
+                Objects.equals(parameterList, that.parameterList) &&
+                Objects.equals(returnValue, that.returnValue) &&
+                Objects.equals(conditionList, that.conditionList) &&
+                Objects.equals(methodBody, that.methodBody);
+    }
 
-        returnValue.ifPresent(children::add);
-
-        conditionList.ifPresent(children::add);
-
-        children.add(methodBody);
-
-        return children;
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, parameterList, returnValue, conditionList, methodBody);
     }
 }

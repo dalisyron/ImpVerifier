@@ -2,7 +2,7 @@ package imp.ast.expression.array;
 
 import imp.ast.ASTNode;
 import imp.ast.expression.Expression;
-import imp.ast.expression.type.Type;
+import imp.ast.typing.Type;
 
 import java.util.List;
 
@@ -40,10 +40,5 @@ public final class NewArrayExpression extends Expression {
     @Override
     public String toString() {
         return "new " + elementType + "[" + sizeExpression + "]";
-    }
-
-    @Override
-    public List<ASTNode> getChildren() {
-        return List.of(elementType, sizeExpression);
     }
 }

@@ -10,17 +10,28 @@ import imp.ast.condition.RequiresClause;
 import imp.ast.expression.*;
 import imp.ast.expression.ArrayRefExpression;
 import imp.ast.expression.array.NewArrayExpression;
+import imp.ast.expression.binary.bool.compare.*;
+import imp.ast.expression.binary.bool.logic.AndExpression;
+import imp.ast.expression.binary.bool.logic.OrExpression;
+import imp.ast.expression.binary.integer.AddExpression;
+import imp.ast.expression.binary.integer.DivExpression;
+import imp.ast.expression.binary.integer.MulExpression;
+import imp.ast.expression.binary.integer.SubExpression;
 import imp.ast.expression.bool.*;
-import imp.ast.expression.bool.ImpliesExpression;
+import imp.ast.expression.binary.bool.logic.ImpliesExpression;
 import imp.ast.expression.bool.QuantifiedExpression;
-import imp.ast.expression.integer.*;
-import imp.ast.expression.type.TypeExpression;
+import imp.ast.expression.constant.bool.FalseExpression;
+import imp.ast.expression.constant.bool.TrueExpression;
+import imp.ast.expression.constant.integer.IntExpression;
+import imp.ast.expression.unary.bool.NotExpression;
+import imp.ast.expression.ArrayLengthExpression;
+import imp.ast.expression.unary.integer.NegExpression;
 import imp.ast.method.*;
 import imp.ast.statement.*;
-import imp.ast.expression.type.ArrayTypeExpression;
-import imp.ast.expression.type.BoolTypeExpression;
-import imp.ast.expression.type.IntTypeExpression;
-import imp.ast.expression.type.Type;
+import imp.ast.typing.ArrayType;
+import imp.ast.typing.BoolType;
+import imp.ast.typing.IntType;
+import imp.ast.typing.Type;
 import imp.ast.variable.Identifier;
 import imp.parser.antlr.ImpBaseListener;
 import imp.parser.antlr.ImpParser;
@@ -171,7 +182,7 @@ public class ASTBuilder extends ImpBaseListener {
 
     @Override
     public void exitVarDeclStmt(ImpParser.VarDeclStmtContext ctx) {
-        TypeExpression type = (TypeExpression) values.get(ctx.varDecl().type());
+        Type type = (Type) values.get(ctx.varDecl().type());
         Identifier name = new Identifier(ctx.varDecl().ID().getText());
 
         Optional<Expression> initializer = Optional.empty();
@@ -211,18 +222,18 @@ public class ASTBuilder extends ImpBaseListener {
 
     @Override
     public void exitBoolType(ImpParser.BoolTypeContext ctx) {
-        values.put(ctx, new BoolTypeExpression());
+        values.put(ctx, BoolType.getInstance());
     }
 
     @Override
     public void exitIntType(ImpParser.IntTypeContext ctx) {
-        values.put(ctx, new IntTypeExpression());
+        values.put(ctx, IntType.getInstance());
     }
 
     @Override
     public void exitArrayType(ImpParser.ArrayTypeContext ctx) {
         Type elementType = (Type) values.get(ctx.type());
-        values.put(ctx, new ArrayTypeExpression(elementType));
+        values.put(ctx, new ArrayType(elementType));
     }
 
     @Override
@@ -292,7 +303,7 @@ public class ASTBuilder extends ImpBaseListener {
     public void exitAndExpr(ImpParser.AndExprContext ctx) {
         Expression left = (Expression) values.get(ctx.expr(0));
         Expression right = (Expression) values.get(ctx.expr(1));
-        values.put(ctx, new AndExpectedType(left, right));
+        values.put(ctx, new AndExpression(left, right));
     }
 
     @Override

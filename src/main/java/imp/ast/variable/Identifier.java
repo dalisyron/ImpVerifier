@@ -1,14 +1,14 @@
-
 package imp.ast.variable;
 
 import imp.ast.ASTNode;
 
-import java.util.List;
 import java.util.Objects;
 
-public record Identifier(String name) implements ASTNode {
+public final class Identifier implements ASTNode {
 
-    public Identifier {
+    private final String name;
+
+    public Identifier(String name) {
         Objects.requireNonNull(name);
 
         if (name.isBlank()) {
@@ -24,6 +24,12 @@ public record Identifier(String name) implements ASTNode {
                 throw new IllegalArgumentException("Identifier name must contain only letters and digits");
             }
         }
+
+        this.name = name;
+    }
+
+    public String name() {
+        return name;
     }
 
     @Override
@@ -32,7 +38,17 @@ public record Identifier(String name) implements ASTNode {
     }
 
     @Override
-    public List<ASTNode> getChildren() {
-        return List.of();
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Identifier that = (Identifier) o;
+
+        return Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }

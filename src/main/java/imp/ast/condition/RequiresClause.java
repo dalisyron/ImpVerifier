@@ -1,11 +1,16 @@
 package imp.ast.condition;
 
-import imp.ast.ASTNode;
 import imp.ast.expression.Expression;
 
-import java.util.List;
+import java.util.Objects;
 
-public record RequiresClause(Expression expression) implements ConditionClause {
+public final class RequiresClause implements ConditionClause {
+
+    private final Expression expression;
+
+    public RequiresClause(Expression expression) {
+        this.expression = expression;
+    }
 
     @Override
     public Expression expr() {
@@ -18,7 +23,17 @@ public record RequiresClause(Expression expression) implements ConditionClause {
     }
 
     @Override
-    public List<ASTNode> getChildren() {
-        return List.of(expression);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        RequiresClause that = (RequiresClause) o;
+
+        return Objects.equals(expression, that.expression);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(expression);
     }
 }

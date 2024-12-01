@@ -1,15 +1,10 @@
-package imp.ast.expression.bool;
+package imp.ast.expression;
 
-import imp.ast.ASTNode;
-import imp.ast.expression.Expression;
-
-import java.util.List;
-
-public final class EqExpression extends Expression implements BoolExpectedType {
+public abstract class BinaryOpExpression extends Expression {
     private final Expression left;
     private final Expression right;
 
-    public EqExpression(Expression left, Expression right) {
+    public BinaryOpExpression(Expression left, Expression right) {
         this.left = left;
         this.right = right;
     }
@@ -24,10 +19,15 @@ public final class EqExpression extends Expression implements BoolExpectedType {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof EqExpression expr) {
-            return left.equals(expr.left) && right.equals(expr.right);
+        if (!(obj instanceof BinaryOpExpression expr)) {
+            return false;
         }
-        return false;
+
+        if (expr.operatorSymbol().equals(operatorSymbol())) {
+            return left.equals(expr.left) && right.equals(expr.right);
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -37,11 +37,8 @@ public final class EqExpression extends Expression implements BoolExpectedType {
 
     @Override
     public String toString() {
-        return left.toString() + " == " + right.toString();
+        return "(" + left.toString() + " " + operatorSymbol() + " " + right.toString() + ")";
     }
 
-    @Override
-    public List<ASTNode> getChildren() {
-        return List.of(left, right);
-    }
+    abstract public String operatorSymbol();
 }

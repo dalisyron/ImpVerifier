@@ -5,14 +5,21 @@ import imp.ast.ASTNode;
 import java.util.List;
 import java.util.Objects;
 
-public record ParameterList(List<Parameter> parameters) implements ASTNode {
+public final class ParameterList implements ASTNode {
 
-    public ParameterList {
+    private final List<Parameter> parameters;
+
+    public ParameterList(List<Parameter> parameters) {
         // Ensure the list is not null and not empty
         Objects.requireNonNull(parameters, "parameters must not be null");
         if (parameters.isEmpty()) {
             throw new IllegalArgumentException("parameters must not be empty");
         }
+        this.parameters = parameters;
+    }
+
+    public List<Parameter> parameters() {
+        return parameters;
     }
 
     @Override
@@ -32,7 +39,17 @@ public record ParameterList(List<Parameter> parameters) implements ASTNode {
     }
 
     @Override
-    public List<ASTNode> getChildren() {
-        return List.copyOf(parameters);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ParameterList that = (ParameterList) o;
+
+        return Objects.equals(parameters, that.parameters);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(parameters);
     }
 }
