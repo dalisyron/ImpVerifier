@@ -1,36 +1,16 @@
 package imp.ast.expression.unary.integer;
 
 import imp.ast.expression.Expression;
+import imp.ast.expression.UnaryExpression;
 
-public final class NegExpression extends Expression {
-
-    private final Expression expression;
+public final class NegExpression extends UnaryExpression {
 
     public NegExpression(Expression expression) {
-        this.expression = expression;
-    }
-
-    public Expression expr() {
-        return expression;
+        super(expression);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof NegExpression that) {
-            return this.expression.equals(that.expression);
-        }
-        return false;
+    public String operatorSymbol() {
+        return "-";
     }
-
-    @Override
-    public int hashCode() {
-        return 31 * expression.hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return "-" + expression.toString();
-    }
-
-    
 }

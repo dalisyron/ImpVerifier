@@ -1,5 +1,6 @@
 package imp.ast.expression.constant.integer;
 
+import imp.ast.ASTVisitor;
 import imp.ast.expression.Expression;
 
 public final class IntExpression extends Expression {
@@ -32,5 +33,9 @@ public final class IntExpression extends Expression {
         return Integer.toString(value);
     }
 
-    
+
+    @Override
+    public void accept(ASTVisitor v) {
+        v.visit(this);
+    }
 }

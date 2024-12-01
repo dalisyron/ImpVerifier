@@ -1,6 +1,7 @@
 package imp.ast.statement;
 
 import imp.ast.ASTNode;
+import imp.ast.ASTVisitor;
 
 import java.util.List;
 import java.util.Objects;
@@ -66,5 +67,10 @@ public final class BlockStatement implements Statement {
     @Override
     public int hashCode() {
         return Objects.hash(statements);
+    }
+
+    @Override
+    public void accept(ASTVisitor v) {
+        v.visit(this);
     }
 }

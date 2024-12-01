@@ -36,4 +36,9 @@ public final class Invariant implements ASTNode {
     public int hashCode() {
         return Objects.hash(expression);
     }
+
+    @Override
+    public void accept(ASTVisitor v) {
+        v.visit(this);
+    }
 }

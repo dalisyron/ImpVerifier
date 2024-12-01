@@ -1,5 +1,7 @@
 package imp.ast.expression;
 
+import imp.ast.ASTVisitor;
+
 public abstract class BinaryOpExpression extends Expression {
     private final Expression left;
     private final Expression right;
@@ -41,4 +43,9 @@ public abstract class BinaryOpExpression extends Expression {
     }
 
     abstract public String operatorSymbol();
+
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
 }

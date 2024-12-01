@@ -1,6 +1,7 @@
 package imp.ast.method;
 
 import imp.ast.ASTNode;
+import imp.ast.ASTVisitor;
 
 import java.util.List;
 import java.util.Objects;
@@ -51,5 +52,10 @@ public final class ParameterList implements ASTNode {
     @Override
     public int hashCode() {
         return Objects.hash(parameters);
+    }
+
+    @Override
+    public void accept(ASTVisitor v) {
+        v.visit(this);
     }
 }

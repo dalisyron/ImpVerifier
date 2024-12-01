@@ -1,6 +1,7 @@
 package imp.ast.condition;
 
 import imp.ast.ASTNode;
+import imp.ast.ASTVisitor;
 
 import java.util.List;
 import java.util.Objects;
@@ -69,5 +70,10 @@ public final class ConditionList implements ASTNode {
     @Override
     public int hashCode() {
         return Objects.hash(conditions);
+    }
+
+    @Override
+    public void accept(ASTVisitor v) {
+        v.visit(this);
     }
 }

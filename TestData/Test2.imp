@@ -10,7 +10,7 @@ method Bar() returns (int x)
         }
         while (x == z)
             invariant y == z
-            invariant forall x :: x > 10
+            invariant forall (int x) :: x > 10
         {
         }
     }

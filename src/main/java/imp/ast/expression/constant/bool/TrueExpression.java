@@ -1,5 +1,6 @@
 package imp.ast.expression.constant.bool;
 
+import imp.ast.ASTVisitor;
 import imp.ast.expression.Expression;
 
 public final class TrueExpression extends Expression {
@@ -18,6 +19,9 @@ public final class TrueExpression extends Expression {
         return "true";
     }
 
-    
 
+    @Override
+    public void accept(ASTVisitor v) {
+        v.visit(this);
+    }
 }

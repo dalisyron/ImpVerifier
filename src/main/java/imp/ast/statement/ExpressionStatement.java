@@ -1,5 +1,6 @@
 package imp.ast.statement;
 
+import imp.ast.ASTVisitor;
 import imp.ast.expression.Expression;
 
 import java.util.Objects;
@@ -34,5 +35,10 @@ public final class ExpressionStatement implements Statement {
     @Override
     public int hashCode() {
         return Objects.hash(expression);
+    }
+
+    @Override
+    public void accept(ASTVisitor v) {
+        v.visit(this);
     }
 }

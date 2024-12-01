@@ -1,5 +1,7 @@
 package imp.ast.expression;
 
+import imp.ast.ASTVisitor;
+
 public final class ArrayLengthExpression extends Expression {
 
     private final Expression arrayExpression;
@@ -30,5 +32,9 @@ public final class ArrayLengthExpression extends Expression {
         return arrayExpression.toString() + ".length";
     }
 
-    
+
+    @Override
+    public void accept(ASTVisitor v) {
+        v.visit(this);
+    }
 }

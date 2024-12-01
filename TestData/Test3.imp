@@ -11,7 +11,7 @@ method Bar()
         }
         while (x == z)
             invariant y == z
-            invariant forall x :: x > 10
+            invariant forall (bool x) :: x > 10
         {
         
         }

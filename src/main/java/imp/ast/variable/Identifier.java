@@ -1,6 +1,7 @@
 package imp.ast.variable;
 
 import imp.ast.ASTNode;
+import imp.ast.ASTVisitor;
 
 import java.util.Objects;
 
@@ -50,5 +51,10 @@ public final class Identifier implements ASTNode {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    @Override
+    public void accept(ASTVisitor v) {
+        v.visit(this);
     }
 }

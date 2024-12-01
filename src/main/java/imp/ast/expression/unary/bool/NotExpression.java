@@ -1,36 +1,17 @@
 package imp.ast.expression.unary.bool;
 
+import imp.ast.ASTVisitor;
 import imp.ast.expression.Expression;
+import imp.ast.expression.UnaryExpression;
 
-public final class NotExpression extends Expression {
-
-    private final Expression expression;
+public final class NotExpression extends UnaryExpression {
 
     public NotExpression(Expression expression) {
-        this.expression = expression;
-    }
-
-    public Expression expr() {
-        return expression;
+        super(expression);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof NotExpression that) {
-            return this.expression.equals(that.expression);
-        }
-        return false;
+    public String operatorSymbol() {
+        return "!";
     }
-
-    @Override
-    public int hashCode() {
-        return 31 * expression.hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return "!" + expression.toString();
-    }
-
-    
 }

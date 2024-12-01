@@ -36,7 +36,7 @@ class ASTBuilderTest {
 
     @Test
     void testTmp() throws IOException {
-        String filePath = "TestData/Test1.imp";
+        String filePath = "TestData/Test2.imp";
 
         testAstEqualsReparsedAst(filePath);
     }
@@ -55,7 +55,7 @@ class ASTBuilderTest {
                     if (x == 10) {
                         while (true)
                             invariant y > 10
-                            invariant forall x :: x == y + 20
+                            invariant forall (bool x) :: x == y + 20
                         {
                             if (x == 10) {
                             }

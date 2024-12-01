@@ -1,5 +1,6 @@
 package imp.ast.statement;
 
+import imp.ast.ASTVisitor;
 import imp.ast.expression.Expression;
 import imp.ast.expression.ReferenceExpression;
 
@@ -42,5 +43,10 @@ public final class AssignStatement implements Statement {
     @Override
     public int hashCode() {
         return Objects.hash(lhs, expression);
+    }
+
+    @Override
+    public void accept(ASTVisitor v) {
+        v.visit(this);
     }
 }

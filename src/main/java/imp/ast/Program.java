@@ -42,4 +42,9 @@ public final class Program implements ASTNode {
     public int hashCode() {
         return Objects.hash(methods);
     }
+
+    @Override
+    public void accept(ASTVisitor v) {
+        v.visit(this);
+    }
 }

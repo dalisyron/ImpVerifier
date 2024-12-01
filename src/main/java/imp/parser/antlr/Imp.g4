@@ -72,12 +72,15 @@ varDecl
 type
 	: 'bool'                 # BoolType
 	| 'int'                  # IntType
-	| type '[]'              # ArrayType
+	| 'int[]'                # ArrayInt
+	| 'bool[]'               # ArrayBool
 	| LPAREN type RPAREN     # ParenType
 	;
 
 expression
-	: MINUS expression                                                  # NegExpr // Level 35
+	:
+	expression'.length'                                               # ArrayLength
+	| MINUS expression                                                  # NegExpr // Level 35
 	| expression (TIMES | INTDIV) expression                                  # MulDivExpr // Level 40
 	| expression (PLUS | MINUS) expression                                    # AddSubExpr // Level 50
 	| expression (LEQ | GEQ | GREATER | LESS) expression                      # CompExpr // Level 70
@@ -91,10 +94,9 @@ expression
     | TRUE                                                        # TrueExpr
     | FALSE                                                       # FalseExpr
 	| expression IMPLIES (expression)                                         # F_Implies
-	| (FORALL | EXISTS) ID DOUBLECOLON expression                       # F_Quant
+	| (FORALL | EXISTS) LPAREN formalParameter RPAREN DOUBLECOLON expression                # QuantifiedExpr
 	| NEW type '[' expression ']'                                       # NewArray
 	| reference                                                   # ReferenceExpr
-	| expression'.length'                                               # ArrayLength
 	;
 
 reference:
@@ -139,6 +141,7 @@ INTDIV     : '/';
 RETURNS    : 'returns';
 ARGSEP     : ',';
 NEW        : 'new';
+COLON      : ':';
 
 ID
 	: LETTER (LETTER | [0-9])*

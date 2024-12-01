@@ -1,5 +1,6 @@
 package imp.ast.statement;
 
+import imp.ast.ASTVisitor;
 import imp.ast.expression.Expression;
 import imp.ast.typing.Type;
 import imp.ast.variable.Identifier;
@@ -63,5 +64,10 @@ public final class VariableDeclaration implements Statement {
     @Override
     public int hashCode() {
         return Objects.hash(declaredType, variableName, initializer);
+    }
+
+    @Override
+    public void accept(ASTVisitor v) {
+        v.visit(this);
     }
 }

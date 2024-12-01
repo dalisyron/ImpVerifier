@@ -1,6 +1,7 @@
 package imp.ast.expression.array;
 
 import imp.ast.ASTNode;
+import imp.ast.ASTVisitor;
 import imp.ast.expression.Expression;
 import imp.ast.typing.Type;
 
@@ -40,5 +41,10 @@ public final class NewArrayExpression extends Expression {
     @Override
     public String toString() {
         return "new " + elementType + "[" + sizeExpression + "]";
+    }
+
+    @Override
+    public void accept(ASTVisitor v) {
+        v.visit(this);
     }
 }

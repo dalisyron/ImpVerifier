@@ -1,6 +1,7 @@
 package imp.ast.method;
 
 import imp.ast.ASTNode;
+import imp.ast.ASTVisitor;
 import imp.ast.typing.Type;
 import imp.ast.variable.Identifier;
 
@@ -47,5 +48,10 @@ public final class Parameter implements ASTNode {
     @Override
     public int hashCode() {
         return Objects.hash(type, name);
+    }
+
+    @Override
+    public void accept(ASTVisitor v) {
+        v.visit(this);
     }
 }

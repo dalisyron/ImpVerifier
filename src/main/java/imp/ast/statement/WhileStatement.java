@@ -1,5 +1,6 @@
 package imp.ast.statement;
 
+import imp.ast.ASTVisitor;
 import imp.ast.expression.Expression;
 import imp.ast.InvariantList;
 
@@ -54,5 +55,10 @@ public final class WhileStatement implements Statement {
     @Override
     public int hashCode() {
         return Objects.hash(condition, invariants, body);
+    }
+
+    @Override
+    public void accept(ASTVisitor v) {
+        v.visit(this);
     }
 }

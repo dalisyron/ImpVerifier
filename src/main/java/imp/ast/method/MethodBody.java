@@ -1,6 +1,7 @@
 package imp.ast.method;
 
 import imp.ast.ASTNode;
+import imp.ast.ASTVisitor;
 import imp.ast.statement.Statement;
 
 import java.util.List;
@@ -44,5 +45,10 @@ public final class MethodBody implements ASTNode {
     @Override
     public int hashCode() {
         return Objects.hash(statements);
+    }
+
+    @Override
+    public void accept(ASTVisitor v) {
+        v.visit(this);
     }
 }

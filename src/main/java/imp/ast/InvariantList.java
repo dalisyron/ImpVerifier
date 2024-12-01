@@ -41,4 +41,9 @@ public final class InvariantList implements ASTNode {
     public int hashCode() {
         return Objects.hash(invariants);
     }
+
+    @Override
+    public void accept(ASTVisitor v) {
+        v.visit(this);
+    }
 }

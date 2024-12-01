@@ -1,12 +1,7 @@
 package imp.ast.expression;
 
-import imp.ast.ASTNode;
-import imp.ast.typing.ArrayType;
-import imp.ast.typing.Type;
-import imp.ast.typing.TypingContext;
+import imp.ast.ASTVisitor;
 import imp.ast.variable.Identifier;
-
-import java.util.List;
 
 public final class ArrayRefExpression extends ReferenceExpression {
     private final Identifier arrayName;
@@ -40,4 +35,8 @@ public final class ArrayRefExpression extends ReferenceExpression {
         return arrayName + "[" + indexExpression + "]";
     }
 
+    @Override
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
+    }
 }

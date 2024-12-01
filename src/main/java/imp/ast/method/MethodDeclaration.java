@@ -1,6 +1,7 @@
 package imp.ast.method;
 
 import imp.ast.ASTNode;
+import imp.ast.ASTVisitor;
 import imp.ast.condition.ConditionList;
 import imp.ast.statement.Statement;
 import imp.ast.variable.Identifier;
@@ -95,5 +96,10 @@ public final class MethodDeclaration implements ASTNode {
     @Override
     public int hashCode() {
         return Objects.hash(name, parameterList, returnValue, conditionList, methodBody);
+    }
+
+    @Override
+    public void accept(ASTVisitor v) {
+        v.visit(this);
     }
 }

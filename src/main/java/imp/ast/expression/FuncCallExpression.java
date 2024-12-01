@@ -1,9 +1,6 @@
 package imp.ast.expression;
 
-import imp.ast.ASTNode;
-import imp.ast.typing.FunctionType;
-import imp.ast.typing.Type;
-import imp.ast.typing.TypingContext;
+import imp.ast.ASTVisitor;
 import imp.ast.variable.Identifier;
 
 import java.util.List;
@@ -49,4 +46,8 @@ public final class FuncCallExpression extends Expression {
         return sb.toString();
     }
 
+    @Override
+    public void accept(ASTVisitor v) {
+        v.visit(this);
+    }
 }
