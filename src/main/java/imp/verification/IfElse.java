@@ -25,10 +25,10 @@ public class IfElse implements VerificationConditionProvider<IfStatement> {
         Expression conditionExpression = ast.condition();
         BoolExpr condition = Z3ImpInterpreter.convertConditional(ctx, conditionExpression);
 
-        BoolExpr A = AWP.awp(ctx, thenBlock, Q);
+        BoolExpr A = AWP.getInstance().awp(ctx, thenBlock, Q);
         BoolExpr B;
         if (elseBlock.isPresent()) {
-            B = AWP.awp(ctx, elseBlock.get(), Q);
+            B = AWP.getInstance().awp(ctx, elseBlock.get(), Q);
         } else {
             B = Q;
         }

@@ -11,6 +11,10 @@ import imp.interpreter.Z3ImpInterpreter;
 import java.util.Optional;
 
 public class While implements VerificationConditionProvider<WhileStatement> {
+    private static While instance;
+
+    private While() {
+    }
 
     @Override
     public BoolExpr awp(Context ctx, WhileStatement whileStatement, BoolExpr Q) {
@@ -58,9 +62,16 @@ public class While implements VerificationConditionProvider<WhileStatement> {
         BoolExpr condExpr = Z3ImpInterpreter.convertConditional(ctx, condition);
 
         BoolExpr A = AVC.getInstance().avc(ctx, body, I);
-        BoolExpr B = ctx.mkImplies(ctx.mkAnd(I, condExpr), AWP.awp(ctx, body, I));
+        BoolExpr B = ctx.mkImplies(ctx.mkAnd(I, condExpr), AWP.getInstance().awp(ctx, body, I));
         BoolExpr C = ctx.mkImplies(ctx.mkAnd(I, ctx.mkNot(condExpr)), Q);
 
         return ctx.mkAnd(A, B, C);
+    }
+
+    public static While getInstance() {
+        if (instance == null) {
+            instance = new While();
+        }
+        return instance;
     }
 }

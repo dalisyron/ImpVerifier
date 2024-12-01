@@ -6,7 +6,12 @@ import imp.ast.statement.BlockStatement;
 import imp.ast.statement.Statement;
 
 public class Composition implements VerificationConditionProvider<BlockStatement> {
+    private static Composition instance;
 
+    private Composition() {
+    }
+
+    @Override
     public BoolExpr awp(Context ctx, BlockStatement block, BoolExpr Q) {
         if (block.statements().isEmpty()) {
             return Q;
@@ -14,7 +19,7 @@ public class Composition implements VerificationConditionProvider<BlockStatement
 
         if (block.statements().size() == 1) {
             Statement statement = block.getHead();
-            return AWP.awp(ctx, statement, Q);
+            return AWP.getInstance().awp(ctx, statement, Q);
         }
 
         Statement headStatement = block.getHead();
@@ -22,9 +27,10 @@ public class Composition implements VerificationConditionProvider<BlockStatement
 
         BoolExpr restAWP = awp(ctx, tailStatements, Q);
 
-        return AWP.awp(ctx, headStatement, restAWP);
+        return AWP.getInstance().awp(ctx, headStatement, restAWP);
     }
 
+    @Override
     public BoolExpr avc(Context ctx, BlockStatement block, BoolExpr Q) {
         if (block.statements().isEmpty()) {
             return ctx.mkTrue();
@@ -44,5 +50,12 @@ public class Composition implements VerificationConditionProvider<BlockStatement
         B = AVC.getInstance().avc(ctx, headStatement, awp(ctx, tailStatements, Q));
 
         return ctx.mkAnd(A, B);
+    }
+
+    public static Composition getInstance() {
+        if (instance == null) {
+            instance = new Composition();
+        }
+        return instance;
     }
 }

@@ -10,6 +10,12 @@ import imp.interpreter.Z3ImpInterpreter;
 
 public class Assignment implements VerificationConditionProvider<AssignStatement> {
 
+    private static Assignment instance;
+
+    private Assignment() {
+    }
+
+    @Override
     public BoolExpr awp(Context ctx, AssignStatement assignment, BoolExpr Q) {
         ReferenceExpression lhs = assignment.lhs();
         Expression rhs = assignment.expression();
@@ -21,7 +27,15 @@ public class Assignment implements VerificationConditionProvider<AssignStatement
         return (BoolExpr) substituted;
     }
 
+    @Override
     public BoolExpr avc(Context ctx, AssignStatement assignment, BoolExpr Q) {
         return ctx.mkTrue();
+    }
+
+    public static Assignment getInstance() {
+        if (instance == null) {
+            instance = new Assignment();
+        }
+        return instance;
     }
 }
