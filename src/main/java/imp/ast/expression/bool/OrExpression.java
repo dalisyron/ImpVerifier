@@ -1,8 +1,11 @@
 package imp.ast.expression.bool;
 
+import imp.ast.ASTNode;
 import imp.ast.expression.Expression;
 
-public final class OrExpression extends Expression {
+import java.util.List;
+
+public final class OrExpression extends Expression implements BoolExpectedType {
     private final Expression left;
     private final Expression right;
 
@@ -35,5 +38,10 @@ public final class OrExpression extends Expression {
     @Override
     public String toString() {
         return "(" + left + " || " + right + ")";
+    }
+
+    @Override
+    public List<ASTNode> getChildren() {
+        return List.of(left, right);
     }
 }

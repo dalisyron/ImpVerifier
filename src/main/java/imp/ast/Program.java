@@ -5,7 +5,7 @@ import imp.ast.method.MethodDeclaration;
 
 import java.util.List;
 
-public record Program(List<MethodDeclaration> methods) {
+public record Program(List<MethodDeclaration> methods) implements ASTNode{
 
     public Program {
         if (methods == null) {
@@ -20,5 +20,10 @@ public record Program(List<MethodDeclaration> methods) {
     @Override
     public String toString() {
         return String.join("\n\n", methods.stream().map(MethodDeclaration::toString).toList());
+    }
+
+    @Override
+    public List<ASTNode> getChildren() {
+        return List.copyOf(methods);
     }
 }

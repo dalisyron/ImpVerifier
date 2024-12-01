@@ -1,8 +1,11 @@
 package imp.ast.expression.bool;
 
+import imp.ast.ASTNode;
 import imp.ast.expression.Expression;
 
-public final class NotExpression extends Expression {
+import java.util.List;
+
+public final class NotExpression extends Expression implements BoolExpectedType {
 
     private final Expression expression;
 
@@ -30,5 +33,10 @@ public final class NotExpression extends Expression {
     @Override
     public String toString() {
         return "!" + expression.toString();
+    }
+
+    @Override
+    public List<ASTNode> getChildren() {
+        return List.of(expression);
     }
 }

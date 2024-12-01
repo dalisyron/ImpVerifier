@@ -1,8 +1,11 @@
 package imp.ast.expression.bool;
 
+import imp.ast.ASTNode;
 import imp.ast.expression.Expression;
 
-public class LessThanOrEqualExpression extends Expression {
+import java.util.List;
+
+public class LessThanOrEqualExpression extends Expression implements BoolExpectedType {
     private final Expression left;
     private final Expression right;
 
@@ -19,6 +22,14 @@ public class LessThanOrEqualExpression extends Expression {
         return false;
     }
 
+    public Expression left() {
+        return left;
+    }
+
+    public Expression right() {
+        return right;
+    }
+
     @Override
     public int hashCode() {
         return 31 * left.hashCode() + right.hashCode();
@@ -27,5 +38,10 @@ public class LessThanOrEqualExpression extends Expression {
     @Override
     public String toString() {
         return left + " <= " + right;
+    }
+
+    @Override
+    public List<ASTNode> getChildren() {
+        return List.of(left, right);
     }
 }

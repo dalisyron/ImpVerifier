@@ -1,7 +1,10 @@
-package imp.ast.expression.formula;
+package imp.ast.expression.bool;
 
+import imp.ast.ASTNode;
 import imp.ast.expression.Expression;
 import imp.ast.variable.Identifier;
+
+import java.util.List;
 
 // Define the ExistsExpr subclass for "exists" quantifier
 public final class ExistsExpression extends QuantifiedExpression {
@@ -18,5 +21,10 @@ public final class ExistsExpression extends QuantifiedExpression {
     @Override
     public int hashCode() {
         return super.hashCode();
+    }
+
+    @Override
+    public List<ASTNode> getChildren() {
+        return super.getChildren();
     }
 }

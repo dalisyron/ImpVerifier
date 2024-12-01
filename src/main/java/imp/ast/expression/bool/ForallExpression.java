@@ -1,4 +1,4 @@
-package imp.ast.expression.formula;
+package imp.ast.expression.bool;
 
 import imp.ast.expression.Expression;
 import imp.ast.variable.Identifier;

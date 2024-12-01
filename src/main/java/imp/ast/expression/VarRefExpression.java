@@ -1,6 +1,9 @@
 package imp.ast.expression;
 
+import imp.ast.ASTNode;
 import imp.ast.variable.Identifier;
+
+import java.util.List;
 
 public final class VarRefExpression extends ReferenceExpression {
     private final Identifier variableName;
@@ -29,5 +32,10 @@ public final class VarRefExpression extends ReferenceExpression {
     @Override
     public String toString() {
         return variableName.toString();
+    }
+
+    @Override
+    public List<ASTNode> getChildren() {
+        return List.of(variableName);
     }
 }

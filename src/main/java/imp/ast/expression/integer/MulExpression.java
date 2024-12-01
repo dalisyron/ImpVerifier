@@ -1,8 +1,11 @@
 package imp.ast.expression.integer;
 
+import imp.ast.ASTNode;
 import imp.ast.expression.Expression;
 
-public final class MulExpression extends Expression {
+import java.util.List;
+
+public final class MulExpression extends Expression implements IntExpectedType {
     private final Expression left;
     private final Expression right;
 
@@ -35,5 +38,10 @@ public final class MulExpression extends Expression {
     @Override
     public String toString() {
         return "(" + left.toString() + " * " + right.toString() + ")";
+    }
+
+    @Override
+    public List<ASTNode> getChildren() {
+        return List.of(left, right);
     }
 }

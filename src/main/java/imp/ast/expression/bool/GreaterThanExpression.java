@@ -1,8 +1,11 @@
 package imp.ast.expression.bool;
 
+import imp.ast.ASTNode;
 import imp.ast.expression.Expression;
 
-public class GreaterThanExpression extends Expression {
+import java.util.List;
+
+public class GreaterThanExpression extends Expression implements BoolExpectedType {
     private final Expression left;
     private final Expression right;
 
@@ -24,9 +27,21 @@ public class GreaterThanExpression extends Expression {
         return 31 * left.hashCode() + right.hashCode();
     }
 
+    public Expression left() {
+        return left;
+    }
+
+    public Expression right() {
+        return right;
+    }
 
     @Override
     public String toString() {
         return left + " > " + right;
+    }
+
+    @Override
+    public List<ASTNode> getChildren() {
+        return List.of(left, right);
     }
 }

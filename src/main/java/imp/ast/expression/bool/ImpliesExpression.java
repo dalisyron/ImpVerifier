@@ -1,8 +1,11 @@
-package imp.ast.expression.formula;
+package imp.ast.expression.bool;
 
+import imp.ast.ASTNode;
 import imp.ast.expression.Expression;
 
-public final class ImpliesExpression extends Expression {
+import java.util.List;
+
+public final class ImpliesExpression extends Expression implements BoolExpectedType {
     private final Expression left;
     private final Expression right;
 
@@ -47,5 +50,10 @@ public final class ImpliesExpression extends Expression {
         }
 
         return sb.toString();
+    }
+
+    @Override
+    public List<ASTNode> getChildren() {
+        return List.of(left, right);
     }
 }

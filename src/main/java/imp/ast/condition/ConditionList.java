@@ -1,9 +1,11 @@
 package imp.ast.condition;
 
+import imp.ast.ASTNode;
+
 import java.util.List;
 import java.util.Objects;
 
-public record ConditionList(List<ConditionClause> conditions) {
+public record ConditionList(List<ConditionClause> conditions) implements ASTNode {
 
     public ConditionList {
         // Ensure the list is not null and not empty
@@ -46,5 +48,10 @@ public record ConditionList(List<ConditionClause> conditions) {
             .filter(c -> c instanceof RequiresClause)
             .map(c -> (RequiresClause) c)
             .toList();
+    }
+
+    @Override
+    public List<ASTNode> getChildren() {
+        return List.copyOf(conditions);
     }
 }

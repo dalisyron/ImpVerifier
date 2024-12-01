@@ -1,8 +1,11 @@
 package imp.ast.expression.integer;
 
+import imp.ast.ASTNode;
 import imp.ast.expression.Expression;
 
-public final class IntExpression extends Expression {
+import java.util.List;
+
+public final class IntExpression extends Expression implements IntExpectedType {
 
     private final int value;
 
@@ -30,5 +33,10 @@ public final class IntExpression extends Expression {
     @Override
     public String toString() {
         return Integer.toString(value);
+    }
+
+    @Override
+    public List<ASTNode> getChildren() {
+        return List.of();
     }
 }

@@ -1,8 +1,11 @@
 package imp.ast.expression.integer;
 
+import imp.ast.ASTNode;
 import imp.ast.expression.Expression;
 
-public final class NegExpression extends Expression {
+import java.util.List;
+
+public final class NegExpression extends Expression implements IntExpectedType {
 
     private final Expression expression;
 
@@ -30,5 +33,10 @@ public final class NegExpression extends Expression {
     @Override
     public String toString() {
         return "-" + expression.toString();
+    }
+
+    @Override
+    public List<ASTNode> getChildren() {
+        return List.of(expression);
     }
 }

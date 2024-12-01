@@ -1,8 +1,11 @@
 package imp.ast.expression.bool;
 
+import imp.ast.ASTNode;
 import imp.ast.expression.Expression;
 
-public final class TrueExpression extends Expression {
+import java.util.List;
+
+public final class TrueExpression extends Expression implements BoolExpectedType {
 
     private static final TrueExpression INSTANCE = new TrueExpression();
 
@@ -17,4 +20,10 @@ public final class TrueExpression extends Expression {
     public String toString() {
         return "true";
     }
+
+    @Override
+    public List<ASTNode> getChildren() {
+        return List.of();
+    }
+
 }

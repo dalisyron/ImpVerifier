@@ -1,12 +1,15 @@
 package imp.ast.expression.bool;
 
+import imp.ast.ASTNode;
 import imp.ast.expression.Expression;
 
-public final class AndExpression extends Expression {
+import java.util.List;
+
+public final class AndExpectedType extends Expression implements BoolExpectedType {
     private final Expression left;
     private final Expression right;
 
-    public AndExpression(Expression left, Expression right) {
+    public AndExpectedType(Expression left, Expression right) {
         this.left = left;
         this.right = right;
     }
@@ -21,7 +24,7 @@ public final class AndExpression extends Expression {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof AndExpression expr) {
+        if (obj instanceof AndExpectedType expr) {
             return left.equals(expr.left) && right.equals(expr.right);
         }
         return false;
@@ -35,5 +38,10 @@ public final class AndExpression extends Expression {
     @Override
     public String toString() {
         return "(" + left.toString() + " && " + right.toString() + ")";
+    }
+
+    @Override
+    public List<ASTNode> getChildren() {
+        return List.of(left, right);
     }
 }

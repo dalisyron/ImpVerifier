@@ -1,9 +1,11 @@
 package imp.ast.method;
 
+import imp.ast.ASTNode;
+
 import java.util.List;
 import java.util.Objects;
 
-public record ParameterList(List<Parameter> parameters) {
+public record ParameterList(List<Parameter> parameters) implements ASTNode {
 
     public ParameterList {
         // Ensure the list is not null and not empty
@@ -27,5 +29,10 @@ public record ParameterList(List<Parameter> parameters) {
         sb.append(")");
 
         return sb.toString();
+    }
+
+    @Override
+    public List<ASTNode> getChildren() {
+        return List.copyOf(parameters);
     }
 }

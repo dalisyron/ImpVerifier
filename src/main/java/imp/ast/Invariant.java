@@ -1,20 +1,15 @@
-package imp.ast.condition;
+package imp.ast;
 
 import imp.ast.ASTNode;
 import imp.ast.expression.Expression;
 
 import java.util.List;
 
-public record EnsuresClause(Expression expression) implements ConditionClause {
-
-    @Override
-    public Expression expr() {
-        return expression;
-    }
+public record Invariant(Expression expression) implements ASTNode {
 
     @Override
     public String toString() {
-        return "ensures " + expression.toString();
+        return "invariant " + expression;
     }
 
     @Override

@@ -1,10 +1,12 @@
 
 package imp.ast.method;
 
+import imp.ast.ASTNode;
 import imp.ast.condition.ConditionList;
 import imp.ast.statement.Statement;
 import imp.ast.variable.Identifier;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,7 +16,7 @@ public record MethodDeclaration(
         Optional<ReturnValue> returnValue,
         Optional<ConditionList> conditionList,
         MethodBody methodBody
-) {
+) implements ASTNode {
 
     @Override
     public String toString() {
@@ -42,5 +44,22 @@ public record MethodDeclaration(
         sb.append("}");
 
         return sb.toString();
+    }
+
+    @Override
+    public List<ASTNode> getChildren() {
+        ArrayList<ASTNode> children = new ArrayList<>();
+
+        children.add(name);
+
+        parameterList.ifPresent(children::add);
+
+        returnValue.ifPresent(children::add);
+
+        conditionList.ifPresent(children::add);
+
+        children.add(methodBody);
+
+        return children;
     }
 }

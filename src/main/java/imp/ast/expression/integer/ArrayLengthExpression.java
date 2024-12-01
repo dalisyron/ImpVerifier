@@ -1,8 +1,11 @@
 package imp.ast.expression.integer;
 
+import imp.ast.ASTNode;
 import imp.ast.expression.Expression;
 
-public final class ArrayLengthExpression extends Expression {
+import java.util.List;
+
+public final class ArrayLengthExpression extends Expression implements IntExpectedType {
 
     private final Expression arrayExpression;
 
@@ -30,5 +33,10 @@ public final class ArrayLengthExpression extends Expression {
     @Override
     public String toString() {
         return arrayExpression.toString() + ".length";
+    }
+
+    @Override
+    public List<ASTNode> getChildren() {
+        return List.of(arrayExpression);
     }
 }

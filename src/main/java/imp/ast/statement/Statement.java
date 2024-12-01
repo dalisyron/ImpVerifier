@@ -1,7 +1,9 @@
 
 package imp.ast.statement;
 
-public sealed interface Statement permits AssignStatement, BlockStatement, ExpressionStatement, IfStatement, VariableDeclaration, imp.ast.statement.WhileStatement {
+import imp.ast.ASTNode;
+
+public sealed interface Statement extends ASTNode permits AssignStatement, BlockStatement, ExpressionStatement, IfStatement, VariableDeclaration, WhileStatement {
 
     @Override
     String toString();

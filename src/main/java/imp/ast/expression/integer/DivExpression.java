@@ -1,8 +1,11 @@
 package imp.ast.expression.integer;
 
+import imp.ast.ASTNode;
 import imp.ast.expression.Expression;
 
-public class DivExpression extends Expression {
+import java.util.List;
+
+public class DivExpression extends Expression implements IntExpectedType {
     private final Expression left;
     private final Expression right;
 
@@ -35,5 +38,10 @@ public class DivExpression extends Expression {
     @Override
     public String toString() {
         return "(" + left.toString() + " / " + right.toString() + ")";
+    }
+
+    @Override
+    public List<ASTNode> getChildren() {
+        return List.of(left, right);
     }
 }

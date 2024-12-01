@@ -1,9 +1,12 @@
 
 package imp.ast.variable;
 
+import imp.ast.ASTNode;
+
+import java.util.List;
 import java.util.Objects;
 
-public record Identifier(String name) {
+public record Identifier(String name) implements ASTNode {
 
     public Identifier {
         Objects.requireNonNull(name);
@@ -26,5 +29,10 @@ public record Identifier(String name) {
     @Override
     public String toString() {
         return name;
+    }
+
+    @Override
+    public List<ASTNode> getChildren() {
+        return List.of();
     }
 }

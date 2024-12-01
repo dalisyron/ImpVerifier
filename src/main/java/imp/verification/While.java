@@ -3,7 +3,7 @@ package imp.verification;
 import com.microsoft.z3.BoolExpr;
 import com.microsoft.z3.Context;
 import imp.ast.expression.Expression;
-import imp.ast.expression.InvariantList;
+import imp.ast.InvariantList;
 import imp.ast.statement.BlockStatement;
 import imp.ast.statement.WhileStatement;
 import imp.interpreter.Z3ImpInterpreter;

@@ -1,5 +1,9 @@
 package imp.ast.expression;
 
+import imp.ast.ASTNode;
+import imp.ast.typing.FunctionType;
+import imp.ast.typing.Type;
+import imp.ast.typing.TypingContext;
 import imp.ast.variable.Identifier;
 
 import java.util.List;
@@ -43,5 +47,24 @@ public final class FuncCallExpression extends Expression {
         }
         sb.append(")");
         return sb.toString();
+    }
+
+    @Override
+    public List<ASTNode> getChildren() {
+        return List.of(functionName);
+    }
+
+    @Override
+    public Type expectedType(TypingContext context) {
+        if (context.contains(functionName)) {
+            Type type = context.get(functionName);
+            if (type instanceof FunctionType functionType) {
+                return functionType.getReturnType();
+            } else {
+                throw new RuntimeException("Function " + functionName + " is not a function");
+            }
+        } else {
+            throw new RuntimeException("Function " + functionName + " not found in context");
+        }
     }
 }

@@ -1,7 +1,7 @@
 package imp.ast.statement;
 
 import imp.ast.expression.Expression;
-import imp.ast.expression.InvariantList;
+import imp.ast.InvariantList;
 
 import java.util.Optional;
 

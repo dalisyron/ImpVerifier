@@ -1,4 +1,4 @@
 package imp.ast.expression;
 
-public sealed class ReferenceExpression extends Expression permits ArrayRefExpression, VarRefExpression {
+public sealed abstract class ReferenceExpression extends Expression permits ArrayRefExpression, VarRefExpression {
 }
