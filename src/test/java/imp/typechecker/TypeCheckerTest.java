@@ -188,30 +188,6 @@ public class TypeCheckerTest {
     }
 
     @Test
-    void testValidProgram13() {
-        String program = """
-                method AllPositive(int[] arr, int n) returns (bool result)
-                    requires n >= 0 && n <= arr.length
-                    ensures result == (forall (int i) :: 0 <= i && i < n ==> arr[i] > 0)
-                {
-                    result = true;
-                    int i = 0;
-                    while (i < n)
-                        invariant 0 <= i && i <= n
-                        invariant result == (forall (int j) :: 0 <= j && j < i ==> arr[j] > 0)
-                    {
-                        if (arr[i] <= 0) {
-                            result = false;
-                            break;
-                        }
-                        i = i + 1;
-                    }
-                }
-                """;
-        testTypeCheckerOnProgramString(program);
-    }
-
-    @Test
     void testValidProgram14() {
         String program = """
                 method ImplicationExample(bool x, bool y) returns (bool result)

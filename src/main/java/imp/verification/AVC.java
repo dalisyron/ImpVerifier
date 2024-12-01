@@ -18,7 +18,7 @@ public class AVC {
     public BoolExpr avc(Context ctx, Statement statement, BoolExpr Q) {
         if (statement.getClass() == BlockStatement.class) {
             return Composition.getInstance().avc(ctx, (BlockStatement)statement, Q);
-        } else if (statement.getClass() == Assignment.class) {
+        } else if (statement.getClass() == AssignStatement.class) {
             return Assignment.getInstance().avc(ctx, (AssignStatement)statement, Q);
         } else if (statement.getClass() == IfStatement.class) {
             return IfElse.getInstance().avc(ctx, (IfStatement)statement, Q);

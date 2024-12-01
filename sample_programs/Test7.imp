@@ -1,5 +1,5 @@
 method Baz() returns (int x) 
-    requires forall x :: exists y :: y ==> z
+    requires forall (int x) :: exists (bool y) :: y ==> z
 {
 
 }

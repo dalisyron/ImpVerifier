@@ -18,7 +18,7 @@ public class AWP {
     public BoolExpr awp(Context ctx, Statement statement, BoolExpr Q) {
         if (statement.getClass() == BlockStatement.class) {
             return Composition.getInstance().awp(ctx, (BlockStatement)statement, Q);
-        } else if (statement.getClass() == Assignment.class) {
+        } else if (statement.getClass() == AssignStatement.class) {
             return Assignment.getInstance().awp(ctx, (AssignStatement)statement, Q);
         } else if (statement.getClass() == IfStatement.class) {
             return IfElse.getInstance().awp(ctx, (IfStatement)statement, Q);
