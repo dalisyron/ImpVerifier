@@ -53,8 +53,8 @@ public class Method {
             }
 
         Solver solver = ctx.mkSolver();
-        solver.add(ctx.mkAnd(ctx.mkImplies(P, QPrime), avc));
-        return solver.check() == Status.SATISFIABLE;
+        solver.add(ctx.mkNot(ctx.mkAnd(ctx.mkImplies(P, QPrime), avc)));
+        return solver.check() == Status.UNSATISFIABLE;
     }
 
     public static Method getInstance() {

@@ -17,7 +17,7 @@ class ASTBuilderTest {
     @Test
     void test() throws IOException {
         // Directory containing test data files
-        String testDataDir = "TestData/";
+        String testDataDir = "TestData/Parser";
 
         // Get all *.imp files in the TestData directory
         try (Stream<Path> paths = Files.walk(Paths.get(testDataDir))) {
@@ -36,7 +36,7 @@ class ASTBuilderTest {
 
     @Test
     void testTmp() throws IOException {
-        String filePath = "TestData/Test7.imp";
+        String filePath = "TestData/Parser/Test7.imp";
 
         testAstEqualsReparsedAst(filePath);
     }

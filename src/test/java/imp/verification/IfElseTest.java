@@ -3,7 +3,6 @@ package imp.verification;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.locks.Condition;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -14,7 +13,6 @@ import com.microsoft.z3.IntExpr;
 import com.microsoft.z3.Solver;
 import com.microsoft.z3.Status;
 
-import imp.ast.expression.Expression;
 import imp.ast.expression.VarRefExpression;
 import imp.ast.expression.binary.bool.compare.LessThanExpression;
 import imp.ast.expression.constant.integer.IntExpression;

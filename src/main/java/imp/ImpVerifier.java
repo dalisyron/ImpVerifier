@@ -38,11 +38,11 @@ public class ImpVerifier {
         Context ctx = new Context();
 
         for (int i = 0; i < methods.size(); i++) {
-            boolean satisfiable = Method.getInstance().Verify(ctx, methods.get(i));
-            if (satisfiable) {
-                System.out.printf("Method %s conditions are satisfiable", methods.get(i).name());
+            boolean valid = Method.getInstance().Verify(ctx, methods.get(i));
+            if (valid) {
+                System.out.printf("Method %s is valid", methods.get(i).name());
             } else {
-                System.out.printf("Method %s conditions are unsatisfiable", methods.get(i).name());
+                System.out.printf("Method %s is invalid", methods.get(i).name());
             }
         }
 
