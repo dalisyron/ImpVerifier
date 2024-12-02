@@ -2,7 +2,10 @@ package imp.verification;
 
 import com.microsoft.z3.BoolExpr;
 import com.microsoft.z3.Context;
+import com.microsoft.z3.Expr;
+
 import imp.ast.statement.VariableDeclaration;
+import imp.interpreter.Z3ImpInterpreter;
 
 public class Declaration implements VerificationConditionProvider<VariableDeclaration> {
 
@@ -13,8 +16,13 @@ public class Declaration implements VerificationConditionProvider<VariableDeclar
 
     @Override
     public BoolExpr awp(Context ctx, VariableDeclaration declaration, BoolExpr Q) {
-        // Declaration does not change the conditionals
-        return (BoolExpr) Q;
+        if (declaration.initializer().isEmpty()) {
+            return (BoolExpr) Q;
+        } else {
+            Expr rhs = Z3ImpInterpreter.convertExpression(ctx, declaration.initializer().get());
+            Expr varname = ctx.mkIntConst(declaration.variableName().toString());
+            return (BoolExpr) Q.substitute(varname, rhs);
+        }
     }
 
     @Override
