@@ -6,6 +6,7 @@ import imp.ast.statement.AssignStatement;
 import imp.ast.statement.BlockStatement;
 import imp.ast.statement.IfStatement;
 import imp.ast.statement.Statement;
+import imp.ast.statement.VariableDeclaration;
 import imp.ast.statement.WhileStatement;
 
 public class AWP {
@@ -24,6 +25,8 @@ public class AWP {
             return IfElse.getInstance().awp(ctx, (IfStatement)statement, Q);
         } else if(statement.getClass() == WhileStatement.class) {
             return While.getInstance().awp(ctx, (WhileStatement)statement, Q);
+        } else if(statement.getClass() == VariableDeclaration.class) {
+            return Declaration.getInstance().awp(ctx, (VariableDeclaration)statement, Q);
         } else {
             throw new RuntimeException("Non-implemented AWP");
         }

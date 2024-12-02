@@ -2,13 +2,20 @@ package imp.interpreter;
 
 import com.microsoft.z3.*;
 import imp.ast.expression.Expression;
+import imp.ast.expression.VarRefExpression;
 import imp.ast.expression.binary.bool.compare.*;
 import imp.ast.expression.binary.bool.logic.AndExpression;
 import imp.ast.expression.binary.bool.logic.OrExpression;
+import imp.ast.expression.binary.integer.AddExpression;
+import imp.ast.expression.binary.integer.DivExpression;
+import imp.ast.expression.binary.integer.MulExpression;
+import imp.ast.expression.binary.integer.SubExpression;
 import imp.ast.expression.bool.ForallExpression;
 import imp.ast.expression.binary.bool.logic.ImpliesExpression;
 import imp.ast.expression.constant.bool.FalseExpression;
 import imp.ast.expression.constant.bool.TrueExpression;
+import imp.ast.expression.constant.integer.IntExpression;
+import imp.ast.expression.unary.integer.NegExpression;
 
 public class Z3ImpInterpreter {
 
@@ -100,7 +107,67 @@ public class Z3ImpInterpreter {
     // Private methods to handle specific Conditional types
 
     public static ArithExpr convertExpression(Context ctx, Expression expr) {
+        if (expr instanceof IntExpression) {
+            return convertIntExpr(ctx, (IntExpression) expr);
+        }
+        if (expr instanceof NegExpression) {
+            return convertNegExpr(ctx, (NegExpression) expr);
+        }
+        if (expr instanceof VarRefExpression) {
+            return convertVarRefExpr(ctx, (VarRefExpression) expr);
+        }
+        if (expr instanceof AddExpression) {
+            return convertAddExpr(ctx, (AddExpression) expr);
+        }
+        if (expr instanceof DivExpression) {
+            return ConvertDivExpr(ctx, (DivExpression) expr);
+        }
+        if (expr instanceof MulExpression) {
+            return convertMulExpr(ctx, (MulExpression) expr);
+        }
+        if (expr instanceof SubExpression) {
+            return convertSubExpr(ctx, (SubExpression) expr);
+        }
+        System.out.println(expr.getClass());
         throw new UnsupportedOperationException("Not implemented yet");
     }
+
+    private static ArithExpr convertIntExpr(Context ctx, IntExpression expr) {
+        return ctx.mkInt(expr.value());
+    }
+
+    private static ArithExpr convertNegExpr(Context ctx, NegExpression expr) {
+        ArithExpr expression = convertExpression(ctx, expr.expression());
+        return ctx.mkUnaryMinus(expression);
+    }
+
+    private static ArithExpr convertVarRefExpr (Context ctx, VarRefExpression expr) {
+        return ctx.mkIntConst(expr.toString());
+    }
+
+    private static ArithExpr convertAddExpr(Context ctx, AddExpression expr) {
+        ArithExpr leftExpr = convertExpression(ctx, expr.left());
+        ArithExpr rightExpr = convertExpression(ctx, expr.right());
+        return ctx.mkAdd(leftExpr, rightExpr);
+    }
+
+    private static ArithExpr convertMulExpr(Context ctx, MulExpression expr) {
+        ArithExpr leftExpr = convertExpression(ctx, expr.left());
+        ArithExpr rightExpr = convertExpression(ctx, expr.right());
+        return ctx.mkMul(leftExpr, rightExpr);
+    }
+
+    private static ArithExpr convertSubExpr(Context ctx, SubExpression expr) {
+        ArithExpr leftExpr = convertExpression(ctx, expr.left());
+        ArithExpr rightExpr = convertExpression(ctx, expr.right());
+        return ctx.mkSub(leftExpr, rightExpr);
+    }
+
+    private static ArithExpr ConvertDivExpr(Context ctx, DivExpression expr) {
+        ArithExpr leftExpr = convertExpression(ctx, expr.left());
+        ArithExpr rightExpr = convertExpression(ctx, expr.right());
+        return ctx.mkDiv(leftExpr, rightExpr);
+    }
+
 
 }

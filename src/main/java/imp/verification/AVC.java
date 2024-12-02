@@ -7,6 +7,7 @@ import imp.ast.statement.AssignStatement;
 import imp.ast.statement.BlockStatement;
 import imp.ast.statement.IfStatement;
 import imp.ast.statement.Statement;
+import imp.ast.statement.VariableDeclaration;
 import imp.ast.statement.WhileStatement;
 
 public class AVC {
@@ -24,8 +25,10 @@ public class AVC {
             return IfElse.getInstance().avc(ctx, (IfStatement)statement, Q);
         } else if(statement.getClass() == WhileStatement.class) {
             return While.getInstance().avc(ctx, (WhileStatement)statement, Q);
+        } else if(statement instanceof VariableDeclaration) {
+            return Declaration.getInstance().avc(ctx, (VariableDeclaration)statement, Q);
         } else {
-            throw new RuntimeException("Non-implemented AWP");
+            throw new RuntimeException("Non-implemented AVC");
         }
     }
 
