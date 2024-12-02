@@ -622,15 +622,7 @@ public class TypeCheckerTest {
     private void testTypeCheckerOnProgramString(String program) {
         try {
             // Parse the input program string
-            ParseTree tree = Parser.parseString(program);
-
-            // Create an ASTBuilder and walk the parse tree
-            ASTBuilder astBuilder = new ASTBuilder();
-            ParseTreeWalker walker = new ParseTreeWalker();
-            walker.walk(astBuilder, tree);
-
-            // Get the AST from the ASTBuilder
-            Program ast = astBuilder.getProgram();
+            Program ast = Parser.parseString(program);
 
             // Run the TypeChecker on the AST
             TypeChecker.checkTypes(ast);

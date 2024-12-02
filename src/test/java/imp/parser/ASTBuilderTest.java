@@ -77,26 +77,12 @@ class ASTBuilderTest {
     private void testAstEqualsReparsedAstFromString(String program) {
         try {
             // Parse the input program string
-            ParseTree tree = Parser.parseString(program);
-
-            // Create an ASTBuilder and walk the parse tree
-            ASTBuilder astBuilder = new ASTBuilder();
-            ParseTreeWalker walker = new ParseTreeWalker();
-            walker.walk(astBuilder, tree);
-
-            // Get the AST from the ASTBuilder
-            Program ast = astBuilder.getProgram();
+            Program ast = Parser.parseString(program);
 
             // Print the AST
             String programRepresentation = ast.toString();
 
-            // Reparse the program representation
-            ParseTree reparsedTree = Parser.parseString(programRepresentation);
-
-            // Ensure the original and reparsed trees are equal
-            ASTBuilder reparsedAstBuilder = new ASTBuilder();
-            walker.walk(reparsedAstBuilder, reparsedTree);
-            Program reparsedAst = reparsedAstBuilder.getProgram();
+            Program reparsedAst = Parser.parseString(programRepresentation);
 
             // Assert that the original and reparsed ASTs are equal
             Assertions.assertEquals(ast, reparsedAst);
