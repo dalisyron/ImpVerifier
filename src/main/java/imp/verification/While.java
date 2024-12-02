@@ -27,13 +27,11 @@ public class While implements VerificationConditionProvider<WhileStatement> {
 
         InvariantList invariantList = invariants.get();
 
-        if (invariantList.invariants().size() > 1) {
-            throw new RuntimeException("While statement has only one invariant");
+        BoolExpr I = ctx.mkTrue(); 
+        for (int i = 0; i < invariantList.invariants().size(); ++i) {
+            Expression invariant = invariantList.invariants().get(i).expression();
+            I = ctx.mkAnd(I, Z3ImpInterpreter.convertConditional(ctx, invariant));
         }
-
-        Expression invariant = invariantList.invariants().get(0).expression();
-
-        BoolExpr I = Z3ImpInterpreter.convertConditional(ctx, invariant);
 
         return I;
     }
@@ -50,23 +48,18 @@ public class While implements VerificationConditionProvider<WhileStatement> {
 
         InvariantList invariantList = invariants.get();
 
-        if (invariantList.invariants().size() > 1) {
-            throw new RuntimeException("While statement has only one invariant");
+        BoolExpr I = ctx.mkTrue(); 
+        for (int i = 0; i < invariantList.invariants().size(); ++i) {
+            Expression invariant = invariantList.invariants().get(i).expression();
+            I = ctx.mkAnd(I, Z3ImpInterpreter.convertConditional(ctx, invariant));
         }
-
-        Expression invariant = invariantList.invariants().get(0).expression();
         BlockStatement body = whileStatement.body();
         Expression condition = whileStatement.condition();
-
-        BoolExpr I = Z3ImpInterpreter.convertConditional(ctx, invariant);
         BoolExpr condExpr = Z3ImpInterpreter.convertConditional(ctx, condition);
 
         BoolExpr A = AVC.getInstance().avc(ctx, body, I);
         BoolExpr B = ctx.mkImplies(ctx.mkAnd(I, condExpr), AWP.getInstance().awp(ctx, body, I));
         BoolExpr C = ctx.mkImplies(ctx.mkAnd(I, ctx.mkNot(condExpr)), Q);
-        String a = A.toString();
-        String b = B.toString();
-        String c = C.toString();
 
         return ctx.mkAnd(A, B, C);
     }
