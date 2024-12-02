@@ -64,6 +64,9 @@ public class While implements VerificationConditionProvider<WhileStatement> {
         BoolExpr A = AVC.getInstance().avc(ctx, body, I);
         BoolExpr B = ctx.mkImplies(ctx.mkAnd(I, condExpr), AWP.getInstance().awp(ctx, body, I));
         BoolExpr C = ctx.mkImplies(ctx.mkAnd(I, ctx.mkNot(condExpr)), Q);
+        String a = A.toString();
+        String b = B.toString();
+        String c = C.toString();
 
         return ctx.mkAnd(A, B, C);
     }

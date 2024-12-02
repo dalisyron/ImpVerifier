@@ -48,12 +48,19 @@ public class Method {
             //reverse order avc generation
             for (int i = method.methodBody().statements().size() - 1; i >= 0 ; i--) {
                 Statement statement = method.methodBody().statements().get(i);
-                avc = ctx.mkAnd(P, AVC.getInstance().avc(ctx, statement, P));
+                avc = ctx.mkAnd(avc, AVC.getInstance().avc(ctx, statement, QPrime));
                 QPrime = AWP.getInstance().awp(ctx, statement, QPrime);
+                String s1 = avc.toString();
+                String qp = QPrime.toString();
             }
 
         Solver solver = ctx.mkSolver();
         solver.add(ctx.mkNot(ctx.mkAnd(ctx.mkImplies(P, QPrime), avc)));
+        String s = solver.toString();
+        System.err.println(P);
+        System.err.println(Q);
+        System.err.println(QPrime);
+        System.err.println(avc);
         return solver.check() == Status.UNSATISFIABLE;
     }
 
