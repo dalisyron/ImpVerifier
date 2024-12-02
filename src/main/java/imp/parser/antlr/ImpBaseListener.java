@@ -1,4 +1,5 @@
-package imp.parser.antlr; // Generated from Imp.g4 by ANTLR 4.13.2
+package imp.parser.antlr;
+// Generated from Imp.g4 by ANTLR 4.13.2
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -28,13 +29,85 @@ public class ImpBaseListener implements ImpListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSequenceStmt(ImpParser.SequenceStmtContext ctx) { }
+	@Override public void enterMethodDeclaration(ImpParser.MethodDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSequenceStmt(ImpParser.SequenceStmtContext ctx) { }
+	@Override public void exitMethodDeclaration(ImpParser.MethodDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFormalParameters(ImpParser.FormalParametersContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFormalParameters(ImpParser.FormalParametersContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFormalParameter(ImpParser.FormalParameterContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFormalParameter(ImpParser.FormalParameterContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterReturnsBlock(ImpParser.ReturnsBlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitReturnsBlock(ImpParser.ReturnsBlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterConditionBlock(ImpParser.ConditionBlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitConditionBlock(ImpParser.ConditionBlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterRequiresClause(ImpParser.RequiresClauseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRequiresClause(ImpParser.RequiresClauseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEnsuresClause(ImpParser.EnsuresClauseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEnsuresClause(ImpParser.EnsuresClauseContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -88,25 +161,25 @@ public class ImpBaseListener implements ImpListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPrecondition(ImpParser.PreconditionContext ctx) { }
+	@Override public void enterVarDeclStmt(ImpParser.VarDeclStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPrecondition(ImpParser.PreconditionContext ctx) { }
+	@Override public void exitVarDeclStmt(ImpParser.VarDeclStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPostcondition(ImpParser.PostconditionContext ctx) { }
+	@Override public void enterExprStmt(ImpParser.ExprStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPostcondition(ImpParser.PostconditionContext ctx) { }
+	@Override public void exitExprStmt(ImpParser.ExprStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -124,181 +197,325 @@ public class ImpBaseListener implements ImpListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterOrCond(ImpParser.OrCondContext ctx) { }
+	@Override public void enterIfStatement(ImpParser.IfStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitOrCond(ImpParser.OrCondContext ctx) { }
+	@Override public void exitIfStatement(ImpParser.IfStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterEqualCond(ImpParser.EqualCondContext ctx) { }
+	@Override public void enterWhileStatement(ImpParser.WhileStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitEqualCond(ImpParser.EqualCondContext ctx) { }
+	@Override public void exitWhileStatement(ImpParser.WhileStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLeqCond(ImpParser.LeqCondContext ctx) { }
+	@Override public void enterInvariantList(ImpParser.InvariantListContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLeqCond(ImpParser.LeqCondContext ctx) { }
+	@Override public void exitInvariantList(ImpParser.InvariantListContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterImpliesCond(ImpParser.ImpliesCondContext ctx) { }
+	@Override public void enterParenthesizedCondition(ImpParser.ParenthesizedConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitImpliesCond(ImpParser.ImpliesCondContext ctx) { }
+	@Override public void exitParenthesizedCondition(ImpParser.ParenthesizedConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAndCond(ImpParser.AndCondContext ctx) { }
+	@Override public void enterAssignStatement(ImpParser.AssignStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAndCond(ImpParser.AndCondContext ctx) { }
+	@Override public void exitAssignStatement(ImpParser.AssignStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFalseCond(ImpParser.FalseCondContext ctx) { }
+	@Override public void enterVarDecl(ImpParser.VarDeclContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFalseCond(ImpParser.FalseCondContext ctx) { }
+	@Override public void exitVarDecl(ImpParser.VarDeclContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterGtCond(ImpParser.GtCondContext ctx) { }
+	@Override public void enterBoolType(ImpParser.BoolTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitGtCond(ImpParser.GtCondContext ctx) { }
+	@Override public void exitBoolType(ImpParser.BoolTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBaseCase(ImpParser.BaseCaseContext ctx) { }
+	@Override public void enterIntType(ImpParser.IntTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBaseCase(ImpParser.BaseCaseContext ctx) { }
+	@Override public void exitIntType(ImpParser.IntTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLtCond(ImpParser.LtCondContext ctx) { }
+	@Override public void enterArrayInt(ImpParser.ArrayIntContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLtCond(ImpParser.LtCondContext ctx) { }
+	@Override public void exitArrayInt(ImpParser.ArrayIntContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterGeqCond(ImpParser.GeqCondContext ctx) { }
+	@Override public void enterArrayBool(ImpParser.ArrayBoolContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitGeqCond(ImpParser.GeqCondContext ctx) { }
+	@Override public void exitArrayBool(ImpParser.ArrayBoolContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTrueCond(ImpParser.TrueCondContext ctx) { }
+	@Override public void enterParenType(ImpParser.ParenTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTrueCond(ImpParser.TrueCondContext ctx) { }
+	@Override public void exitParenType(ImpParser.ParenTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMulExpr(ImpParser.MulExprContext ctx) { }
+	@Override public void enterAndExpr(ImpParser.AndExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMulExpr(ImpParser.MulExprContext ctx) { }
+	@Override public void exitAndExpr(ImpParser.AndExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIntegerExpr(ImpParser.IntegerExprContext ctx) { }
+	@Override public void enterTrueExpr(ImpParser.TrueExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIntegerExpr(ImpParser.IntegerExprContext ctx) { }
+	@Override public void exitTrueExpr(ImpParser.TrueExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterVariableExpr(ImpParser.VariableExprContext ctx) { }
+	@Override public void enterQuantifiedExpr(ImpParser.QuantifiedExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitVariableExpr(ImpParser.VariableExprContext ctx) { }
+	@Override public void exitQuantifiedExpr(ImpParser.QuantifiedExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAddExpr(ImpParser.AddExprContext ctx) { }
+	@Override public void enterReferenceExpr(ImpParser.ReferenceExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAddExpr(ImpParser.AddExprContext ctx) { }
+	@Override public void exitReferenceExpr(ImpParser.ReferenceExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNegExpr(ImpParser.NegExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNegExpr(ImpParser.NegExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArrayLength(ImpParser.ArrayLengthContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArrayLength(ImpParser.ArrayLengthContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCompExpr(ImpParser.CompExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCompExpr(ImpParser.CompExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterOrExpr(ImpParser.OrExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOrExpr(ImpParser.OrExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFalseExpr(ImpParser.FalseExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFalseExpr(ImpParser.FalseExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFuncCall(ImpParser.FuncCallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFuncCall(ImpParser.FuncCallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNewArray(ImpParser.NewArrayContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNewArray(ImpParser.NewArrayContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMulDivExpr(ImpParser.MulDivExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMulDivExpr(ImpParser.MulDivExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterF_Implies(ImpParser.F_ImpliesContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitF_Implies(ImpParser.F_ImpliesContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEqExpr(ImpParser.EqExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEqExpr(ImpParser.EqExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNotExpr(ImpParser.NotExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNotExpr(ImpParser.NotExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIntExpr(ImpParser.IntExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIntExpr(ImpParser.IntExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -311,6 +528,54 @@ public class ImpBaseListener implements ImpListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitParenExpr(ImpParser.ParenExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAddSubExpr(ImpParser.AddSubExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAddSubExpr(ImpParser.AddSubExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterVarRef(ImpParser.VarRefContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVarRef(ImpParser.VarRefContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArrayRef(ImpParser.ArrayRefContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArrayRef(ImpParser.ArrayRefContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterExprList(ImpParser.ExprListContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExprList(ImpParser.ExprListContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

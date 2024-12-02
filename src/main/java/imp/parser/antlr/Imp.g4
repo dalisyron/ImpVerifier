@@ -1,80 +1,165 @@
 grammar Imp;
 
 parse
-    : statement+ EOF
-    ;
+	: (methodDeclaration)+ EOF
+	;
+
+methodDeclaration
+	: 'method' ID LPAREN formalParameters? RPAREN returnsBlock? conditionBlock block
+	;
+
+formalParameters
+	: formalParameter (',' formalParameter)*
+	;
+
+formalParameter
+	: type ID
+	;
+
+returnsBlock
+	: RETURNS LPAREN formalParameter RPAREN
+	;
+
+conditionBlock
+	: (requiresClause | ensuresClause)*
+	;
+
+requiresClause
+	: REQUIRES expression
+	;
+
+ensuresClause
+	: ENSURES expression
+	;
 
 statement
-    : simpleStatement (';' simpleStatement)*                        # SequenceStmt
-    ;
-
-simpleStatement
-    : VARIABLE ASSIGN expression                                   # AssignStmt
-    | IF conditional THEN statement ELSE statement DONE            # IfStmt
-    | WHILE conditional INVARIANT conditional DO block             # WhileStmt
-    | block                                                        # BlockStmt
-    | PRECOND conditional                                          # Precondition
-    | POSTCOND conditional                                         # Postcondition
-    ;
+	: assignStatement                                            # AssignStmt
+	| ifStatement                                                # IfStmt
+	| whileStatement                                             # WhileStmt
+	| block                                                      # BlockStmt
+	| varDecl                                                    # VarDeclStmt
+	| expression SEMICOLON                                             # ExprStmt
+	;
 
 block
-    : BEGIN statement END
+	: LBRACE statement* RBRACE
+	;
+
+ifStatement
+	: IF parenthesizedCondition block (ELSE block)?
+	;
+
+whileStatement
+	: WHILE parenthesizedCondition invariantList? block
+	;
+
+invariantList
+    : (INVARIANT expression)+
     ;
 
-conditional
-    : TRUE                                                         # TrueCond
-    | FALSE                                                        # FalseCond
-    | expression                                                   # BaseCase
-    | expression EQUAL expression                                  # EqualCond
-    | expression LEQ expression                                    # LeqCond
-    | expression LT expression                                     # LtCond
-    | expression GEQ expression                                    # GeqCond
-    | expression GT expression                                     # GtCond
-    | conditional AND conditional                                  # AndCond
-    | conditional OR conditional                                   # OrCond
-    | conditional IMPLIES conditional                              # ImpliesCond
-    ;
+parenthesizedCondition
+	: LPAREN expression RPAREN
+	;
 
-// Expression grammar
+assignStatement
+	: reference ASSIGN expression SEMICOLON
+	;
+
+varDecl
+	: type ID (ASSIGN expression)? SEMICOLON
+	;
+
+type
+	: 'bool'                 # BoolType
+	| 'int'                  # IntType
+	| 'int[]'                # ArrayInt
+	| 'bool[]'               # ArrayBool
+	| LPAREN type RPAREN     # ParenType
+	;
+
 expression
-    : INTEGER                     # IntegerExpr
-    | VARIABLE                    # VariableExpr
-    | expression TIMES expression # MulExpr
-    | expression PLUS expression  # AddExpr
-    | '(' expression ')'          # ParenExpr
+	:
+	expression'.length'                                               # ArrayLength
+	| MINUS expression                                                  # NegExpr // Level 35
+	| expression (TIMES | INTDIV) expression                                  # MulDivExpr // Level 40
+	| expression (PLUS | MINUS) expression                                    # AddSubExpr // Level 50
+	| expression (LEQ | GEQ | GREATER | LESS) expression                      # CompExpr // Level 70
+	| NOT expression                                                    # NotExpr // Level 75
+	| expression AND expression                                               # AndExpr // Level 80
+	| expression OR expression                                                # OrExpr // Level 85
+	| expression EQUAL expression                                             # EqExpr // Level 71
+	| LPAREN expression RPAREN                                          # ParenExpr
+	| ID LPAREN exprList? RPAREN                                  # FuncCall
+	| INT                                                         # IntExpr
+    | TRUE                                                        # TrueExpr
+    | FALSE                                                       # FalseExpr
+	| expression IMPLIES (expression)                                         # F_Implies
+	| (FORALL | EXISTS) LPAREN formalParameter RPAREN DOUBLECOLON expression                # QuantifiedExpr
+	| NEW type '[' expression ']'                                       # NewArray
+	| reference                                                   # ReferenceExpr
+	;
+
+reference:
+      ID                                             # VarRef
+    | ID '[' expression ']'                                # ArrayRef
     ;
 
-TRUE      : 'true';
-FALSE     : 'false';
-IF        : 'if';
-THEN      : 'then';
-ELSE      : 'else';
-DONE      : 'done';
-WHILE     : 'while';
-DO        : 'do';
-BEGIN     : 'begin';
-END       : 'end';
-ASSIGN    : ':=';
-PLUS      : '+';
-TIMES     : '*';
-EQUAL     : '=';
-LEQ       : '<=';
-LT        : '<';
-GEQ       : '>=';
-GT        : '>';
-AND       : '&&';
-OR        : '||';
-IMPLIES   : '==>';
-PRECOND   : 'preq';
-POSTCOND  : 'post';
-INVARIANT : 'invariant';
-SEMICOLON : ';';
+exprList
+	: expression (ARGSEP expression)*
+	;
 
-VARIABLE
-    : [a-zA-Z][a-zA-Z0-9]*;
+TRUE       : 'true';
+FALSE      : 'false';
+IF         : 'if';
+ELSE       : 'else';
+WHILE      : 'while';
+ASSIGN     : '=';
+PLUS       : '+';
+TIMES      : '*';
+EQUAL      : '==';
+LEQ        : '<=';
+GEQ        : '>=';
+SEMICOLON  : ';';
+GREATER    : '>';
+LESS       : '<';
+NOT        : '!';
+AND        : '&&';
+OR         : '||';
+LPAREN     : '(';
+RPAREN     : ')';
+LBRACE     : '{';
+RBRACE     : '}';
+REQUIRES   : 'requires';
+ENSURES    : 'ensures';
+INVARIANT  : 'invariant';
+FORALL     : 'forall';
+EXISTS     : 'exists';
+IMPLIES    : '==>';
+DOUBLECOLON: '::';
+MINUS      : '-';
+INTDIV     : '/';
+RETURNS    : 'returns';
+ARGSEP     : ',';
+NEW        : 'new';
+COLON      : ':';
 
-INTEGER
-    : [0-9]+;
+ID
+	: LETTER (LETTER | [0-9])*
+	;
+
+fragment LETTER
+	: [a-zA-Z]
+	;
+
+INT
+	: [0-9]+
+	;
 
 WS
-    : [ \t\r\n]+ -> skip;
+	: [ \t\r\n]+ -> skip
+	;
+
+SL_COMMENT
+	: '//' .*? '\n' -> skip
+	;
+

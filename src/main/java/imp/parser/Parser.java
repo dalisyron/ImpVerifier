@@ -1,7 +1,6 @@
 package imp.parser;
 
-import imp.ast.ASTBuilder;
-import imp.ast.Statement;
+import imp.ast.Program;
 import imp.parser.antlr.ImpLexer;
 import imp.parser.antlr.ImpParser;
 import org.antlr.v4.runtime.*;
@@ -21,7 +20,7 @@ public class Parser {
      * @throws IllegalArgumentException If the file does not have a .imp extension.
      * @throws RuntimeException         If a syntax error is encountered during parsing.
      */
-    public static Statement parseFile(String filePath) throws IOException {
+    public static Program parseFile(String filePath) throws IOException {
         // Check if file exists
         File file = new File(filePath);
         if (!file.exists()) {
@@ -47,7 +46,7 @@ public class Parser {
      * @return The AST (Abstract Syntax Tree) of the parsed program.
      * @throws RuntimeException If a syntax error is encountered during parsing.
      */
-    public static Statement parseString(String program) {
+    public static Program parseString(String program) {
         // Load input from the string
         CharStream input = CharStreams.fromString(program);
 
@@ -56,7 +55,7 @@ public class Parser {
     }
 
     // Common parsing code used by both parseFile and parseString methods
-    private static Statement parseInput(CharStream input) {
+    private static Program parseInput(CharStream input) {
         ImpLexer lexer = new ImpLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         ImpParser parser = new ImpParser(tokens);
@@ -86,6 +85,6 @@ public class Parser {
 
         // Get the root of the AST
 
-        return astBuilder.getRoot();
+        return astBuilder.getProgram();
     }
 }

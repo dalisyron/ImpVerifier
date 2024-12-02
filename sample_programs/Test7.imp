@@ -1,0 +1,5 @@
+method Baz() returns (int x) 
+    requires forall (int x) :: exists (bool y) :: y ==> z
+{
+
+}

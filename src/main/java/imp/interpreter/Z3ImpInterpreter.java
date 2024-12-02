@@ -1,9 +1,21 @@
 package imp.interpreter;
 
 import com.microsoft.z3.*;
-import imp.ast.*;
-import imp.ast.conditional.*;
-import imp.ast.expression.*;
+import imp.ast.expression.Expression;
+import imp.ast.expression.VarRefExpression;
+import imp.ast.expression.binary.bool.compare.*;
+import imp.ast.expression.binary.bool.logic.AndExpression;
+import imp.ast.expression.binary.bool.logic.OrExpression;
+import imp.ast.expression.binary.integer.AddExpression;
+import imp.ast.expression.binary.integer.DivExpression;
+import imp.ast.expression.binary.integer.MulExpression;
+import imp.ast.expression.binary.integer.SubExpression;
+import imp.ast.expression.bool.ForallExpression;
+import imp.ast.expression.binary.bool.logic.ImpliesExpression;
+import imp.ast.expression.constant.bool.FalseExpression;
+import imp.ast.expression.constant.bool.TrueExpression;
+import imp.ast.expression.constant.integer.IntExpression;
+import imp.ast.expression.unary.integer.NegExpression;
 
 public class Z3ImpInterpreter {
 
@@ -14,126 +26,148 @@ public class Z3ImpInterpreter {
      * @param cond The Conditional AST node.
      * @return The equivalent Z3 BoolExpr.
      */
-    public static BoolExpr convertConditional(Context ctx, Conditional cond) {
-        if (cond instanceof TrueCond) {
+    public static BoolExpr convertConditional(Context ctx, Expression cond) {
+        if (cond instanceof TrueExpression) {
             return ctx.mkTrue();
-        } else if (cond instanceof FalseCond) {
+        } else if (cond instanceof FalseExpression) {
             return ctx.mkFalse();
-        } else if (cond instanceof EqualCond) {
-            return convertEqualCond(ctx, (EqualCond) cond);
-        } else if (cond instanceof LeqCond) {
-            return convertLeqCond(ctx, (LeqCond) cond);
-        } else if (cond instanceof LtCond) {
-            return convertLtCond(ctx, (LtCond) cond);
-        } else if (cond instanceof GeqCond) {
-            return convertGeqCond(ctx, (GeqCond) cond);
-        } else if (cond instanceof GtCond) {
-            return convertGtCond(ctx, (GtCond) cond);
-        } else if (cond instanceof AndCond) {
-            return convertAndCond(ctx, (AndCond) cond);
-        } else if (cond instanceof OrCond) {
-            return convertOrCond(ctx, (OrCond) cond);
-        } else if (cond instanceof ImpliesCond) {
-            return convertImpliesCond(ctx, (ImpliesCond) cond);
+        } else if (cond instanceof EqExpression) {
+            return convertEqualCond(ctx, (EqExpression) cond);
+        } else if (cond instanceof LessThanOrEqualExpression) {
+            return convertLeqCond(ctx, (LessThanOrEqualExpression) cond);
+        } else if (cond instanceof LessThanExpression) {
+            return convertLtCond(ctx, (LessThanExpression) cond);
+        } else if (cond instanceof GreaterThanOrEqualExpression) {
+            return convertGeqCond(ctx, (GreaterThanOrEqualExpression) cond);
+        } else if (cond instanceof GreaterThanExpression) {
+            return convertGtCond(ctx, (GreaterThanExpression) cond);
+        } else if (cond instanceof AndExpression) {
+            return convertAndCond(ctx, (AndExpression) cond);
+        } else if (cond instanceof OrExpression) {
+            return convertOrCond(ctx, (OrExpression) cond);
+        } else if (cond instanceof ImpliesExpression) {
+            return convertImpliesCond(ctx, (ImpliesExpression) cond);
+        } else if (cond instanceof ForallExpression) {
+            return convertForallCond(ctx, (ForallExpression) cond);
         } else {
             throw new UnsupportedOperationException("Unknown Conditional type: " + cond.getClass());
         }
     }
 
-    // Private methods to handle specific Conditional types
-
-    private static BoolExpr convertEqualCond(Context ctx, EqualCond cond) {
-        ArithExpr leftExpr = convertExpression(ctx, cond.left());
-        ArithExpr rightExpr = convertExpression(ctx, cond.right());
-        return ctx.mkEq(leftExpr, rightExpr);
+    private static BoolExpr convertForallCond(Context ctx, ForallExpression cond) {
+//        BoolExpr body = convertConditional(ctx, cond.body());
+//
+//        BoolExpr quantified = ctx.mkForall(new Expr[] {
+//                ctx.mkConst(cond.variable().name(), ctx.getIntSort())
+//        }, body, 1, null, null, null, null);
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
-    private static BoolExpr convertLeqCond(Context ctx, LeqCond cond) {
-        ArithExpr leftExpr = convertExpression(ctx, cond.left());
-        ArithExpr rightExpr = convertExpression(ctx, cond.right());
-        return ctx.mkLe(leftExpr, rightExpr);
+    public static BoolExpr convertImpliesCond(Context ctx, ImpliesExpression cond) {
+        return ctx.mkImplies(convertConditional(ctx, cond.left()), convertConditional(ctx, cond.right()));
     }
 
-    private static BoolExpr convertLtCond(Context ctx, LtCond cond) {
-        ArithExpr leftExpr = convertExpression(ctx, cond.left());
-        ArithExpr rightExpr = convertExpression(ctx, cond.right());
-        return ctx.mkLt(leftExpr, rightExpr);
+    private static BoolExpr convertOrCond(Context ctx, OrExpression cond) {
+        return ctx.mkOr(convertConditional(ctx, cond.left()), convertConditional(ctx, cond.right()));
     }
 
-    private static BoolExpr convertGeqCond(Context ctx, GeqCond cond) {
-        ArithExpr leftExpr = convertExpression(ctx, cond.left());
-        ArithExpr rightExpr = convertExpression(ctx, cond.right());
-        return ctx.mkGe(leftExpr, rightExpr);
+    private static BoolExpr convertAndCond(Context ctx, AndExpression cond) {
+        return ctx.mkAnd(convertConditional(ctx, cond.left()), convertConditional(ctx, cond.right()));
     }
 
-    private static BoolExpr convertGtCond(Context ctx, GtCond cond) {
+    private static BoolExpr convertGtCond(Context ctx, GreaterThanExpression cond) {
         ArithExpr leftExpr = convertExpression(ctx, cond.left());
         ArithExpr rightExpr = convertExpression(ctx, cond.right());
         return ctx.mkGt(leftExpr, rightExpr);
     }
 
-    private static BoolExpr convertAndCond(Context ctx, AndCond cond) {
-        BoolExpr leftExpr = convertConditional(ctx, cond.left());
-        BoolExpr rightExpr = convertConditional(ctx, cond.right());
-        return ctx.mkAnd(leftExpr, rightExpr);
+    private static BoolExpr convertGeqCond(Context ctx, GreaterThanOrEqualExpression cond) {
+        ArithExpr leftExpr = convertExpression(ctx, cond.left());
+        ArithExpr rightExpr = convertExpression(ctx, cond.right());
+        return ctx.mkGe(leftExpr, rightExpr);
     }
 
-    private static BoolExpr convertOrCond(Context ctx, OrCond cond) {
-        BoolExpr leftExpr = convertConditional(ctx, cond.left());
-        BoolExpr rightExpr = convertConditional(ctx, cond.right());
-        return ctx.mkOr(leftExpr, rightExpr);
+    private static BoolExpr convertLtCond(Context ctx, LessThanExpression cond) {
+        ArithExpr leftExpr = convertExpression(ctx, cond.left());
+        ArithExpr rightExpr = convertExpression(ctx, cond.right());
+        return ctx.mkLt(leftExpr, rightExpr);
     }
 
-    private static BoolExpr convertImpliesCond(Context ctx, ImpliesCond cond) {
-        BoolExpr leftExpr = convertConditional(ctx, cond.left());
-        BoolExpr rightExpr = convertConditional(ctx, cond.right());
-        return ctx.mkImplies(leftExpr, rightExpr);
+    private static BoolExpr convertLeqCond(Context ctx, LessThanOrEqualExpression cond) {
+        ArithExpr leftExpr = convertExpression(ctx, cond.left());
+        ArithExpr rightExpr = convertExpression(ctx, cond.right());
+        return ctx.mkLe(leftExpr, rightExpr);
     }
 
-    // Methods to convert Expressions
+    private static BoolExpr convertEqualCond(Context ctx, EqExpression cond) {
+        ArithExpr leftExpr = convertExpression(ctx, cond.left());
+        ArithExpr rightExpr = convertExpression(ctx, cond.right());
+        return ctx.mkEq(leftExpr, rightExpr);
+    }
+    // Private methods to handle specific Conditional types
 
     public static ArithExpr convertExpression(Context ctx, Expression expr) {
-        if (expr instanceof IntegerExpr) {
-            return convertIntegerExpr(ctx, (IntegerExpr) expr);
-        } else if (expr instanceof VariableExpr) {
-            return convertVariableExpr(ctx, (VariableExpr) expr);
-        } else if (expr instanceof AddExpr) {
-            return convertAddExpr(ctx, (AddExpr) expr);
-        } else if (expr instanceof MulExpr) {
-            return convertMulExpr(ctx, (MulExpr) expr);
-        } else if (expr instanceof ParenExpr) {
-            return convertParenExpr(ctx, (ParenExpr) expr);
-        } else {
-            throw new UnsupportedOperationException("Unknown Expression type: " + expr.getClass());
+        if (expr instanceof IntExpression) {
+            return convertIntExpr(ctx, (IntExpression) expr);
         }
+        if (expr instanceof NegExpression) {
+            return convertNegExpr(ctx, (NegExpression) expr);
+        }
+        if (expr instanceof VarRefExpression) {
+            return convertVarRefExpr(ctx, (VarRefExpression) expr);
+        }
+        if (expr instanceof AddExpression) {
+            return convertAddExpr(ctx, (AddExpression) expr);
+        }
+        if (expr instanceof DivExpression) {
+            return ConvertDivExpr(ctx, (DivExpression) expr);
+        }
+        if (expr instanceof MulExpression) {
+            return convertMulExpr(ctx, (MulExpression) expr);
+        }
+        if (expr instanceof SubExpression) {
+            return convertSubExpr(ctx, (SubExpression) expr);
+        }
+        System.out.println(expr.getClass());
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
-    private static ArithExpr convertIntegerExpr(Context ctx, IntegerExpr expr) {
+    private static ArithExpr convertIntExpr(Context ctx, IntExpression expr) {
         return ctx.mkInt(expr.value());
     }
 
-    private static ArithExpr convertVariableExpr(Context ctx, VariableExpr expr) {
-        String varName = expr.name();
-        // Note*: Creating multiple IntExprs with the same name is acceptable in Z3,
-        // as Z3 treats variables with the same name as the same variable within the same context.
-
-        return ctx.mkIntConst(varName);
+    private static ArithExpr convertNegExpr(Context ctx, NegExpression expr) {
+        ArithExpr expression = convertExpression(ctx, expr.expression());
+        return ctx.mkUnaryMinus(expression);
     }
 
-    private static ArithExpr convertAddExpr(Context ctx, AddExpr expr) {
-        ArithExpr left = convertExpression(ctx, expr.left());
-        ArithExpr right = convertExpression(ctx, expr.right());
-        return ctx.mkAdd(left, right);
+    private static ArithExpr convertVarRefExpr (Context ctx, VarRefExpression expr) {
+        return ctx.mkIntConst(expr.toString());
     }
 
-    private static ArithExpr convertMulExpr(Context ctx, MulExpr expr) {
-        ArithExpr left = convertExpression(ctx, expr.left());
-        ArithExpr right = convertExpression(ctx, expr.right());
-        return ctx.mkMul(left, right);
+    private static ArithExpr convertAddExpr(Context ctx, AddExpression expr) {
+        ArithExpr leftExpr = convertExpression(ctx, expr.left());
+        ArithExpr rightExpr = convertExpression(ctx, expr.right());
+        return ctx.mkAdd(leftExpr, rightExpr);
     }
 
-    private static ArithExpr convertParenExpr(Context ctx, ParenExpr expr) {
-        // Simply convert the inner expression
-        return convertExpression(ctx, expr.inner());
+    private static ArithExpr convertMulExpr(Context ctx, MulExpression expr) {
+        ArithExpr leftExpr = convertExpression(ctx, expr.left());
+        ArithExpr rightExpr = convertExpression(ctx, expr.right());
+        return ctx.mkMul(leftExpr, rightExpr);
     }
+
+    private static ArithExpr convertSubExpr(Context ctx, SubExpression expr) {
+        ArithExpr leftExpr = convertExpression(ctx, expr.left());
+        ArithExpr rightExpr = convertExpression(ctx, expr.right());
+        return ctx.mkSub(leftExpr, rightExpr);
+    }
+
+    private static ArithExpr ConvertDivExpr(Context ctx, DivExpression expr) {
+        ArithExpr leftExpr = convertExpression(ctx, expr.left());
+        ArithExpr rightExpr = convertExpression(ctx, expr.right());
+        return ctx.mkDiv(leftExpr, rightExpr);
+    }
+
+
 }
