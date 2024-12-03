@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import imp.ast.typing.data.value.IntType;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -23,9 +24,12 @@ import imp.ast.expression.Identifier;
 public class IfElseTest {
     @Test
     public void test() {
-        
-        LessThanExpression condition = new LessThanExpression(new VarRefExpression(new Identifier("x")), new IntExpression(1));
+
+        VarRefExpression var_x = new VarRefExpression(new Identifier("x"));
+        var_x.setType(IntType.getInstance());
+        LessThanExpression condition = new LessThanExpression(var_x, new IntExpression(1));
         VarRefExpression var_y = new VarRefExpression(new Identifier("y"));
+        var_y.setType(IntType.getInstance());
         List<Statement> thenList = new ArrayList<Statement>();
         List<Statement> elseList = new ArrayList<Statement>();
         thenList.add(new AssignStatement(var_y, new IntExpression(1)));

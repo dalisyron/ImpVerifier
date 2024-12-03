@@ -1,6 +1,7 @@
 package imp.verification;
 
 import imp.ast.expression.Identifier;
+import imp.ast.typing.data.value.IntType;
 import org.junit.Test;
 
 import com.microsoft.z3.BoolExpr;
@@ -20,7 +21,9 @@ public class AssignmentTest {
     @Test
     public void AssignIntTest() {
         Context ctx = new Context();
-        AssignStatement statement = new AssignStatement(new VarRefExpression(new Identifier("x")), new IntExpression(1));
+        VarRefExpression lhs = new VarRefExpression(new Identifier("x"));
+        lhs.setType(IntType.getInstance());
+        AssignStatement statement = new AssignStatement(lhs, new IntExpression(1));
         IntExpr x = ctx.mkIntConst("x");
         BoolExpr Q = ctx.mkEq(x, ctx.mkInt(1));
         BoolExpr awp = Assignment.getInstance().awp(ctx, statement, Q);
