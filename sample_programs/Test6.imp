@@ -1,9 +1,0 @@
-method Bar()
-    requires y > 10 && true
-{
-    while (x > 10 && y > 30 ==> y || z) {
-        int x = y;
-        int x = foo(bar(10), foog(20, x || y));
-    }
-}
-
