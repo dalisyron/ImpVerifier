@@ -1,11 +1,8 @@
 package imp.ast.expression.bool;
 
-import imp.ast.ASTNode;
 import imp.ast.expression.Expression;
-import imp.ast.typing.Type;
-import imp.ast.variable.Identifier;
-
-import java.util.List;
+import imp.ast.typing.data.DataType;
+import imp.ast.expression.Identifier;
 
 // Define an abstract sealed class for quantified expressions
 public abstract sealed class QuantifiedExpression extends Expression
@@ -14,9 +11,9 @@ public abstract sealed class QuantifiedExpression extends Expression
     protected final String quantifier;
     protected final Identifier variable;
     protected final Expression body;
-    private final Type type;
+    private final DataType type;
 
-    protected QuantifiedExpression(String quantifier, Identifier variable, Type type, Expression body) {
+    protected QuantifiedExpression(String quantifier, Identifier variable, DataType type, Expression body) {
         this.variable = variable;
         this.body = body;
         this.quantifier = quantifier;
@@ -53,7 +50,7 @@ public abstract sealed class QuantifiedExpression extends Expression
     }
 
 
-    public Type getType() {
+    public DataType getType() {
         return type;
     }
 }

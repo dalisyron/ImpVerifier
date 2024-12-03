@@ -3,8 +3,7 @@ package imp.ast.method;
 import imp.ast.ASTNode;
 import imp.ast.ASTVisitor;
 import imp.ast.condition.ConditionList;
-import imp.ast.statement.Statement;
-import imp.ast.variable.Identifier;
+import imp.ast.expression.Identifier;
 
 import java.util.Optional;
 import java.util.Objects;

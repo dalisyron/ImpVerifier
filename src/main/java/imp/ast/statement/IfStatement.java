@@ -8,17 +8,17 @@ import java.util.Optional;
 
 public final class IfStatement implements Statement {
 
-    private final Expression condition;
+    private final Condition condition;
     private final BlockStatement thenBlock;
     private final Optional<BlockStatement> elseBlock;
 
-    public IfStatement(Expression condition, BlockStatement thenBlock, Optional<BlockStatement> elseBlock) {
+    public IfStatement(Condition condition, BlockStatement thenBlock, Optional<BlockStatement> elseBlock) {
         this.condition = condition;
         this.thenBlock = thenBlock;
         this.elseBlock = elseBlock;
     }
 
-    public Expression condition() {
+    public Condition condition() {
         return condition;
     }
 

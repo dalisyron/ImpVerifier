@@ -6,7 +6,6 @@ import com.microsoft.z3.Expr;
 import imp.ast.expression.Expression;
 import imp.ast.expression.ReferenceExpression;
 import imp.ast.statement.AssignStatement;
-import imp.interpreter.Z3ImpInterpreter;
 
 public class Assignment implements VerificationConditionProvider<AssignStatement> {
 
@@ -20,8 +19,8 @@ public class Assignment implements VerificationConditionProvider<AssignStatement
         ReferenceExpression lhs = assignment.lhs();
         Expression rhs = assignment.expression();
 
-        Expr rhsExpr = Z3ImpInterpreter.convertExpression(ctx, rhs);
-        Expr lhsExpr = Z3ImpInterpreter.convertExpression(ctx, lhs);
+        Expr rhsExpr = rhs.interpret(ctx);
+        Expr lhsExpr = lhs.interpret(ctx);
         Expr substituted = Q.substitute(lhsExpr, rhsExpr);
 
         return (BoolExpr) substituted;

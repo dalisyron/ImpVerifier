@@ -3,6 +3,7 @@ package imp.parser;
 import imp.ast.Program;
 import imp.parser.antlr.ImpLexer;
 import imp.parser.antlr.ImpParser;
+import imp.typechecker.TypeChecker;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 
@@ -86,5 +87,17 @@ public class Parser {
         // Get the root of the AST
 
         return astBuilder.getProgram();
+    }
+
+    public static Program parseFileCheckingTypes(String filePath) throws IOException {
+        Program program = parseFile(filePath);
+        TypeChecker.checkTypes(program);
+        return program;
+    }
+
+    public static Program parseStringCheckingTypes(String program) {
+        Program parsedProgram = parseString(program);
+        TypeChecker.checkTypes(parsedProgram);
+        return parsedProgram;
     }
 }

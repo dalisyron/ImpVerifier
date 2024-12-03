@@ -1,5 +1,7 @@
 package imp.ast.expression.constant.integer;
 
+import com.microsoft.z3.Context;
+import com.microsoft.z3.Expr;
 import imp.ast.ASTVisitor;
 import imp.ast.expression.Expression;
 
@@ -37,5 +39,10 @@ public final class IntExpression extends Expression {
     @Override
     public void accept(ASTVisitor v) {
         v.visit(this);
+    }
+
+    @Override
+    public Expr interpret(Context ctx) {
+        return ctx.mkInt(value);
     }
 }

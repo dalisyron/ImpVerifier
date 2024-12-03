@@ -1,0 +1,4 @@
+method DeMorganLaw1()
+    ensures forall (bool A) :: forall (bool B) :: !(A && B) == (!A || !B)
+{
+}

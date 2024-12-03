@@ -1,17 +1,16 @@
 package imp.ast.expression.bool;
 
-import imp.ast.ASTNode;
+import com.microsoft.z3.*;
 import imp.ast.ASTVisitor;
 import imp.ast.expression.Expression;
-import imp.ast.typing.Type;
-import imp.ast.variable.Identifier;
-
-import java.util.List;
+import imp.ast.typing.data.DataType;
+import imp.ast.expression.Identifier;
+import imp.interpreter.expr.Z3ExprInterpreter;
 
 // Define the ExistsExpr subclass for "exists" quantifier
-public final class ExistsExpression extends QuantifiedExpression {
+public final class ExistsExpression extends QuantifiedExpression implements Z3ExprInterpreter {
 
-    public ExistsExpression(Identifier variable, Type type, Expression expression) {
+    public ExistsExpression(Identifier variable, DataType type, Expression expression) {
         super("exists", variable, type, expression);
     }
 
@@ -29,5 +28,15 @@ public final class ExistsExpression extends QuantifiedExpression {
     @Override
     public void accept(ASTVisitor v) {
         v.visit(this);
+    }
+
+    @Override
+    public Expr interpret(Context ctx) {
+        DataType type = getType();
+        Sort sort = type.interpret(ctx);
+
+        BoolExpr bodyExpr = (BoolExpr) body.interpret(ctx);
+
+        return ctx.mkExists(new Expr[] { ctx.mkConst(variable.name(), sort) }, bodyExpr, 1, null, null, null, null);
     }
 }

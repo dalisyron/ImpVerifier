@@ -29,7 +29,12 @@ import imp.ast.expression.unary.integer.NegExpression;
 import imp.ast.method.*;
 import imp.ast.statement.*;
 import imp.ast.typing.*;
-import imp.ast.variable.Identifier;
+import imp.ast.typing.data.DataType;
+import imp.ast.typing.data.array.BoolArray;
+import imp.ast.typing.data.value.BoolType;
+import imp.ast.typing.data.array.IntArray;
+import imp.ast.typing.data.value.IntType;
+import imp.ast.expression.Identifier;
 import imp.parser.antlr.ImpBaseListener;
 import imp.parser.antlr.ImpParser;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
@@ -104,7 +109,7 @@ public class ASTBuilder extends ImpBaseListener {
 
     @Override
     public void exitFormalParameter(ImpParser.FormalParameterContext ctx) {
-        Type type = (Type) values.get(ctx.type());
+        DataType type = (DataType) values.get(ctx.type());
         Identifier name = new Identifier(ctx.ID().getText());
         values.put(ctx, new Parameter(type, name));
     }
@@ -156,7 +161,7 @@ public class ASTBuilder extends ImpBaseListener {
             elseBlock = Optional.of((BlockStatement) values.get(ctx.ifStatement().block(1)));
         }
 
-        values.put(ctx, new IfStatement(condition, thenBlock, elseBlock));
+        values.put(ctx, new IfStatement(new Condition(condition), thenBlock, elseBlock));
     }
 
     @Override
@@ -360,7 +365,7 @@ public class ASTBuilder extends ImpBaseListener {
     public void exitQuantifiedExpr(ImpParser.QuantifiedExprContext ctx) {
         String quantifier = ctx.getChild(0).getText();
         Identifier variable = new Identifier(ctx.formalParameter().ID().getText());
-        Type type = (Type) values.get(ctx.formalParameter().type());
+        DataType type = (DataType) values.get(ctx.formalParameter().type());
         Expression expression = (Expression) values.get(ctx.expression());
 
         QuantifiedExpression result = quantifier.equals("forall")

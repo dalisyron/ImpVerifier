@@ -12,7 +12,7 @@ import imp.ast.expression.constant.bool.TrueExpression;
 import imp.ast.expression.constant.integer.IntExpression;
 import imp.ast.method.*;
 import imp.ast.statement.*;
-import imp.ast.variable.Identifier;
+import imp.ast.expression.Identifier;
 
 public abstract class ASTVisitor {
 
@@ -75,4 +75,6 @@ public abstract class ASTVisitor {
     public abstract void visit(NewArrayExpression newArrayExpression);
 
     public abstract void visit(TrueExpression trueExpression);
+
+    public abstract void visit(Condition condition);
 }

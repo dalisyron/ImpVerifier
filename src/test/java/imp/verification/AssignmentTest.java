@@ -1,5 +1,6 @@
 package imp.verification;
 
+import imp.ast.expression.Identifier;
 import org.junit.Test;
 
 import com.microsoft.z3.BoolExpr;
@@ -11,8 +12,6 @@ import com.microsoft.z3.Status;
 import imp.ast.expression.VarRefExpression;
 import imp.ast.expression.constant.integer.IntExpression;
 import imp.ast.statement.AssignStatement;
-
-import imp.ast.variable.*;
 
 import org.junit.Assert;
 

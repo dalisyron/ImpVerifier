@@ -1,5 +1,7 @@
 package imp.ast.expression;
 
+import com.microsoft.z3.Context;
+import com.microsoft.z3.Expr;
 import imp.ast.ASTVisitor;
 
 public final class ArrayLengthExpression extends Expression {
@@ -36,5 +38,10 @@ public final class ArrayLengthExpression extends Expression {
     @Override
     public void accept(ASTVisitor v) {
         v.visit(this);
+    }
+
+    @Override
+    public Expr interpret(Context ctx) {
+        throw new UnsupportedOperationException("Not Implemented");
     }
 }

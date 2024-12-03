@@ -622,10 +622,7 @@ public class TypeCheckerTest {
     private void testTypeCheckerOnProgramString(String program) {
         try {
             // Parse the input program string
-            Program ast = Parser.parseString(program);
-
-            // Run the TypeChecker on the AST
-            TypeChecker.checkTypes(ast);
+            Program ast = Parser.parseStringCheckingTypes(program);
 
             // If no exception is thrown, the test passes
             Assertions.assertTrue(true); // Explicitly state that the test passed

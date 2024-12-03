@@ -12,7 +12,6 @@ import imp.ast.condition.EnsuresClause;
 import imp.ast.condition.RequiresClause;
 import imp.ast.statement.BlockStatement;
 import imp.ast.statement.Statement;
-import imp.interpreter.Z3ImpInterpreter;
 
 import java.util.Optional;
 
@@ -37,10 +36,10 @@ public class Method {
         for (int i = 0; i < conditionalsList.conditions().size(); i++ ) {
             ConditionClause condition = conditionalsList.conditions().get(i);
             if (condition instanceof EnsuresClause) {
-                Q = ctx.mkAnd(Z3ImpInterpreter.convertConditional(ctx, condition.expr()));
+                Q = ctx.mkAnd(condition.interpret(ctx));
             }
             else if (condition instanceof RequiresClause) {
-                P = ctx.mkAnd(Z3ImpInterpreter.convertConditional(ctx, condition.expr()));
+                P = ctx.mkAnd(condition.interpret(ctx));
             }
         }
         
