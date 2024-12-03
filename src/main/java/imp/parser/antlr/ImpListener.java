@@ -422,18 +422,6 @@ public interface ImpListener extends ParseTreeListener {
 	 */
 	void exitNewArray(ImpParser.NewArrayContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code MulDivExpr}
-	 * labeled alternative in {@link ImpParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterMulDivExpr(ImpParser.MulDivExprContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code MulDivExpr}
-	 * labeled alternative in {@link ImpParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitMulDivExpr(ImpParser.MulDivExprContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code F_Implies}
 	 * labeled alternative in {@link ImpParser#expression}.
 	 * @param ctx the parse tree
@@ -445,6 +433,18 @@ public interface ImpListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitF_Implies(ImpParser.F_ImpliesContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code MulDivModExpr}
+	 * labeled alternative in {@link ImpParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterMulDivModExpr(ImpParser.MulDivModExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code MulDivModExpr}
+	 * labeled alternative in {@link ImpParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitMulDivModExpr(ImpParser.MulDivModExprContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code EqExpr}
 	 * labeled alternative in {@link ImpParser#expression}.

@@ -13,10 +13,7 @@ import imp.ast.expression.array.NewArrayExpression;
 import imp.ast.expression.binary.bool.compare.*;
 import imp.ast.expression.binary.bool.logic.AndExpression;
 import imp.ast.expression.binary.bool.logic.OrExpression;
-import imp.ast.expression.binary.integer.AddExpression;
-import imp.ast.expression.binary.integer.DivExpression;
-import imp.ast.expression.binary.integer.MulExpression;
-import imp.ast.expression.binary.integer.SubExpression;
+import imp.ast.expression.binary.integer.*;
 import imp.ast.expression.bool.*;
 import imp.ast.expression.binary.bool.logic.ImpliesExpression;
 import imp.ast.expression.bool.QuantifiedExpression;
@@ -29,7 +26,12 @@ import imp.ast.expression.unary.integer.NegExpression;
 import imp.ast.method.*;
 import imp.ast.statement.*;
 import imp.ast.typing.*;
-import imp.ast.variable.Identifier;
+import imp.ast.typing.data.DataType;
+import imp.ast.typing.data.array.BoolArray;
+import imp.ast.typing.data.value.BoolType;
+import imp.ast.typing.data.array.IntArray;
+import imp.ast.typing.data.value.IntType;
+import imp.ast.expression.Identifier;
 import imp.parser.antlr.ImpBaseListener;
 import imp.parser.antlr.ImpParser;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
@@ -104,7 +106,7 @@ public class ASTBuilder extends ImpBaseListener {
 
     @Override
     public void exitFormalParameter(ImpParser.FormalParameterContext ctx) {
-        Type type = (Type) values.get(ctx.type());
+        DataType type = (DataType) values.get(ctx.type());
         Identifier name = new Identifier(ctx.ID().getText());
         values.put(ctx, new Parameter(type, name));
     }
@@ -156,7 +158,7 @@ public class ASTBuilder extends ImpBaseListener {
             elseBlock = Optional.of((BlockStatement) values.get(ctx.ifStatement().block(1)));
         }
 
-        values.put(ctx, new IfStatement(condition, thenBlock, elseBlock));
+        values.put(ctx, new IfStatement(new Condition(condition), thenBlock, elseBlock));
     }
 
     @Override
@@ -249,13 +251,17 @@ public class ASTBuilder extends ImpBaseListener {
     }
 
     @Override
-    public void exitMulDivExpr(ImpParser.MulDivExprContext ctx) {
+    public void exitMulDivModExpr(ImpParser.MulDivModExprContext ctx) {
         Expression left = (Expression) values.get(ctx.expression(0));
         Expression right = (Expression) values.get(ctx.expression(1));
         String op = ctx.getChild(1).getText();
 
-        Expression result = op.equals("*") ? new MulExpression(left, right) : new DivExpression(left, right);
-        values.put(ctx, result);
+        if (op.equals("%")) {
+            values.put(ctx, new ModExpression(left, right));
+        } else {
+            Expression result = op.equals("*") ? new MulExpression(left, right) : new DivExpression(left, right);
+            values.put(ctx, result);
+        }
     }
 
     @Override
@@ -360,7 +366,7 @@ public class ASTBuilder extends ImpBaseListener {
     public void exitQuantifiedExpr(ImpParser.QuantifiedExprContext ctx) {
         String quantifier = ctx.getChild(0).getText();
         Identifier variable = new Identifier(ctx.formalParameter().ID().getText());
-        Type type = (Type) values.get(ctx.formalParameter().type());
+        DataType type = (DataType) values.get(ctx.formalParameter().type());
         Expression expression = (Expression) values.get(ctx.expression());
 
         QuantifiedExpression result = quantifier.equals("forall")

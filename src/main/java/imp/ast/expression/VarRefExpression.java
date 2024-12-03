@@ -1,10 +1,13 @@
 package imp.ast.expression;
 
+import com.microsoft.z3.Context;
+import com.microsoft.z3.Expr;
 import imp.ast.ASTVisitor;
-import imp.ast.variable.Identifier;
+import imp.ast.typing.data.DataType;
 
 public final class VarRefExpression extends ReferenceExpression {
     private final Identifier variableName;
+    private DataType type;
 
     public VarRefExpression(Identifier variableName) {
         this.variableName = variableName;
@@ -35,5 +38,18 @@ public final class VarRefExpression extends ReferenceExpression {
     @Override
     public void accept(ASTVisitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public Expr interpret(Context ctx) {
+        return ctx.mkConst(variableName.name(), type.interpret(ctx));
+    }
+
+    public DataType getType() {
+        return type;
+    }
+
+    public void setType(DataType type) {
+        this.type = type;
     }
 }

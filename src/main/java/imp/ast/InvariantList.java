@@ -1,12 +1,16 @@
 package imp.ast;
 
+import com.microsoft.z3.BoolExpr;
+import com.microsoft.z3.Context;
 import imp.ast.ASTNode;
 import imp.ast.Invariant;
+import imp.ast.expression.Expression;
+import imp.interpreter.expr.Z3BoolExprInterpreter;
 
 import java.util.List;
 import java.util.Objects;
 
-public final class InvariantList implements ASTNode {
+public final class InvariantList implements ASTNode, Z3BoolExprInterpreter {
 
     private final List<Invariant> invariants;
 
@@ -45,5 +49,15 @@ public final class InvariantList implements ASTNode {
     @Override
     public void accept(ASTVisitor v) {
         v.visit(this);
+    }
+
+    @Override
+    public BoolExpr interpret(Context ctx) {
+        BoolExpr I = ctx.mkTrue();
+        for (Invariant invariant : invariants) {
+            Expression invariantExpression = invariant.expression();
+            I = ctx.mkAnd(I, (BoolExpr) invariantExpression.interpret(ctx));
+        }
+        return I;
     }
 }

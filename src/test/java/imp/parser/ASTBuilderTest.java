@@ -35,8 +35,8 @@ class ASTBuilderTest {
     }
 
     @Test
-    void testTmp() throws IOException {
-        String filePath = "TestData/Parser/Test7.imp";
+    void testSingle() throws IOException {
+        String filePath = "TestData/Parser/Test1.imp";
 
         testAstEqualsReparsedAst(filePath);
     }

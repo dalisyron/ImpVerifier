@@ -3,7 +3,7 @@ package imp.ast.statement;
 import imp.ast.ASTVisitor;
 import imp.ast.expression.Expression;
 import imp.ast.typing.Type;
-import imp.ast.variable.Identifier;
+import imp.ast.expression.Identifier;
 
 import java.util.Objects;
 import java.util.Optional;

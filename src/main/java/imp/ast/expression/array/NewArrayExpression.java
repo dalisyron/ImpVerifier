@@ -1,11 +1,10 @@
 package imp.ast.expression.array;
 
-import imp.ast.ASTNode;
+import com.microsoft.z3.Context;
+import com.microsoft.z3.Expr;
 import imp.ast.ASTVisitor;
 import imp.ast.expression.Expression;
 import imp.ast.typing.Type;
-
-import java.util.List;
 
 public final class NewArrayExpression extends Expression {
 
@@ -46,5 +45,10 @@ public final class NewArrayExpression extends Expression {
     @Override
     public void accept(ASTVisitor v) {
         v.visit(this);
+    }
+
+    @Override
+    public Expr interpret(Context ctx) {
+        throw new UnsupportedOperationException("Not Supported");
     }
 }

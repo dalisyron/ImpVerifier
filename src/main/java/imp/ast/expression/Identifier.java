@@ -1,13 +1,19 @@
-package imp.ast.variable;
+package imp.ast.expression;
 
+import com.microsoft.z3.*;
 import imp.ast.ASTNode;
 import imp.ast.ASTVisitor;
+import imp.ast.typing.FunctionType;
+import imp.ast.typing.Type;
+import imp.ast.typing.data.DataType;
+import imp.interpreter.Z3ASTInterpreter;
 
 import java.util.Objects;
 
-public final class Identifier implements ASTNode {
+public final class Identifier implements ASTNode, Z3ASTInterpreter {
 
     private final String name;
+    private Type type;
 
     public Identifier(String name) {
         Objects.requireNonNull(name);
@@ -45,7 +51,7 @@ public final class Identifier implements ASTNode {
 
         Identifier that = (Identifier) o;
 
-        return Objects.equals(name, that.name);
+        return name.equals(that.name);
     }
 
     @Override
@@ -56,5 +62,26 @@ public final class Identifier implements ASTNode {
     @Override
     public void accept(ASTVisitor v) {
         v.visit(this);
+    }
+
+    public AST interpret(Context ctx) {
+        if (type instanceof DataType) {
+            Sort sort = ((DataType) type).interpret(ctx);
+            return ctx.mkConst(name, sort);
+        } else if (type instanceof FunctionType functionType) {
+            Sort[] argSorts = functionType.getParameterTypes().stream().map(dataType -> dataType.interpret(ctx)).toArray(Sort[]::new);
+            Sort returnSort = functionType.getReturnType().interpret(ctx);
+            return ctx.mkFuncDecl(name, argSorts, returnSort);
+        } else {
+            throw new IllegalStateException("Unknown type: " + type);
+        }
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public Type getType() {
+        return type;
     }
 }

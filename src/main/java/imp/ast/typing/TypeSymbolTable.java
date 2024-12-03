@@ -1,6 +1,6 @@
 package imp.ast.typing;
 
-import imp.ast.variable.Identifier;
+import imp.ast.expression.Identifier;
 
 import java.util.*;
 

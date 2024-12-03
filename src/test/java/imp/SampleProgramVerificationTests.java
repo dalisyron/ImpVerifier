@@ -17,11 +17,9 @@ import java.util.stream.Stream;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 
-public class FunctionExampleTest {
+public class SampleProgramVerificationTests {
     @Test
     public void test() {
         Context ctx = new Context();
@@ -63,9 +61,16 @@ public class FunctionExampleTest {
         }
     }
 
+    @Test
+    public void testSingle() throws IOException {
+        String filePath = "TestData/Examples/Q2Sum.imp";
+
+        testProgram(filePath);
+    }
+
     private void testProgram(String filePath) throws IOException {
         String text = readProgramFromFile(filePath);
-        Program program = Parser.parseString(text);
+        Program program = Parser.parseStringCheckingTypes(text);
         List<MethodDeclaration> methods = program.methods();
         Context ctx = new Context();
 

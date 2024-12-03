@@ -13,7 +13,13 @@ import imp.ast.expression.constant.integer.IntExpression;
 import imp.ast.method.*;
 import imp.ast.statement.*;
 import imp.ast.typing.*;
-import imp.ast.variable.Identifier;
+import imp.ast.typing.data.DataType;
+import imp.ast.typing.data.array.ArrayType;
+import imp.ast.typing.data.array.BoolArray;
+import imp.ast.typing.data.array.IntArray;
+import imp.ast.typing.data.value.BoolType;
+import imp.ast.typing.data.value.IntType;
+import imp.ast.expression.Identifier;
 
 import java.util.*;
 
@@ -49,14 +55,14 @@ public class TypeChecker {
 
         private void collectMethodSignature(MethodDeclaration methodDeclaration) {
             // Collect parameter types
-            List<Type> paramTypes = new ArrayList<>();
+            List<DataType> paramTypes = new ArrayList<>();
             if (methodDeclaration.parameterList().isPresent()) {
                 for (Parameter param : methodDeclaration.parameterList().get().parameters()) {
                     paramTypes.add(param.type());
                 }
             }
             // Determine return type
-            Type returnType = methodDeclaration.returnValue().map(ReturnValue::type).orElse(VoidType.getInstance());
+            DataType returnType = methodDeclaration.returnValue().map(ReturnValue::type).orElse(VoidType.getInstance());
             // Create FunctionType
             FunctionType methodType = new FunctionType(paramTypes, returnType);
             // Add to function symbol table
@@ -247,6 +253,10 @@ public class TypeChecker {
                 throw new TypeError("Variable " + varName + " is not declared.");
             }
             lastType = varType;
+            if (!(lastType instanceof DataType)) {
+                throw new TypeError("Variable " + varName + " is not a data type.");
+            }
+            varRefExpression.setType((DataType) lastType);
         }
 
         @Override
@@ -267,7 +277,9 @@ public class TypeChecker {
 
             if (arrayType instanceof BoolArray) {
                 lastType = BoolType.getInstance();
+                arrayRefExpression.setElementType(BoolType.getInstance());
             } else {
+                arrayRefExpression.setElementType(IntType.getInstance());
                 lastType = IntType.getInstance();
             }
         }
@@ -319,6 +331,14 @@ public class TypeChecker {
         }
 
         @Override
+        public void visit(Condition condition) {
+            condition.expression().accept(this);
+            if (!(lastType instanceof BoolType)) {
+                throw new TypeError("Condition expression must be of type bool.");
+            }
+        }
+
+        @Override
         public void visit(FuncCallExpression funcCallExpression) {
             Identifier funcName = funcCallExpression.functionName();
             FunctionType funcType = functionSymTab.get(funcName);
@@ -339,6 +359,7 @@ public class TypeChecker {
                     throw new TypeError("Function " + funcName + " argument " + (i + 1) + " expects type " + expectedType + ", but got " + argType);
                 }
             }
+            funcCallExpression.setType(funcType);
 
             lastType = funcType.getReturnType();
         }
@@ -400,7 +421,7 @@ public class TypeChecker {
         }
 
         private Type getBinaryOpResultType(String op, Type leftType, Type rightType) {
-            if (op.matches("\\+|\\-|\\*|/")) {
+            if (op.matches("\\+|\\-|\\*|/|%")) {
                 if (leftType instanceof IntType && rightType instanceof IntType) {
                     return IntType.getInstance();
                 }
@@ -408,11 +429,19 @@ public class TypeChecker {
                 if (leftType instanceof BoolType && rightType instanceof BoolType) {
                     return BoolType.getInstance();
                 }
-            } else if (op.matches("==|!=|<|>|<=|>=")) {
+            } else if (op.matches("<|>|<=|>=")) {
                 if (leftType instanceof IntType && rightType instanceof IntType) {
                     return BoolType.getInstance();
                 }
-            } else if (op.equals("==>")) { // Implies operator
+            } else if (op.matches("==")) {
+                if (leftType instanceof IntType && rightType instanceof IntType) {
+                    return BoolType.getInstance();
+                }
+                if (leftType instanceof BoolType && rightType instanceof BoolType) {
+                    return BoolType.getInstance();
+                }
+            }
+            else if (op.equals("==>")) { // Implies operator
                 if (leftType instanceof BoolType && rightType instanceof BoolType) {
                     return BoolType.getInstance();
                 }

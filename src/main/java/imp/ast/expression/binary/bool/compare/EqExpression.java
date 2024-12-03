@@ -1,5 +1,7 @@
 package imp.ast.expression.binary.bool.compare;
 
+import com.microsoft.z3.Context;
+import com.microsoft.z3.Expr;
 import imp.ast.expression.BinaryOpExpression;
 import imp.ast.expression.Expression;
 
@@ -12,5 +14,10 @@ public final class EqExpression extends BinaryOpExpression {
     @Override
     public String operatorSymbol() {
         return "==";
+    }
+
+    @Override
+    public Expr interpret(Context ctx) {
+        return ctx.mkEq(left().interpret(ctx), right().interpret(ctx));
     }
 }

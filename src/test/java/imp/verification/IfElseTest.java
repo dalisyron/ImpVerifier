@@ -17,7 +17,7 @@ import imp.ast.expression.VarRefExpression;
 import imp.ast.expression.binary.bool.compare.LessThanExpression;
 import imp.ast.expression.constant.integer.IntExpression;
 import imp.ast.statement.*;
-import imp.ast.variable.Identifier;
+import imp.ast.expression.Identifier;
 
 
 public class IfElseTest {
@@ -32,7 +32,7 @@ public class IfElseTest {
         elseList.add(new AssignStatement(var_y, new IntExpression(2)));
         BlockStatement thenBlock = new BlockStatement(thenList);
         BlockStatement elseBlock = new BlockStatement(elseList);
-        IfStatement statement = new IfStatement(condition, thenBlock,Optional.of(elseBlock));
+        IfStatement statement = new IfStatement(new Condition(condition), thenBlock,Optional.of(elseBlock));
 
         Context ctx = new Context();
         IntExpr x = ctx.mkIntConst("x");

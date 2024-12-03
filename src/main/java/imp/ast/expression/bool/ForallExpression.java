@@ -1,14 +1,15 @@
 package imp.ast.expression.bool;
 
+import com.microsoft.z3.*;
 import imp.ast.ASTVisitor;
 import imp.ast.expression.Expression;
-import imp.ast.typing.Type;
-import imp.ast.variable.Identifier;
+import imp.ast.typing.data.DataType;
+import imp.ast.expression.Identifier;
 
 // Define the ForallExpr subclass for "forall" quantifier
 public final class ForallExpression extends QuantifiedExpression {
 
-    public ForallExpression(Identifier variable, Type type, Expression expression) {
+    public ForallExpression(Identifier variable, DataType type, Expression expression) {
         super("forall", variable, type, expression);
     }
 
@@ -25,5 +26,15 @@ public final class ForallExpression extends QuantifiedExpression {
     @Override
     public void accept(ASTVisitor v) {
         v.visit(this);
+    }
+
+    @Override
+    public Expr interpret(Context ctx) {
+        DataType type = getType();
+        Sort sort = type.interpret(ctx);
+
+        BoolExpr bodyExpr = (BoolExpr) body.interpret(ctx);
+
+        return ctx.mkForall(new Expr[] { ctx.mkConst(variable.name(), sort) }, bodyExpr, 1, null, null, null, null);
     }
 }

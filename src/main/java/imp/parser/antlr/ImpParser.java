@@ -22,7 +22,8 @@ public class ImpParser extends Parser {
 		LEQ=18, GEQ=19, SEMICOLON=20, GREATER=21, LESS=22, NOT=23, AND=24, OR=25, 
 		LPAREN=26, RPAREN=27, LBRACE=28, RBRACE=29, REQUIRES=30, ENSURES=31, INVARIANT=32, 
 		FORALL=33, EXISTS=34, IMPLIES=35, DOUBLECOLON=36, MINUS=37, INTDIV=38, 
-		RETURNS=39, ARGSEP=40, NEW=41, COLON=42, ID=43, INT=44, WS=45, SL_COMMENT=46;
+		RETURNS=39, ARGSEP=40, NEW=41, COLON=42, INTMOD=43, ID=44, INT=45, WS=46, 
+		SL_COMMENT=47;
 	public static final int
 		RULE_parse = 0, RULE_methodDeclaration = 1, RULE_formalParameters = 2, 
 		RULE_formalParameter = 3, RULE_returnsBlock = 4, RULE_conditionBlock = 5, 
@@ -48,7 +49,7 @@ public class ImpParser extends Parser {
 			"'+'", "'*'", "'=='", "'<='", "'>='", "';'", "'>'", "'<'", "'!'", "'&&'", 
 			"'||'", "'('", "')'", "'{'", "'}'", "'requires'", "'ensures'", "'invariant'", 
 			"'forall'", "'exists'", "'==>'", "'::'", "'-'", "'/'", "'returns'", "','", 
-			"'new'", "':'"
+			"'new'", "':'", "'%'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -59,7 +60,7 @@ public class ImpParser extends Parser {
 			"SEMICOLON", "GREATER", "LESS", "NOT", "AND", "OR", "LPAREN", "RPAREN", 
 			"LBRACE", "RBRACE", "REQUIRES", "ENSURES", "INVARIANT", "FORALL", "EXISTS", 
 			"IMPLIES", "DOUBLECOLON", "MINUS", "INTDIV", "RETURNS", "ARGSEP", "NEW", 
-			"COLON", "ID", "INT", "WS", "SL_COMMENT"
+			"COLON", "INTMOD", "ID", "INT", "WS", "SL_COMMENT"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -783,7 +784,7 @@ public class ImpParser extends Parser {
 			setState(103);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 28750855024188L) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 55139134090812L) != 0)) {
 				{
 				{
 				setState(100);
@@ -1507,26 +1508,6 @@ public class ImpParser extends Parser {
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
-	public static class MulDivExprContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode TIMES() { return getToken(ImpParser.TIMES, 0); }
-		public TerminalNode INTDIV() { return getToken(ImpParser.INTDIV, 0); }
-		public MulDivExprContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ImpListener ) ((ImpListener)listener).enterMulDivExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ImpListener ) ((ImpListener)listener).exitMulDivExpr(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
 	public static class F_ImpliesContext extends ExpressionContext {
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
@@ -1543,6 +1524,27 @@ public class ImpParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof ImpListener ) ((ImpListener)listener).exitF_Implies(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class MulDivModExprContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode TIMES() { return getToken(ImpParser.TIMES, 0); }
+		public TerminalNode INTDIV() { return getToken(ImpParser.INTDIV, 0); }
+		public TerminalNode INTMOD() { return getToken(ImpParser.INTMOD, 0); }
+		public MulDivModExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ImpListener ) ((ImpListener)listener).enterMulDivModExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ImpListener ) ((ImpListener)listener).exitMulDivModExpr(this);
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
@@ -1698,7 +1700,7 @@ public class ImpParser extends Parser {
 				setState(167);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 28750586578432L) != 0)) {
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 55138865645056L) != 0)) {
 					{
 					setState(166);
 					exprList();
@@ -1804,13 +1806,13 @@ public class ImpParser extends Parser {
 					switch ( getInterpreter().adaptivePredict(_input,15,_ctx) ) {
 					case 1:
 						{
-						_localctx = new MulDivExprContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new MulDivModExprContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(189);
 						if (!(precpred(_ctx, 16))) throw new FailedPredicateException(this, "precpred(_ctx, 16)");
 						setState(190);
 						_la = _input.LA(1);
-						if ( !(_la==TIMES || _la==INTDIV) ) {
+						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 9070970994688L) != 0)) ) {
 						_errHandler.recoverInline(this);
 						}
 						else {
@@ -1864,36 +1866,36 @@ public class ImpParser extends Parser {
 						break;
 					case 4:
 						{
-						_localctx = new AndExprContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new EqExprContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(198);
 						if (!(precpred(_ctx, 12))) throw new FailedPredicateException(this, "precpred(_ctx, 12)");
 						setState(199);
-						match(AND);
+						match(EQUAL);
 						setState(200);
 						expression(13);
 						}
 						break;
 					case 5:
 						{
-						_localctx = new OrExprContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new AndExprContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(201);
 						if (!(precpred(_ctx, 11))) throw new FailedPredicateException(this, "precpred(_ctx, 11)");
 						setState(202);
-						match(OR);
+						match(AND);
 						setState(203);
 						expression(12);
 						}
 						break;
 					case 6:
 						{
-						_localctx = new EqExprContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new OrExprContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(204);
 						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
 						setState(205);
-						match(EQUAL);
+						match(OR);
 						setState(206);
 						expression(11);
 						}
@@ -2120,7 +2122,7 @@ public class ImpParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001.\u00ea\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001/\u00ea\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
 		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
 		"\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0002\u000b\u0007\u000b\u0002"+
@@ -2157,8 +2159,8 @@ public class ImpParser extends Parser {
 		"\u0003\u0012\u00e0\b\u0012\u0001\u0013\u0001\u0013\u0001\u0013\u0005\u0013"+
 		"\u00e5\b\u0013\n\u0013\f\u0013\u00e8\t\u0013\u0001\u0013\u0000\u0001\""+
 		"\u0014\u0000\u0002\u0004\u0006\b\n\f\u000e\u0010\u0012\u0014\u0016\u0018"+
-		"\u001a\u001c\u001e \"$&\u0000\u0004\u0001\u0000!\"\u0002\u0000\u0010\u0010"+
-		"&&\u0002\u0000\u000f\u000f%%\u0002\u0000\u0012\u0013\u0015\u0016\u00fd"+
+		"\u001a\u001c\u001e \"$&\u0000\u0004\u0001\u0000!\"\u0003\u0000\u0010\u0010"+
+		"&&++\u0002\u0000\u000f\u000f%%\u0002\u0000\u0012\u0013\u0015\u0016\u00fd"+
 		"\u0000)\u0001\u0000\u0000\u0000\u0002/\u0001\u0000\u0000\u0000\u0004<"+
 		"\u0001\u0000\u0000\u0000\u0006D\u0001\u0000\u0000\u0000\bG\u0001\u0000"+
 		"\u0000\u0000\nP\u0001\u0000\u0000\u0000\fS\u0001\u0000\u0000\u0000\u000e"+
@@ -2171,7 +2173,7 @@ public class ImpParser extends Parser {
 		"\u0001\u0000)(\u0001\u0000\u0000\u0000*+\u0001\u0000\u0000\u0000+)\u0001"+
 		"\u0000\u0000\u0000+,\u0001\u0000\u0000\u0000,-\u0001\u0000\u0000\u0000"+
 		"-.\u0005\u0000\u0000\u0001.\u0001\u0001\u0000\u0000\u0000/0\u0005\u0001"+
-		"\u0000\u000001\u0005+\u0000\u000013\u0005\u001a\u0000\u000024\u0003\u0004"+
+		"\u0000\u000001\u0005,\u0000\u000013\u0005\u001a\u0000\u000024\u0003\u0004"+
 		"\u0002\u000032\u0001\u0000\u0000\u000034\u0001\u0000\u0000\u000045\u0001"+
 		"\u0000\u0000\u000057\u0005\u001b\u0000\u000068\u0003\b\u0004\u000076\u0001"+
 		"\u0000\u0000\u000078\u0001\u0000\u0000\u000089\u0001\u0000\u0000\u0000"+
@@ -2179,7 +2181,7 @@ public class ImpParser extends Parser {
 		"\u0000<A\u0003\u0006\u0003\u0000=>\u0005(\u0000\u0000>@\u0003\u0006\u0003"+
 		"\u0000?=\u0001\u0000\u0000\u0000@C\u0001\u0000\u0000\u0000A?\u0001\u0000"+
 		"\u0000\u0000AB\u0001\u0000\u0000\u0000B\u0005\u0001\u0000\u0000\u0000"+
-		"CA\u0001\u0000\u0000\u0000DE\u0003 \u0010\u0000EF\u0005+\u0000\u0000F"+
+		"CA\u0001\u0000\u0000\u0000DE\u0003 \u0010\u0000EF\u0005,\u0000\u0000F"+
 		"\u0007\u0001\u0000\u0000\u0000GH\u0005\'\u0000\u0000HI\u0005\u001a\u0000"+
 		"\u0000IJ\u0003\u0006\u0003\u0000JK\u0005\u001b\u0000\u0000K\t\u0001\u0000"+
 		"\u0000\u0000LO\u0003\f\u0006\u0000MO\u0003\u000e\u0007\u0000NL\u0001\u0000"+
@@ -2209,7 +2211,7 @@ public class ImpParser extends Parser {
 		"\u0000\u0000\u0083\u001b\u0001\u0000\u0000\u0000\u0084\u0085\u0003$\u0012"+
 		"\u0000\u0085\u0086\u0005\u000e\u0000\u0000\u0086\u0087\u0003\"\u0011\u0000"+
 		"\u0087\u0088\u0005\u0014\u0000\u0000\u0088\u001d\u0001\u0000\u0000\u0000"+
-		"\u0089\u008a\u0003 \u0010\u0000\u008a\u008d\u0005+\u0000\u0000\u008b\u008c"+
+		"\u0089\u008a\u0003 \u0010\u0000\u008a\u008d\u0005,\u0000\u0000\u008b\u008c"+
 		"\u0005\u000e\u0000\u0000\u008c\u008e\u0003\"\u0011\u0000\u008d\u008b\u0001"+
 		"\u0000\u0000\u0000\u008d\u008e\u0001\u0000\u0000\u0000\u008e\u008f\u0001"+
 		"\u0000\u0000\u0000\u008f\u0090\u0005\u0014\u0000\u0000\u0090\u001f\u0001"+
@@ -2224,10 +2226,10 @@ public class ImpParser extends Parser {
 		"\u0000\u009d\u00bc\u0003\"\u0011\u0011\u009e\u009f\u0005\u0017\u0000\u0000"+
 		"\u009f\u00bc\u0003\"\u0011\r\u00a0\u00a1\u0005\u001a\u0000\u0000\u00a1"+
 		"\u00a2\u0003\"\u0011\u0000\u00a2\u00a3\u0005\u001b\u0000\u0000\u00a3\u00bc"+
-		"\u0001\u0000\u0000\u0000\u00a4\u00a5\u0005+\u0000\u0000\u00a5\u00a7\u0005"+
+		"\u0001\u0000\u0000\u0000\u00a4\u00a5\u0005,\u0000\u0000\u00a5\u00a7\u0005"+
 		"\u001a\u0000\u0000\u00a6\u00a8\u0003&\u0013\u0000\u00a7\u00a6\u0001\u0000"+
 		"\u0000\u0000\u00a7\u00a8\u0001\u0000\u0000\u0000\u00a8\u00a9\u0001\u0000"+
-		"\u0000\u0000\u00a9\u00bc\u0005\u001b\u0000\u0000\u00aa\u00bc\u0005,\u0000"+
+		"\u0000\u0000\u00a9\u00bc\u0005\u001b\u0000\u0000\u00aa\u00bc\u0005-\u0000"+
 		"\u0000\u00ab\u00bc\u0005\t\u0000\u0000\u00ac\u00bc\u0005\n\u0000\u0000"+
 		"\u00ad\u00ae\u0007\u0000\u0000\u0000\u00ae\u00af\u0005\u001a\u0000\u0000"+
 		"\u00af\u00b0\u0003\u0006\u0003\u0000\u00b0\u00b1\u0005\u001b\u0000\u0000"+
@@ -2245,10 +2247,10 @@ public class ImpParser extends Parser {
 		"\u00bf\u00d5\u0003\"\u0011\u0011\u00c0\u00c1\n\u000f\u0000\u0000\u00c1"+
 		"\u00c2\u0007\u0002\u0000\u0000\u00c2\u00d5\u0003\"\u0011\u0010\u00c3\u00c4"+
 		"\n\u000e\u0000\u0000\u00c4\u00c5\u0007\u0003\u0000\u0000\u00c5\u00d5\u0003"+
-		"\"\u0011\u000f\u00c6\u00c7\n\f\u0000\u0000\u00c7\u00c8\u0005\u0018\u0000"+
+		"\"\u0011\u000f\u00c6\u00c7\n\f\u0000\u0000\u00c7\u00c8\u0005\u0011\u0000"+
 		"\u0000\u00c8\u00d5\u0003\"\u0011\r\u00c9\u00ca\n\u000b\u0000\u0000\u00ca"+
-		"\u00cb\u0005\u0019\u0000\u0000\u00cb\u00d5\u0003\"\u0011\f\u00cc\u00cd"+
-		"\n\n\u0000\u0000\u00cd\u00ce\u0005\u0011\u0000\u0000\u00ce\u00d5\u0003"+
+		"\u00cb\u0005\u0018\u0000\u0000\u00cb\u00d5\u0003\"\u0011\f\u00cc\u00cd"+
+		"\n\n\u0000\u0000\u00cd\u00ce\u0005\u0019\u0000\u0000\u00ce\u00d5\u0003"+
 		"\"\u0011\u000b\u00cf\u00d0\n\u0012\u0000\u0000\u00d0\u00d5\u0005\u0006"+
 		"\u0000\u0000\u00d1\u00d2\n\u0004\u0000\u0000\u00d2\u00d3\u0005#\u0000"+
 		"\u0000\u00d3\u00d5\u0003\"\u0011\u0000\u00d4\u00bd\u0001\u0000\u0000\u0000"+
@@ -2258,7 +2260,7 @@ public class ImpParser extends Parser {
 		"\u00d4\u00d1\u0001\u0000\u0000\u0000\u00d5\u00d8\u0001\u0000\u0000\u0000"+
 		"\u00d6\u00d4\u0001\u0000\u0000\u0000\u00d6\u00d7\u0001\u0000\u0000\u0000"+
 		"\u00d7#\u0001\u0000\u0000\u0000\u00d8\u00d6\u0001\u0000\u0000\u0000\u00d9"+
-		"\u00e0\u0005+\u0000\u0000\u00da\u00db\u0005+\u0000\u0000\u00db\u00dc\u0005"+
+		"\u00e0\u0005,\u0000\u0000\u00da\u00db\u0005,\u0000\u0000\u00db\u00dc\u0005"+
 		"\u0007\u0000\u0000\u00dc\u00dd\u0003\"\u0011\u0000\u00dd\u00de\u0005\b"+
 		"\u0000\u0000\u00de\u00e0\u0001\u0000\u0000\u0000\u00df\u00d9\u0001\u0000"+
 		"\u0000\u0000\u00df\u00da\u0001\u0000\u0000\u0000\u00e0%\u0001\u0000\u0000"+

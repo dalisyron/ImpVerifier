@@ -1,11 +1,15 @@
 package imp.ast.expression;
 
+import com.microsoft.z3.Context;
+import com.microsoft.z3.Expr;
+import com.microsoft.z3.Sort;
 import imp.ast.ASTVisitor;
-import imp.ast.variable.Identifier;
+import imp.ast.typing.data.value.PrimitiveType;
 
 public final class ArrayRefExpression extends ReferenceExpression {
     private final Identifier arrayName;
     private final Expression indexExpression;
+    private PrimitiveType elementType;
 
     public ArrayRefExpression(Identifier arrayName, Expression indexExpression) {
         this.arrayName = arrayName;
@@ -38,5 +42,20 @@ public final class ArrayRefExpression extends ReferenceExpression {
     @Override
     public void accept(ASTVisitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public Expr interpret(Context ctx) {
+        Sort sort = elementType.interpret(ctx);
+
+        return ctx.mkSelect(ctx.mkArrayConst(arrayName.name(), ctx.mkIntSort(), sort), indexExpression.interpret(ctx));
+    }
+
+    public PrimitiveType getElementType() {
+        return elementType;
+    }
+
+    public void setElementType(PrimitiveType elementType) {
+        this.elementType = elementType;
     }
 }

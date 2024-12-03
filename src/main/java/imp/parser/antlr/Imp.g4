@@ -81,13 +81,13 @@ expression
 	:
 	expression'.length'                                               # ArrayLength
 	| MINUS expression                                                  # NegExpr // Level 35
-	| expression (TIMES | INTDIV) expression                                  # MulDivExpr // Level 40
+	| expression (TIMES | INTDIV | INTMOD) expression                                  # MulDivModExpr // Level 40
 	| expression (PLUS | MINUS) expression                                    # AddSubExpr // Level 50
 	| expression (LEQ | GEQ | GREATER | LESS) expression                      # CompExpr // Level 70
 	| NOT expression                                                    # NotExpr // Level 75
+	| expression EQUAL expression                                             # EqExpr // Level 71
 	| expression AND expression                                               # AndExpr // Level 80
 	| expression OR expression                                                # OrExpr // Level 85
-	| expression EQUAL expression                                             # EqExpr // Level 71
 	| LPAREN expression RPAREN                                          # ParenExpr
 	| ID LPAREN exprList? RPAREN                                  # FuncCall
 	| INT                                                         # IntExpr
@@ -142,6 +142,7 @@ RETURNS    : 'returns';
 ARGSEP     : ',';
 NEW        : 'new';
 COLON      : ':';
+INTMOD     : '%';
 
 ID
 	: LETTER (LETTER | [0-9])*

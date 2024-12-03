@@ -2,31 +2,30 @@ package imp.ast.method;
 
 import imp.ast.ASTNode;
 import imp.ast.ASTVisitor;
-import imp.ast.typing.Type;
-import imp.ast.variable.Identifier;
+import imp.ast.typing.data.DataType;
+import imp.ast.expression.Identifier;
 
 import java.util.Objects;
 
 public final class ReturnValue implements ASTNode {
 
-    private final Type type;
+    private final DataType type;
     private final Identifier name;
 
-    public ReturnValue(Type type, Identifier name) {
+    public ReturnValue(DataType type, Identifier name) {
         this.type = type;
         this.name = name;
     }
 
-    public ReturnValue(Type type, String name) {
+    public ReturnValue(DataType type, String name) {
         this(type, new Identifier(name));
     }
 
-    public Type type() {
+    public DataType type() {
         return type;
     }
 
-    public Identifier name() {
-        return name;
+    public Identifier name() { return name;
     }
 
     @Override

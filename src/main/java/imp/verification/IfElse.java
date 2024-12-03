@@ -4,10 +4,9 @@ import java.util.Optional;
 
 import com.microsoft.z3.BoolExpr;
 import com.microsoft.z3.Context;
-import imp.ast.expression.Expression;
+import com.microsoft.z3.Expr;
 import imp.ast.statement.BlockStatement;
 import imp.ast.statement.IfStatement;
-import imp.interpreter.Z3ImpInterpreter;
 
 public class IfElse implements VerificationConditionProvider<IfStatement> {
     private static IfElse instance;
@@ -22,8 +21,7 @@ public class IfElse implements VerificationConditionProvider<IfStatement> {
         BlockStatement thenBlock = ast.thenBlock();
         Optional<BlockStatement> elseBlock = ast.elseBlock();
         // get statement 1 and 2 and condition from AST when its done
-        Expression conditionExpression = ast.condition();
-        BoolExpr condition = Z3ImpInterpreter.convertConditional(ctx, conditionExpression);
+        BoolExpr condition = ast.condition().interpret(ctx);
 
         BoolExpr A = AWP.getInstance().awp(ctx, thenBlock, Q);
         BoolExpr B;
