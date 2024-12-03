@@ -19,7 +19,7 @@ public class Declaration implements VerificationConditionProvider<VariableDeclar
             return (BoolExpr) Q;
         } else {
             Expr rhs = declaration.initializer().get().interpret(ctx);
-            Expr varname = ctx.mkIntConst(declaration.variableName().toString());
+            Expr varname = ctx.mkConst(declaration.variableName().name(), rhs.getSort());
             return (BoolExpr) Q.substitute(varname, rhs);
         }
     }

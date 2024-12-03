@@ -421,7 +421,7 @@ public class TypeChecker {
         }
 
         private Type getBinaryOpResultType(String op, Type leftType, Type rightType) {
-            if (op.matches("\\+|\\-|\\*|/")) {
+            if (op.matches("\\+|\\-|\\*|/|%")) {
                 if (leftType instanceof IntType && rightType instanceof IntType) {
                     return IntType.getInstance();
                 }

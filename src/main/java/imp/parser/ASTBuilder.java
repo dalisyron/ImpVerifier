@@ -13,10 +13,7 @@ import imp.ast.expression.array.NewArrayExpression;
 import imp.ast.expression.binary.bool.compare.*;
 import imp.ast.expression.binary.bool.logic.AndExpression;
 import imp.ast.expression.binary.bool.logic.OrExpression;
-import imp.ast.expression.binary.integer.AddExpression;
-import imp.ast.expression.binary.integer.DivExpression;
-import imp.ast.expression.binary.integer.MulExpression;
-import imp.ast.expression.binary.integer.SubExpression;
+import imp.ast.expression.binary.integer.*;
 import imp.ast.expression.bool.*;
 import imp.ast.expression.binary.bool.logic.ImpliesExpression;
 import imp.ast.expression.bool.QuantifiedExpression;
@@ -254,13 +251,17 @@ public class ASTBuilder extends ImpBaseListener {
     }
 
     @Override
-    public void exitMulDivExpr(ImpParser.MulDivExprContext ctx) {
+    public void exitMulDivModExpr(ImpParser.MulDivModExprContext ctx) {
         Expression left = (Expression) values.get(ctx.expression(0));
         Expression right = (Expression) values.get(ctx.expression(1));
         String op = ctx.getChild(1).getText();
 
-        Expression result = op.equals("*") ? new MulExpression(left, right) : new DivExpression(left, right);
-        values.put(ctx, result);
+        if (op.equals("%")) {
+            values.put(ctx, new ModExpression(left, right));
+        } else {
+            Expression result = op.equals("*") ? new MulExpression(left, right) : new DivExpression(left, right);
+            values.put(ctx, result);
+        }
     }
 
     @Override
