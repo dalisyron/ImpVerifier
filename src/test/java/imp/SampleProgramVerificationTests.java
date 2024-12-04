@@ -38,7 +38,6 @@ public class SampleProgramVerificationTests {
         // Check satisfiability
         Status status = solver.check();
         Assert.assertEquals(Status.UNSATISFIABLE, status);
-        // System.out.println(status);
     }
 
     @Test
@@ -59,13 +58,6 @@ public class SampleProgramVerificationTests {
                         }
                     });
         }
-    }
-
-    @Test
-    public void testSingle() throws IOException {
-        String filePath = "TestData/Examples/Q2Sum.imp";
-
-        testProgram(filePath);
     }
 
     private void testProgram(String filePath) throws IOException {
