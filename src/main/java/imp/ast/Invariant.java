@@ -8,17 +8,7 @@ import imp.interpreter.expr.Z3BoolExprInterpreter;
 
 import java.util.Objects;
 
-public final class Invariant implements ASTNode {
-
-    private final Expression expression;
-
-    public Invariant(Expression expression) {
-        this.expression = expression;
-    }
-
-    public Expression expression() {
-        return expression;
-    }
+public record Invariant(Expression expression) implements ASTNode {
 
     @Override
     public String toString() {
@@ -33,11 +23,6 @@ public final class Invariant implements ASTNode {
         Invariant invariant = (Invariant) o;
 
         return Objects.equals(expression, invariant.expression);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(expression);
     }
 
     @Override

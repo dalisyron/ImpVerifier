@@ -5,22 +5,15 @@ import imp.ast.method.MethodDeclaration;
 import java.util.List;
 import java.util.Objects;
 
-public final class Program implements ASTNode {
+public record Program(List<MethodDeclaration> methods) implements ASTNode {
 
-    private final List<MethodDeclaration> methods;
-
-    public Program(List<MethodDeclaration> methods) {
+    public Program {
         if (methods == null) {
             throw new IllegalArgumentException("Methods cannot be null");
         }
         if (methods.isEmpty()) {
             throw new IllegalArgumentException("Methods cannot be empty");
         }
-        this.methods = methods;
-    }
-
-    public List<MethodDeclaration> methods() {
-        return methods;
     }
 
     @Override
@@ -36,11 +29,6 @@ public final class Program implements ASTNode {
         Program program = (Program) o;
 
         return Objects.equals(methods, program.methods);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(methods);
     }
 
     @Override

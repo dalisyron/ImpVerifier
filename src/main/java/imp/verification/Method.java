@@ -21,28 +21,17 @@ public class Method {
     private Method() {
         }
     public boolean Verify(Context ctx, MethodDeclaration method) {
-        Optional<ConditionList> conditionals = method.conditionList();
-        BoolExpr Q = ctx.mkTrue();
-        BoolExpr P = ctx.mkTrue();
-
-        if (conditionals.isEmpty()) {
-            // TODO: Figure out how to handle empty invariants (wp / avc formula not available in slides)
-            throw new RuntimeException("Method does not have invariants");
-        }
+        ConditionList conditionals = method.conditionList();
 
         // Format conditions list to P and Q
-        ConditionList conditionalsList = conditionals.get();
+        BoolExpr P = conditionals.requiresClauses().stream()
+                .map(condition -> condition.interpret(ctx))
+                .reduce(ctx.mkTrue(), ctx::mkAnd);
 
-        for (int i = 0; i < conditionalsList.conditions().size(); i++ ) {
-            ConditionClause condition = conditionalsList.conditions().get(i);
-            if (condition instanceof EnsuresClause) {
-                Q = ctx.mkAnd(condition.interpret(ctx));
-            }
-            else if (condition instanceof RequiresClause) {
-                P = ctx.mkAnd(condition.interpret(ctx));
-            }
-        }
-        
+        BoolExpr Q = conditionals.ensuresClauses().stream()
+                .map(condition -> condition.interpret(ctx))
+                .reduce(ctx.mkTrue(), ctx::mkAnd);
+
         BlockStatement statements = new BlockStatement(method.methodBody().statements());
         BoolExpr  avc = AVC.getInstance().avc(ctx, statements, Q);
         BoolExpr awp = AWP.getInstance().awp(ctx, statements, Q);

@@ -2,25 +2,17 @@ package imp.ast.condition;
 
 import imp.ast.ASTNode;
 import imp.ast.ASTVisitor;
+import imp.ast.statement.Condition;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;
 
-public final class ConditionList implements ASTNode {
+public record ConditionList(@NotNull List<ConditionClause> conditions) implements ASTNode {
 
-    private final List<ConditionClause> conditions;
-
-    public ConditionList(List<ConditionClause> conditions) {
+    public ConditionList {
         // Ensure the list is not null and not empty
         Objects.requireNonNull(conditions, "conditions must not be null");
-        if (conditions.isEmpty()) {
-            throw new IllegalArgumentException("conditions must not be empty");
-        }
-        this.conditions = conditions;
-    }
-
-    public List<ConditionClause> conditions() {
-        return conditions;
     }
 
     @Override
@@ -33,14 +25,6 @@ public final class ConditionList implements ASTNode {
             }
         }
         return sb.toString();
-    }
-
-    public boolean hasEnsuresClause() {
-        return conditions.stream().anyMatch(c -> c instanceof EnsuresClause);
-    }
-
-    public boolean hasRequiresClause() {
-        return conditions.stream().anyMatch(c -> c instanceof RequiresClause);
     }
 
     public List<EnsuresClause> ensuresClauses() {
@@ -57,23 +41,16 @@ public final class ConditionList implements ASTNode {
                 .toList();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ConditionList that = (ConditionList) o;
-
-        return Objects.equals(conditions, that.conditions);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(conditions);
+    public boolean isEmpty() {
+        return conditions.isEmpty();
     }
 
     @Override
     public void accept(ASTVisitor v) {
         v.visit(this);
+    }
+
+    public static ConditionList emptyList() {
+        return new ConditionList(List.of());
     }
 }
