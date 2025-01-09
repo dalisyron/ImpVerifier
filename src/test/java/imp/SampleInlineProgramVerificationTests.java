@@ -357,6 +357,97 @@ public class SampleInlineProgramVerificationTests {
         assertProgramVerifies(program);
     }
 
+    @Test
+    public void testAbsVal() throws Exception {
+        String program = """
+                // Invalid program: Returns the absolute value of an integer
+                method AbsVal(int x) returns (int absX)
+                    ensures absX > 0
+                    ensures absX == x || absX == -x
+                {
+                    if (x >= 0) {
+                        absX = x;
+                    } else {
+                        absX = -x;
+                    }
+                }
+                """;
+        assertProgramNotVerifies(program);
+    }
+
+    @Test
+    public void testIncrement() throws Exception {
+        String program = """
+                // Valid program: Increments an integer by 1, ensuring the result is strictly greater
+                method Increment(int x) returns (int y)
+                    requires x < 100  // some arbitrary upper limit
+                    requires x >= 0   // ensure x is non-negative
+                    ensures y == x + 1 && y > x && y <= 100
+                {
+                    y = x + 1;
+                }
+                """;
+        assertProgramVerifies(program);
+    }
+
+    @Test
+    public void testMinOfFour() throws Exception {
+        String program = """
+            // Valid program: Finds the minimum of four numbers
+            method MinOfFour(int w, int x, int y, int z) returns (int minVal)
+                ensures minVal <= w
+                ensures minVal <= x
+                ensures minVal <= y
+                ensures minVal <= z
+                ensures minVal == w || minVal == x || minVal == y || minVal == z
+            {
+                minVal = w;
+                if (x < minVal) {
+                    minVal = x;
+                }
+                if (y < minVal) {
+                    minVal = y;
+                }
+                if (z < minVal) {
+                    minVal = z;
+                }
+            }
+            """;
+        assertProgramVerifies(program);
+    }
+
+    @Test
+    public void testAverage() throws Exception {
+        String program = """
+            // Valid program: Computes the average of two integers (rounded down)
+            method Average(int a, int b) returns (int avg)
+                requires a >= 0
+                requires b >= 0
+                ensures avg >= 0
+                ensures avg <= a && avg <= b || (a + b >= avg * 2) // Example additional property
+            {
+                avg = (a + b) / 2;
+            }
+            """;
+        assertProgramVerifies(program);
+    }
+
+    @Test
+    public void testAverageIncorrectSpec() throws Exception {
+        String program = """
+            // Invalid program: Computes the average of two integers (rounded down), spec is incorrect
+            method Average(int a, int b) returns (int avg)
+                requires a >= 0
+                requires b >= 0
+                ensures avg >= 0
+                ensures avg <= a && avg <= b || (a + b > avg * 2) // Example additional property
+            {
+                avg = (a + b) / 2;
+            }
+            """;
+        assertProgramNotVerifies(program);
+    }
+
 
     // Helper method to assert that a program is valid
     private void assertProgramVerifies(String programText) throws Exception {
