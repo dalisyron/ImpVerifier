@@ -139,22 +139,22 @@ public class SampleInlineProgramVerificationTests {
     @Test
     public void testIncrementInLoop() throws Exception {
         String program = """
-            // Valid program: Increments x by n using a loop
-            method IncrementInLoop(int x, int n) returns (int result)
-                requires n >= 0
-                ensures result == x + n
-            {
-                result = x;
-                int i = 0;
-                while (i < n)
-                    invariant result == x + i
-                    invariant i >= 0 && i <= n
+                // Valid program: Increments x by n using a loop
+                method IncrementInLoop(int x, int n) returns (int result)
+                    requires n >= 0
+                    ensures result == x + n
                 {
-                    result = result + 1;
-                    i = i + 1;
+                    result = x;
+                    int i = 0;
+                    while (i < n)
+                        invariant result == x + i
+                        invariant i >= 0 && i <= n
+                    {
+                        result = result + 1;
+                        i = i + 1;
+                    }
                 }
-            }
-            """;
+                """;
         assertProgramVerifies(program);
     }
 
@@ -175,26 +175,26 @@ public class SampleInlineProgramVerificationTests {
     @Test
     public void testDistributiveProperty() throws Exception {
         String program = """
-            // Valid program: Verifies the distributive property
-            method DistributiveProperty(int a, int b, int c) returns (int result)
-                ensures result == a * b + a * c
-            {
-                result = a * (b + c);
-            }
-            """;
+                // Valid program: Verifies the distributive property
+                method DistributiveProperty(int a, int b, int c) returns (int result)
+                    ensures result == a * b + a * c
+                {
+                    result = a * (b + c);
+                }
+                """;
         assertProgramVerifies(program);
     }
 
     @Test
     public void testDistributivePropertyInvalid() throws Exception {
         String program = """
-            // Invalid program: Incorrectly applies distributive property
-            method DistributivePropertyInvalid(int a, int b, int c) returns (int result)
-                ensures result == a * b + a * c
-            {
-                result = a * b + c; // Error here
-            }
-            """;
+                // Invalid program: Incorrectly applies distributive property
+                method DistributivePropertyInvalid(int a, int b, int c) returns (int result)
+                    ensures result == a * b + a * c
+                {
+                    result = a * b + c; // Error here
+                }
+                """;
         assertProgramNotVerifies(program);
     }
 
@@ -202,84 +202,84 @@ public class SampleInlineProgramVerificationTests {
     @Test
     public void testMultiplyByNegativeOne() throws Exception {
         String program = """
-            // Valid program: Verifies that multiplying by -1 inverts the sign
-            method MultiplyByNegativeOne(int a) returns (int result)
-                ensures result == -a
-            {
-                result = a * -1;
-            }
-            """;
+                // Valid program: Verifies that multiplying by -1 inverts the sign
+                method MultiplyByNegativeOne(int a) returns (int result)
+                    ensures result == -a
+                {
+                    result = a * -1;
+                }
+                """;
         assertProgramVerifies(program);
     }
 
     @Test
     public void testIsPrime() throws Exception {
         String program = """
-            // Valid program: Checks if a number n > 1 is prime
-            method IsPrime(int n) returns (bool isPrime)
-                requires n > 1
-                ensures isPrime == (forall (int i) :: (2 <= i && i <= n / 2) ==> !(n % i == 0))
-            {
-                isPrime = true;
-                int i = 2;
-                while (i <= n / 2)
-                    invariant isPrime == (forall (int j) :: (2 <= j && j < i) ==> !(n % j == 0))
-                    invariant i >= 2 && i <= n / 2 + 1
+                // Valid program: Checks if a number n > 1 is prime
+                method IsPrime(int n) returns (bool isPrime)
+                    requires n > 1
+                    ensures isPrime == (forall (int i) :: (2 <= i && i <= n / 2) ==> !(n % i == 0))
                 {
-                    if (n % i == 0) {
-                        isPrime = false;
+                    isPrime = true;
+                    int i = 2;
+                    while (i <= n / 2)
+                        invariant isPrime == (forall (int j) :: (2 <= j && j < i) ==> !(n % j == 0))
+                        invariant i >= 2 && i <= n / 2 + 1
+                    {
+                        if (n % i == 0) {
+                            isPrime = false;
+                        }
+                        i = i + 1;
                     }
-                    i = i + 1;
                 }
-            }
-            """;
+                """;
         assertProgramVerifies(program);
     }
 
     @Test
     public void testNestedIfElse() throws Exception {
         String program = """
-            // Valid program: Determines the sign of an integer
-            method DetermineSign(int x) returns (int sign)
-                ensures ((x > 0) && (sign == 1)) || ((x == 0) && (sign == 0)) || ((x < 0) && (sign == -1))
-            {
-                if (x > 0) {
-                    sign = 1;
-                } else {
-                    if (x == 0) {
-                        sign = 0;
+                // Valid program: Determines the sign of an integer
+                method DetermineSign(int x) returns (int sign)
+                    ensures ((x > 0) && (sign == 1)) || ((x == 0) && (sign == 0)) || ((x < 0) && (sign == -1))
+                {
+                    if (x > 0) {
+                        sign = 1;
                     } else {
-                        sign = -1;
+                        if (x == 0) {
+                            sign = 0;
+                        } else {
+                            sign = -1;
+                        }
                     }
                 }
-            }
-            """;
+                """;
         assertProgramVerifies(program);
     }
 
     @Test
     public void testLogicalEquivalence() throws Exception {
         String program = """
-            // Valid program: Verifies logical equivalence between two expressions
-            method LogicalEquivalence(bool A, bool B) returns (bool result)
-                ensures result == true
-            {
-                result = (A && B) == !( !A || !B );
-            }
-            """;
+                // Valid program: Verifies logical equivalence between two expressions
+                method LogicalEquivalence(bool A, bool B) returns (bool result)
+                    ensures result == true
+                {
+                    result = (A && B) == !( !A || !B );
+                }
+                """;
         assertProgramVerifies(program);
     }
 
     @Test
     public void testLogicalEquivalenceInvalid() throws Exception {
         String program = """
-            // Invalid program: Incorrect logical equivalence
-            method LogicalEquivalenceInvalid(bool A, bool B) returns (bool result)
-                ensures result == true
-            {
-                result = (A || B) == ( !A && !B ); // Error here
-            }
-            """;
+                // Invalid program: Incorrect logical equivalence
+                method LogicalEquivalenceInvalid(bool A, bool B) returns (bool result)
+                    ensures result == true
+                {
+                    result = (A || B) == ( !A && !B ); // Error here
+                }
+                """;
         assertProgramNotVerifies(program);
     }
 
@@ -287,73 +287,73 @@ public class SampleInlineProgramVerificationTests {
     @Test
     public void testIntBoolCombination() throws Exception {
         String program = """
-            // Valid program: Uses both int and bool in computations
-            method IntBoolCombination(int x, int y) returns (int result)
-                ensures ((x > y) && (result == x)) || ((x <= y) && (result == y))
-            {
-                bool condition = x > y;
-                if (condition) {
-                    result = x;
-                } else {
-                    result = y;
+                // Valid program: Uses both int and bool in computations
+                method IntBoolCombination(int x, int y) returns (int result)
+                    ensures ((x > y) && (result == x)) || ((x <= y) && (result == y))
+                {
+                    bool condition = x > y;
+                    if (condition) {
+                        result = x;
+                    } else {
+                        result = y;
+                    }
                 }
-            }
-            """;
+                """;
         assertProgramVerifies(program);
     }
 
     @Test
     public void testAbsoluteValue() throws Exception {
         String program = """
-            // Valid program: Computes the absolute value of an integer
-            method AbsoluteValue(int x) returns (int abs)
-                ensures (abs >= 0) && ((abs == x) || (abs == -x))
-            {
-                if (x < 0) {
-                    abs = -x;
-                } else {
-                    abs = x;
+                // Valid program: Computes the absolute value of an integer
+                method AbsoluteValue(int x) returns (int abs)
+                    ensures (abs >= 0) && ((abs == x) || (abs == -x))
+                {
+                    if (x < 0) {
+                        abs = -x;
+                    } else {
+                        abs = x;
+                    }
                 }
-            }
-            """;
+                """;
         assertProgramVerifies(program);
     }
 
     @Test
     public void testAbsoluteValueInvalid() throws Exception {
         String program = """
-            // Invalid program: Incorrectly computes absolute value
-            method AbsoluteValueInvalid(int x) returns (int abs)
-                ensures (abs >= 0) && ((abs == x) || (abs == -x))
-            {
-                if (x < 0) {
-                    abs = x; // Error here, should be -x
-                } else {
-                    abs = x;
+                // Invalid program: Incorrectly computes absolute value
+                method AbsoluteValueInvalid(int x) returns (int abs)
+                    ensures (abs >= 0) && ((abs == x) || (abs == -x))
+                {
+                    if (x < 0) {
+                        abs = x; // Error here, should be -x
+                    } else {
+                        abs = x;
+                    }
                 }
-            }
-            """;
+                """;
         assertProgramNotVerifies(program);
     }
 
     @Test
     public void testMaxOfThree() throws Exception {
         String program = """
-            // Valid program: Finds the maximum of three numbers
-            method MaxOfThree(int a, int b, int c) returns (int max)
-                ensures max >= a && max >= b && max >= c && (max == a || max == b || max == c)
-            {
-                if ((a >= b) && (a >= c)) {
-                    max = a;
-                } else {
-                    if ((b >= a) && (b >= c)) {
-                        max = b;
+                // Valid program: Finds the maximum of three numbers
+                method MaxOfThree(int a, int b, int c) returns (int max)
+                    ensures max >= a && max >= b && max >= c && (max == a || max == b || max == c)
+                {
+                    if ((a >= b) && (a >= c)) {
+                        max = a;
                     } else {
-                        max = c;
+                        if ((b >= a) && (b >= c)) {
+                            max = b;
+                        } else {
+                            max = c;
+                        }
                     }
                 }
-            }
-            """;
+                """;
         assertProgramVerifies(program);
     }
 
