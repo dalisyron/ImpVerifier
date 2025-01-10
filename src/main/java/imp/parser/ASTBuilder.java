@@ -66,20 +66,14 @@ public class ASTBuilder extends ImpBaseListener {
     public void exitMethodDeclaration(ImpParser.MethodDeclarationContext ctx) {
         Identifier methodName = new Identifier(ctx.ID().getText());
 
-        Optional<ParameterList> parameters = Optional.empty();
-        if (ctx.formalParameters() != null) {
-            parameters = Optional.of((ParameterList) values.get(ctx.formalParameters()));
-        }
+        ParameterList parameters = (ParameterList) Optional.ofNullable(values.get(ctx.formalParameters()))
+                .orElse(ParameterList.emptyList());
 
-        Optional<ReturnValue> returnValue = Optional.empty();
-        if (ctx.returnsBlock() != null) {
-            returnValue = Optional.of((ReturnValue) values.get(ctx.returnsBlock()));
-        }
+        ReturnValue returnValue = (ReturnValue) values.get(ctx.returnsBlock());
 
-        Optional<ConditionList> conditions = Optional.empty();
-        if (ctx.conditionBlock() != null) {
-            conditions = (Optional<ConditionList>) values.get(ctx.conditionBlock());
-        }
+        ConditionList conditions = (ConditionList) Optional.ofNullable(values.get(ctx.conditionBlock()))
+                .orElse(ConditionList.emptyList());
+
 
         BlockStatement bodyBlock = (BlockStatement) values.get(ctx.block());
         MethodBody methodBody = new MethodBody(bodyBlock.statements());
@@ -99,7 +93,7 @@ public class ASTBuilder extends ImpBaseListener {
     public void exitFormalParameters(ImpParser.FormalParametersContext ctx) {
         List<Parameter> params = ctx.formalParameter().stream()
                 .map(fpCtx -> (Parameter) values.get(fpCtx))
-                .collect(Collectors.toList());
+                .toList();
 
         values.put(ctx, new ParameterList(params));
     }
@@ -119,13 +113,11 @@ public class ASTBuilder extends ImpBaseListener {
 
     @Override
     public void exitConditionBlock(ImpParser.ConditionBlockContext ctx) {
-        if (ctx.children == null) {
-            values.put(ctx, Optional.empty());
-        } else {
+        if (ctx.children != null) {
             List<ConditionClause> clauses = ctx.children.stream()
                     .map(child -> (ConditionClause) values.get(child))
-                    .collect(Collectors.toList());
-            values.put(ctx, Optional.of(new ConditionList(clauses)));
+                    .toList();
+            values.put(ctx, new ConditionList(clauses));
         }
     }
 
@@ -153,11 +145,10 @@ public class ASTBuilder extends ImpBaseListener {
         Expression condition = (Expression) values.get(ctx.ifStatement().parenthesizedCondition());
         BlockStatement thenBlock = (BlockStatement) values.get(ctx.ifStatement().block(0));
 
-        Optional<BlockStatement> elseBlock = Optional.empty();
+        BlockStatement elseBlock = null;
         if (ctx.ifStatement().ELSE() != null) {
-            elseBlock = Optional.of((BlockStatement) values.get(ctx.ifStatement().block(1)));
+            elseBlock = (BlockStatement) values.get(ctx.ifStatement().block(1));
         }
-
         values.put(ctx, new IfStatement(new Condition(condition), thenBlock, elseBlock));
     }
 
@@ -165,13 +156,14 @@ public class ASTBuilder extends ImpBaseListener {
     public void exitWhileStmt(ImpParser.WhileStmtContext ctx) {
         Expression condition = (Expression) values.get(ctx.whileStatement().parenthesizedCondition());
 
-        Optional<InvariantList> invariants = Optional.empty();
+        List<Invariant> invariants = new ArrayList<>();
+
         if (ctx.whileStatement().invariantList() != null) {
-            invariants = Optional.of((InvariantList) values.get(ctx.whileStatement().invariantList()));
+            invariants.addAll(((InvariantList) values.get(ctx.whileStatement().invariantList())).invariants());
         }
 
         BlockStatement body = (BlockStatement) values.get(ctx.whileStatement().block());
-        values.put(ctx, new WhileStatement(condition, invariants, body));
+        values.put(ctx, new WhileStatement(condition, new InvariantList(invariants), body));
     }
 
     @Override
@@ -184,9 +176,9 @@ public class ASTBuilder extends ImpBaseListener {
         Type type = (Type) values.get(ctx.varDecl().type());
         Identifier name = new Identifier(ctx.varDecl().ID().getText());
 
-        Optional<Expression> initializer = Optional.empty();
+        Expression initializer = null;
         if (ctx.varDecl().expression() != null) {
-            initializer = Optional.of((Expression) values.get(ctx.varDecl().expression()));
+            initializer = (Expression) values.get(ctx.varDecl().expression());
         }
 
         values.put(ctx, new VariableDeclaration(type, name, initializer));
@@ -210,7 +202,7 @@ public class ASTBuilder extends ImpBaseListener {
     public void exitInvariantList(ImpParser.InvariantListContext ctx) {
         List<Invariant> invariants = ctx.expression().stream()
                 .map(exprCtx -> new Invariant((Expression) values.get(exprCtx)))
-                .collect(Collectors.toList());
+                .toList();
         values.put(ctx, new InvariantList(invariants));
     }
 
@@ -280,23 +272,13 @@ public class ASTBuilder extends ImpBaseListener {
         Expression right = (Expression) values.get(ctx.expression(1));
         String op = ctx.getChild(1).getText();
 
-        Expression result;
-        switch (op) {
-            case "<":
-                result = new LessThanExpression(left, right);
-                break;
-            case "<=":
-                result = new LessThanOrEqualExpression(left, right);
-                break;
-            case ">":
-                result = new GreaterThanExpression(left, right);
-                break;
-            case ">=":
-                result = new GreaterThanOrEqualExpression(left, right);
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown operator: " + op);
-        }
+        Expression result = switch (op) {
+            case "<" -> new LessThanExpression(left, right);
+            case "<=" -> new LessThanOrEqualExpression(left, right);
+            case ">" -> new GreaterThanExpression(left, right);
+            case ">=" -> new GreaterThanOrEqualExpression(left, right);
+            default -> throw new IllegalArgumentException("Unknown operator: " + op);
+        };
         values.put(ctx, result);
     }
 

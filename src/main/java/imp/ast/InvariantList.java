@@ -6,18 +6,18 @@ import imp.ast.ASTNode;
 import imp.ast.Invariant;
 import imp.ast.expression.Expression;
 import imp.interpreter.expr.Z3BoolExprInterpreter;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;
 
-public final class InvariantList implements ASTNode, Z3BoolExprInterpreter {
+public record InvariantList(@NotNull List<Invariant> invariants) implements ASTNode, Z3BoolExprInterpreter {
 
-    private final List<Invariant> invariants;
-
-    public InvariantList(List<Invariant> invariants) {
-        this.invariants = invariants;
+    public InvariantList {
+        Objects.requireNonNull(invariants, "Invariants cannot be null");
     }
 
+    @Override
     public List<Invariant> invariants() {
         return invariants;
     }
@@ -39,11 +39,6 @@ public final class InvariantList implements ASTNode, Z3BoolExprInterpreter {
         InvariantList that = (InvariantList) o;
 
         return Objects.equals(invariants, that.invariants);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(invariants);
     }
 
     @Override

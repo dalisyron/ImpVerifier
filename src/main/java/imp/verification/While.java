@@ -18,22 +18,18 @@ public class While implements VerificationConditionProvider<WhileStatement> {
 
     @Override
     public BoolExpr awp(Context ctx, WhileStatement whileStatement, BoolExpr Q) {
-        Optional<InvariantList> invariants = whileStatement.invariants();
+        InvariantList invariants = whileStatement.invariants();
 
-        return invariants.get().interpret(ctx);
+        return invariants.interpret(ctx);
     }
 
     @Override
     public BoolExpr avc(Context ctx, WhileStatement whileStatement, BoolExpr Q) {
         // $A V C\left(S^{\prime}, Q\right)=A V C(S, I) \wedge(I \wedge C \rightarrow a w p(S, I)) \wedge(I \wedge \neg C \rightarrow Q)$
 
-        Optional<InvariantList> invariants = whileStatement.invariants();
+        InvariantList invariants = whileStatement.invariants();
 
-        if (invariants.isEmpty()) {
-            throw new RuntimeException("While statement does not have invariants");
-        }
-
-        BoolExpr I = invariants.orElseThrow().interpret(ctx);
+        BoolExpr I = invariants.interpret(ctx);
 
         BlockStatement body = whileStatement.body();
         Expression condition = whileStatement.condition();

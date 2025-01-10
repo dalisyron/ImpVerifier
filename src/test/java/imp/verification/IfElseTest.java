@@ -36,7 +36,7 @@ public class IfElseTest {
         elseList.add(new AssignStatement(var_y, new IntExpression(2)));
         BlockStatement thenBlock = new BlockStatement(thenList);
         BlockStatement elseBlock = new BlockStatement(elseList);
-        IfStatement statement = new IfStatement(new Condition(condition), thenBlock,Optional.of(elseBlock));
+        IfStatement statement = new IfStatement(new Condition(condition), thenBlock, elseBlock);
 
         Context ctx = new Context();
         IntExpr x = ctx.mkIntConst("x");
