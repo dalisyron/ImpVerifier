@@ -18,7 +18,7 @@
             <groupId>com.microsoft.z3</groupId>
             <artifactId>z3</artifactId>
             <scope>system</scope>
-            <version>4.8.10</version>
+            <version>4.13.3</version>
             <systemPath>${pom.basedir}/lib/com.microsoft.z3.jar</systemPath>
         </dependency>
         <dependency>
