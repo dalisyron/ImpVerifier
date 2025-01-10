@@ -19,6 +19,6 @@ public class ModExpression extends BinaryOpExpression implements Z3IntExprInterp
 
     @Override
     public IntExpr interpret(Context ctx) {
-        return (IntExpr) ctx.mkDiv((IntExpr) left().interpret(ctx), (IntExpr) right().interpret(ctx));
+        return (IntExpr) ctx.mkMod((IntExpr) left().interpret(ctx), (IntExpr) right().interpret(ctx));
     }
 }
