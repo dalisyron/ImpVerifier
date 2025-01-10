@@ -2,6 +2,8 @@ package imp.ast.statement;
 
 import imp.ast.ASTVisitor;
 import imp.ast.expression.Expression;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -10,9 +12,9 @@ public final class IfStatement implements Statement {
 
     private final Condition condition;
     private final BlockStatement thenBlock;
-    private final Optional<BlockStatement> elseBlock;
+    private final BlockStatement elseBlock;
 
-    public IfStatement(Condition condition, BlockStatement thenBlock, Optional<BlockStatement> elseBlock) {
+    public IfStatement(Condition condition, BlockStatement thenBlock, BlockStatement elseBlock) {
         this.condition = condition;
         this.thenBlock = thenBlock;
         this.elseBlock = elseBlock;
@@ -27,15 +29,17 @@ public final class IfStatement implements Statement {
     }
 
     public Optional<BlockStatement> elseBlock() {
-        return elseBlock;
+        return Optional.ofNullable(elseBlock);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("if (").append(condition.toString()).append(") ");
-        sb.append(thenBlock.toString());
-        elseBlock.ifPresent(block -> sb.append(" else ").append(block));
+        sb.append("if (").append(condition).append(") ");
+        sb.append(thenBlock);
+        if (elseBlock != null) {
+            sb.append(" else ").append(elseBlock);
+        }
         return sb.toString();
     }
 

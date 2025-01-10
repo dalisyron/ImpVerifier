@@ -12,20 +12,16 @@ public final class VariableDeclaration implements Statement {
 
     private final Type declaredType;
     private final Identifier variableName;
-    private final Optional<Expression> initializer;
+    private final Expression initializer;
 
-    public VariableDeclaration(Type declaredType, Identifier variableName, Optional<Expression> initializer) {
+    public VariableDeclaration(Type declaredType, Identifier variableName, Expression initializer) {
         this.declaredType = declaredType;
         this.variableName = variableName;
         this.initializer = initializer;
     }
 
     public VariableDeclaration(Type declaredType, Identifier variableName) {
-        this(declaredType, variableName, Optional.empty());
-    }
-
-    public VariableDeclaration(Type declaredType, Identifier variableName, Expression initializer) {
-        this(declaredType, variableName, Optional.of(initializer));
+        this(declaredType, variableName, null);
     }
 
     public Type declaredType() {
@@ -37,14 +33,14 @@ public final class VariableDeclaration implements Statement {
     }
 
     public Optional<Expression> initializer() {
-        return initializer;
+        return Optional.ofNullable(initializer);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(declaredType).append(" ").append(variableName);
-        initializer.ifPresent(expr -> sb.append(" = ").append(expr));
+        initializer().ifPresent(expr -> sb.append(" = ").append(expr));
         sb.append(";");
         return sb.toString();
     }

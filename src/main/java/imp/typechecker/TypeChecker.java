@@ -54,15 +54,12 @@ public class TypeChecker {
         }
 
         private void collectMethodSignature(MethodDeclaration methodDeclaration) {
-            // Collect parameter types
-            List<DataType> paramTypes = new ArrayList<>();
-            if (methodDeclaration.parameterList().isPresent()) {
-                for (Parameter param : methodDeclaration.parameterList().get().parameters()) {
-                    paramTypes.add(param.type());
-                }
-            }
+            List<DataType> paramTypes = methodDeclaration.parameterList().parameters().stream()
+                    .map(Parameter::type)
+                    .toList();
+
             // Determine return type
-            DataType returnType = methodDeclaration.returnValue().map(ReturnValue::type).orElse(VoidType.getInstance());
+            DataType returnType = Optional.ofNullable(methodDeclaration.returnValue()).map(ReturnValue::type).orElse(VoidType.getInstance());
             // Create FunctionType
             FunctionType methodType = new FunctionType(paramTypes, returnType);
             // Add to function symbol table
@@ -74,20 +71,15 @@ public class TypeChecker {
             symTab.pushState();
 
             // Add parameters to symbol table
-            if (methodDeclaration.parameterList().isPresent()) {
-                methodDeclaration.parameterList().get().accept(this);
-            }
+            methodDeclaration.parameterList().accept(this);
 
             // **Add return variable to symbol table if present**
-            if (methodDeclaration.returnValue().isPresent()) {
-                methodDeclaration.returnValue().get().accept(this);
+            if (methodDeclaration.returnValue() != null) {
+                methodDeclaration.returnValue().accept(this);
             }
 
             // Process conditions (requires and ensures)
-            if (methodDeclaration.conditionList().isPresent()) {
-                methodDeclaration.conditionList().get().accept(this);
-            }
-
+            methodDeclaration.conditionList().accept(this);
 
             // Visit method body
             methodDeclaration.methodBody().accept(this);
@@ -222,8 +214,8 @@ public class TypeChecker {
                 throw new TypeError("While condition must be of type bool.");
             }
 
-            if (whileStatement.invariants().isPresent()) {
-                whileStatement.invariants().get().accept(this);
+            if (!whileStatement.invariants().invariants().isEmpty()) {
+                whileStatement.invariants().accept(this);
             }
 
             symTab.pushState();

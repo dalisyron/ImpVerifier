@@ -2,25 +2,16 @@ package imp.ast.method;
 
 import imp.ast.ASTNode;
 import imp.ast.ASTVisitor;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;
 
-public final class ParameterList implements ASTNode {
+public record ParameterList(@NotNull List<Parameter> parameters) implements ASTNode {
 
-    private final List<Parameter> parameters;
-
-    public ParameterList(List<Parameter> parameters) {
+    public ParameterList {
         // Ensure the list is not null and not empty
         Objects.requireNonNull(parameters, "parameters must not be null");
-        if (parameters.isEmpty()) {
-            throw new IllegalArgumentException("parameters must not be empty");
-        }
-        this.parameters = parameters;
-    }
-
-    public List<Parameter> parameters() {
-        return parameters;
     }
 
     @Override
@@ -39,23 +30,16 @@ public final class ParameterList implements ASTNode {
         return sb.toString();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ParameterList that = (ParameterList) o;
-
-        return Objects.equals(parameters, that.parameters);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(parameters);
+    public boolean isEmpty() {
+        return parameters.isEmpty();
     }
 
     @Override
     public void accept(ASTVisitor v) {
         v.visit(this);
+    }
+
+    public static ParameterList emptyList() {
+        return new ParameterList(List.of());
     }
 }
