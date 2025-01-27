@@ -34,10 +34,6 @@ public final class ArrayRefExpression extends ReferenceExpression {
         return arrayName.equals(other.arrayName) && indexExpression.equals(other.indexExpression);
     }
 
-    @Override
-    public String toString() {
-        return arrayName + "[" + indexExpression + "]";
-    }
 
     @Override
     public void accept(ASTVisitor visitor) {

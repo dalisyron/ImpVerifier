@@ -29,8 +29,4 @@ public sealed abstract class ArrayType extends DataType permits BoolArray, IntAr
         return elementType.hashCode();
     }
 
-    @Override
-    public String toString() {
-        return elementType + "[]";
-    }
 }

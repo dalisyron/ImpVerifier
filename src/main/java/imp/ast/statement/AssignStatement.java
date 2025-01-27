@@ -6,7 +6,7 @@ import imp.ast.expression.ReferenceExpression;
 
 import java.util.Objects;
 
-public final class AssignStatement implements Statement {
+public final class AssignStatement extends Statement {
 
     private final ReferenceExpression lhs;
     private final Expression expression;
@@ -24,10 +24,6 @@ public final class AssignStatement implements Statement {
         return expression;
     }
 
-    @Override
-    public String toString() {
-        return lhs.toString() + " = " + expression.toString() + ";";
-    }
 
     @Override
     public boolean equals(Object o) {

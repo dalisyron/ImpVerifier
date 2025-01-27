@@ -29,10 +29,6 @@ public final class ArrayLengthExpression extends Expression {
         return 31 * arrayExpression.hashCode();
     }
 
-    @Override
-    public String toString() {
-        return arrayExpression.toString() + ".length";
-    }
 
 
     @Override

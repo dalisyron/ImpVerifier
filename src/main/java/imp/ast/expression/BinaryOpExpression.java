@@ -37,10 +37,6 @@ public abstract class BinaryOpExpression extends Expression {
         return left.hashCode() ^ right.hashCode();
     }
 
-    @Override
-    public String toString() {
-        return "(" + left.toString() + " " + operatorSymbol() + " " + right.toString() + ")";
-    }
 
     abstract public String operatorSymbol();
 

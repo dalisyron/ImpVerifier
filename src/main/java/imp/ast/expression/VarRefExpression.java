@@ -30,10 +30,6 @@ public final class VarRefExpression extends ReferenceExpression {
         return variableName.hashCode();
     }
 
-    @Override
-    public String toString() {
-        return variableName.toString();
-    }
 
     @Override
     public void accept(ASTVisitor visitor) {

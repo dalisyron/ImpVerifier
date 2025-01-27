@@ -17,10 +17,6 @@ public final class TrueExpression extends Expression implements Z3ExprInterprete
         return INSTANCE;
     }
 
-    @Override
-    public String toString() {
-        return "true";
-    }
 
 
     @Override

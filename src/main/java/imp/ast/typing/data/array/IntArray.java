@@ -2,6 +2,7 @@ package imp.ast.typing.data.array;
 
 import com.microsoft.z3.Context;
 import com.microsoft.z3.Sort;
+import imp.ast.ASTVisitor;
 import imp.ast.typing.data.DataType;
 import imp.ast.typing.data.value.IntType;
 
@@ -22,5 +23,10 @@ public final class IntArray extends ArrayType {
     @Override
     public Sort interpret(Context ctx) {
         return ctx.mkArraySort(ctx.getIntSort(), ctx.getIntSort());
+    }
+
+    @Override
+    public void accept(ASTVisitor v) {
+        v.visit(this);
     }
 }

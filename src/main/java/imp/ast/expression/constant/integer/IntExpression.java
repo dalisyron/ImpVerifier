@@ -30,10 +30,6 @@ public final class IntExpression extends Expression {
         return Integer.hashCode(value);
     }
 
-    @Override
-    public String toString() {
-        return Integer.toString(value);
-    }
 
 
     @Override

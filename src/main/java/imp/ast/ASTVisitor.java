@@ -13,6 +13,12 @@ import imp.ast.expression.constant.integer.IntExpression;
 import imp.ast.method.*;
 import imp.ast.statement.*;
 import imp.ast.expression.Identifier;
+import imp.ast.typing.FunctionType;
+import imp.ast.typing.VoidType;
+import imp.ast.typing.data.array.BoolArray;
+import imp.ast.typing.data.array.IntArray;
+import imp.ast.typing.data.value.BoolType;
+import imp.ast.typing.data.value.IntType;
 
 public abstract class ASTVisitor {
 
@@ -77,4 +83,16 @@ public abstract class ASTVisitor {
     public abstract void visit(TrueExpression trueExpression);
 
     public abstract void visit(Condition condition);
+
+    public abstract void visit(BoolType boolType);
+
+    public abstract void visit(FunctionType functionType);
+
+    public abstract void visit(IntArray intArray);
+
+    public abstract void visit(BoolArray boolArray);
+
+    public abstract void visit(VoidType voidType);
+
+    public abstract void visit(IntType intType);
 }

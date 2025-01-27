@@ -34,19 +34,6 @@ public final class FuncCallExpression extends Expression {
         return arguments.equals(that.arguments);
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(identifier).append("(");
-        for (int i = 0; i < arguments.size(); i++) {
-            sb.append(arguments.get(i).toString());
-            if (i < arguments.size() - 1) {
-                sb.append(", ");
-            }
-        }
-        sb.append(")");
-        return sb.toString();
-    }
 
     @Override
     public void accept(ASTVisitor v) {

@@ -2,6 +2,7 @@ package imp.ast.typing;
 
 import com.microsoft.z3.Context;
 import com.microsoft.z3.Sort;
+import imp.ast.ASTVisitor;
 import imp.ast.typing.data.DataType;
 
 public final class VoidType extends DataType {
@@ -14,10 +15,6 @@ public final class VoidType extends DataType {
         return instance;
     }
 
-    @Override
-    public String toString() {
-        return "unit";
-    }
 
     @Override
     public boolean equals(Object obj) {
@@ -32,5 +29,10 @@ public final class VoidType extends DataType {
     @Override
     public Sort interpret(Context ctx) {
         return ctx.mkUninterpretedSort("unit");
+    }
+
+    @Override
+    public void accept(ASTVisitor v) {
+        v.visit(this);
     }
 }

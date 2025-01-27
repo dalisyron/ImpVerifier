@@ -7,7 +7,7 @@ import imp.ast.expression.Identifier;
 
 import java.util.Objects;
 
-public final class Parameter implements ASTNode {
+public final class Parameter extends ASTNode {
 
     private final DataType type;
     private final Identifier name;
@@ -29,10 +29,6 @@ public final class Parameter implements ASTNode {
         return name;
     }
 
-    @Override
-    public String toString() {
-        return type.toString() + " " + name.toString();
-    }
 
     @Override
     public boolean equals(Object o) {

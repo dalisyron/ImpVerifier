@@ -8,7 +8,7 @@ import imp.ast.expression.Expression;
 
 import java.util.Objects;
 
-public final class RequiresClause implements ConditionClause {
+public final class RequiresClause extends ConditionClause {
 
     private final Expression expression;
 
@@ -21,10 +21,6 @@ public final class RequiresClause implements ConditionClause {
         return expression;
     }
 
-    @Override
-    public String toString() {
-        return "requires " + expression.toString();
-    }
 
     @Override
     public boolean equals(Object o) {

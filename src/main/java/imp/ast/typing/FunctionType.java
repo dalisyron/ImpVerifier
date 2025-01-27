@@ -1,5 +1,6 @@
 package imp.ast.typing;
 
+import imp.ast.ASTVisitor;
 import imp.ast.typing.data.DataType;
 
 import java.util.List;
@@ -36,11 +37,9 @@ public final class FunctionType extends Type {
         return parameterTypes.hashCode() + returnType.hashCode();
     }
 
+
     @Override
-    public String toString() {
-        String parameterTypes = this.parameterTypes.stream().map(Type::toString).reduce("", (a, b) -> a + ", " + b);
-
-        return "(" + parameterTypes + ") -> " + returnType;
+    public void accept(ASTVisitor v) {
+        v.visit(this);
     }
-
 }

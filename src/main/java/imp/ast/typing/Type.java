@@ -1,4 +1,6 @@
 package imp.ast.typing;
 
-public abstract class Type {
+import imp.ast.ASTNode;
+
+public abstract class Type extends ASTNode {
 }

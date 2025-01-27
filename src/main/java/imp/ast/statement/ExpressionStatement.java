@@ -5,7 +5,7 @@ import imp.ast.expression.Expression;
 
 import java.util.Objects;
 
-public final class ExpressionStatement implements Statement {
+public final class ExpressionStatement extends Statement {
 
     private final Expression expression;
 
@@ -17,10 +17,6 @@ public final class ExpressionStatement implements Statement {
         return expression;
     }
 
-    @Override
-    public String toString() {
-        return expression.toString() + ";";
-    }
 
     @Override
     public boolean equals(Object o) {

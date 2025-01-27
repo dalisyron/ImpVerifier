@@ -37,10 +37,6 @@ public final class NewArrayExpression extends Expression {
         return sizeExpression;
     }
 
-    @Override
-    public String toString() {
-        return "new " + elementType + "[" + sizeExpression + "]";
-    }
 
     @Override
     public void accept(ASTVisitor v) {

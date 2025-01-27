@@ -31,8 +31,8 @@ public class TypeChecker {
     }
 
     private static class TypeCheckVisitor extends ASTVisitor {
-        private TypeSymbolTable symTab;
-        private Map<Identifier, FunctionType> functionSymTab;
+        private final TypeSymbolTable symTab;
+        private final Map<Identifier, FunctionType> functionSymTab;
         private Type lastType;
 
         public TypeCheckVisitor() {
@@ -158,20 +158,26 @@ public class TypeChecker {
             }
         }
 
+        private Type visitAndGet(ASTNode node) {
+            node.accept(this);
+            return lastType;
+        }
+
         @Override
         public void visit(VariableDeclaration variableDeclaration) {
             Identifier varName = variableDeclaration.variableName();
-            Type varType = variableDeclaration.declaredType();
             if (symTab.containsKey(varName)) {
                 throw new TypeError("Variable " + varName + " already declared.");
             }
-            symTab.put(varName, varType);
+            Type declaredType = visitAndGet(variableDeclaration.declaredType());
+
+            symTab.put(varName, declaredType);
 
             if (variableDeclaration.initializer().isPresent()) {
-                variableDeclaration.initializer().get().accept(this);
-                Type initType = lastType;
-                if (!canBeAssigned(initType, varType)) {
-                    throw new TypeError("Cannot assign " + initType + " to variable " + varName + " of type " + varType);
+                Type initializerType = visitAndGet(variableDeclaration.initializer().get());
+
+                if (initializerType != declaredType) {
+                    throw new TypeError("Cannot assign " + initializerType + " to variable " + varName + " of type " + declaredType);
                 }
             }
         }
@@ -184,7 +190,7 @@ public class TypeChecker {
             assignStatement.expression().accept(this);
             Type rhsType = lastType;
 
-            if (!canBeAssigned(rhsType, lhsType)) {
+            if (rhsType != lhsType) {
                 throw new TypeError("Cannot assign " + rhsType + " to " + assignStatement.lhs());
             }
         }
@@ -331,6 +337,36 @@ public class TypeChecker {
         }
 
         @Override
+        public void visit(BoolType boolType) {
+            lastType = BoolType.getInstance();
+        }
+
+        @Override
+        public void visit(FunctionType functionType) {
+            lastType = functionType;
+        }
+
+        @Override
+        public void visit(IntArray intArray) {
+            lastType = IntArray.getInstance();
+        }
+
+        @Override
+        public void visit(BoolArray boolArray) {
+            lastType = BoolArray.getInstance();
+        }
+
+        @Override
+        public void visit(VoidType voidType) {
+            lastType = VoidType.getInstance();
+        }
+
+        @Override
+        public void visit(IntType intType) {
+            lastType = IntType.getInstance();
+        }
+
+        @Override
         public void visit(FuncCallExpression funcCallExpression) {
             Identifier funcName = funcCallExpression.functionName();
             FunctionType funcType = functionSymTab.get(funcName);
@@ -347,7 +383,7 @@ public class TypeChecker {
                 args.get(i).accept(this);
                 Type argType = lastType;
                 Type expectedType = funcType.getParameterTypes().get(i);
-                if (!canBeAssigned(argType, expectedType)) {
+                if (argType != expectedType) {
                     throw new TypeError("Function " + funcName + " argument " + (i + 1) + " expects type " + expectedType + ", but got " + argType);
                 }
             }
@@ -405,11 +441,6 @@ public class TypeChecker {
         @Override
         public void visit(Identifier identifier) {
             // Typically handled in VarRefExpression
-        }
-
-        // Helper methods
-        private boolean canBeAssigned(Type from, Type to) {
-            return from.equals(to);
         }
 
         private Type getBinaryOpResultType(String op, Type leftType, Type rightType) {

@@ -10,7 +10,7 @@ import imp.interpreter.Z3ASTInterpreter;
 
 import java.util.Objects;
 
-public final class Identifier implements ASTNode, Z3ASTInterpreter {
+public final class Identifier extends ASTNode implements Z3ASTInterpreter {
 
     private final String name;
     private Type type;
@@ -39,10 +39,6 @@ public final class Identifier implements ASTNode, Z3ASTInterpreter {
         return name;
     }
 
-    @Override
-    public String toString() {
-        return name;
-    }
 
     @Override
     public boolean equals(Object o) {

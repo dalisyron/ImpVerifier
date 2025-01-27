@@ -11,25 +11,20 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Objects;
 
-public record InvariantList(@NotNull List<Invariant> invariants) implements ASTNode, Z3BoolExprInterpreter {
+public final class InvariantList extends ASTNode implements Z3BoolExprInterpreter {
+    @NotNull
+    private final List<Invariant> invariants;
 
-    public InvariantList {
+
+    public InvariantList(@NotNull List<Invariant> invariants) {
         Objects.requireNonNull(invariants, "Invariants cannot be null");
+        this.invariants = invariants;
     }
 
-    @Override
     public List<Invariant> invariants() {
         return invariants;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for (Invariant invariant : invariants) {
-            sb.append(invariant).append("\n");
-        }
-        return sb.toString();
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -55,4 +50,11 @@ public record InvariantList(@NotNull List<Invariant> invariants) implements ASTN
         }
         return I;
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(invariants);
+    }
+
+
 }

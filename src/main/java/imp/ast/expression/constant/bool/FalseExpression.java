@@ -16,10 +16,6 @@ public final class FalseExpression extends Expression implements Z3ExprInterpret
         return INSTANCE;
     }
 
-    @Override
-    public String toString() {
-        return "false";
-    }
 
 
     @Override

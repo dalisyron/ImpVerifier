@@ -8,17 +8,13 @@ import imp.ast.ASTVisitor;
 import imp.ast.expression.Expression;
 import imp.interpreter.expr.Z3BoolExprInterpreter;
 
-public final class Condition implements Z3BoolExprInterpreter, ASTNode {
+public final class Condition extends ASTNode implements Z3BoolExprInterpreter {
     private final Expression expression;
 
     public Condition(Expression expression) {
         this.expression = expression;
     }
 
-    @Override
-    public String toString() {
-        return expression.toString();
-    }
 
     @Override
     public boolean equals(Object obj) {

@@ -18,22 +18,6 @@ public final class ImpliesExpression extends BinaryOpExpression implements Z3Boo
         return "==>";
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(left().toString());
-
-        if (right() instanceof ImpliesExpression) {
-            sb.append(" ==> (");
-            sb.append(right());
-            sb.append(")");
-        } else {
-            sb.append(" ==> ");
-            sb.append(right().toString());
-        }
-
-        return sb.toString();
-    }
 
     @Override
     public BoolExpr interpret(Context ctx) {
