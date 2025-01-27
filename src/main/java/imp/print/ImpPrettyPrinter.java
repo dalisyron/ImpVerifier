@@ -52,10 +52,10 @@ public final class ImpPrettyPrinter extends ASTVisitor {
     }
 
     /**
-     * Public entry point: pretty-print an entire Program AST.
+     * Public entry point: pretty-print an entire ASTNode.
      */
     public String prettyPrint(ASTNode node) {
-        node.accept(this);      // triggers visit(Program)
+        node.accept(this);      // triggers visit() for the node
         return result;             // result is set in that visit method
     }
 
