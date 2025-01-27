@@ -222,12 +222,12 @@ public class ASTBuilder extends ImpBaseListener {
     }
 
     @Override
-    public void exitArrayInt(ImpParser.ArrayIntContext ctx) {
+    public void exitIntArrayType(ImpParser.IntArrayTypeContext ctx) {
         values.put(ctx, IntArray.getInstance());
     }
 
     @Override
-    public void exitArrayBool(ImpParser.ArrayBoolContext ctx) {
+    public void exitBoolArrayType(ImpParser.BoolArrayTypeContext ctx) {
         values.put(ctx, BoolArray.getInstance());
     }
 
@@ -237,9 +237,18 @@ public class ASTBuilder extends ImpBaseListener {
     }
 
     @Override
-    public void exitNegExpr(ImpParser.NegExprContext ctx) {
-        Expression expression = (Expression) values.get(ctx.expression());
-        values.put(ctx, new NegExpression(expression));
+    public void exitUnaryExpr(ImpParser.UnaryExprContext ctx) {
+        String op = ctx.getChild(0).getText();
+
+        if (op.equals("-")) {
+            Expression expression = (Expression) values.get(ctx.expression());
+            values.put(ctx, new NegExpression(expression));
+        } else if (op.equals("!")) {
+            Expression expression = (Expression) values.get(ctx.expression());
+            values.put(ctx, new NotExpression(expression));
+        } else {
+            throw new IllegalArgumentException("Unknown operator: " + op);
+        }
     }
 
     @Override
@@ -280,12 +289,6 @@ public class ASTBuilder extends ImpBaseListener {
             default -> throw new IllegalArgumentException("Unknown operator: " + op);
         };
         values.put(ctx, result);
-    }
-
-    @Override
-    public void exitNotExpr(ImpParser.NotExprContext ctx) {
-        Expression expression = (Expression) values.get(ctx.expression());
-        values.put(ctx, new NotExpression(expression));
     }
 
     @Override

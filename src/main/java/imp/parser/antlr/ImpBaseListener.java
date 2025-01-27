@@ -293,25 +293,25 @@ public class ImpBaseListener implements ImpListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterArrayInt(ImpParser.ArrayIntContext ctx) { }
+	@Override public void enterIntArrayType(ImpParser.IntArrayTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitArrayInt(ImpParser.ArrayIntContext ctx) { }
+	@Override public void exitIntArrayType(ImpParser.IntArrayTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterArrayBool(ImpParser.ArrayBoolContext ctx) { }
+	@Override public void enterBoolArrayType(ImpParser.BoolArrayTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitArrayBool(ImpParser.ArrayBoolContext ctx) { }
+	@Override public void exitBoolArrayType(ImpParser.BoolArrayTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -377,18 +377,6 @@ public class ImpBaseListener implements ImpListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNegExpr(ImpParser.NegExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitNegExpr(ImpParser.NegExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterArrayLength(ImpParser.ArrayLengthContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -408,6 +396,18 @@ public class ImpBaseListener implements ImpListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCompExpr(ImpParser.CompExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterUnaryExpr(ImpParser.UnaryExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitUnaryExpr(ImpParser.UnaryExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -492,18 +492,6 @@ public class ImpBaseListener implements ImpListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitEqExpr(ImpParser.EqExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterNotExpr(ImpParser.NotExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitNotExpr(ImpParser.NotExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
