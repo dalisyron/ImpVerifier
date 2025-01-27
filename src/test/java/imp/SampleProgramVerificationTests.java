@@ -14,12 +14,12 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.junit.Assert;
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 
 public class SampleProgramVerificationTests {
+
     @Test
     public void test() {
         Context ctx = new Context();
@@ -37,7 +37,7 @@ public class SampleProgramVerificationTests {
         solver.add(p1, p2, p3);
         // Check satisfiability
         Status status = solver.check();
-        Assert.assertEquals(Status.UNSATISFIABLE, status);
+        Assertions.assertEquals(Status.UNSATISFIABLE, status);
     }
 
     @Test
@@ -73,7 +73,7 @@ public class SampleProgramVerificationTests {
             } else {
                 System.out.printf("Method %s is invalid", methods.get(i).name());
             }
-            Assert.assertTrue(valid);
+            Assertions.assertTrue(valid);
         }
     }
 
