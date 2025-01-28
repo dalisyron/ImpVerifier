@@ -17,7 +17,7 @@ public final class FuncCallExpression extends Expression {
         this.arguments = arguments;
     }
 
-    public Identifier functionName() {
+    public Identifier identifier() {
         return identifier;
     }
 

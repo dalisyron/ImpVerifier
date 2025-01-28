@@ -239,11 +239,6 @@ public class TypeChecker {
         }
 
         @Override
-        public void visit(ExpressionStatement expressionStatement) {
-            expressionStatement.expression().accept(this);
-        }
-
-        @Override
         public void visit(VarRefExpression varRefExpression) {
             Identifier varName = varRefExpression.variableName();
             Type varType = symTab.get(varName);
@@ -367,8 +362,13 @@ public class TypeChecker {
         }
 
         @Override
+        public void visit(FuncCallStatement funcCallStatement) {
+            funcCallStatement.funcCallExpression().accept(this);
+        }
+
+        @Override
         public void visit(FuncCallExpression funcCallExpression) {
-            Identifier funcName = funcCallExpression.functionName();
+            Identifier funcName = funcCallExpression.identifier();
             FunctionType funcType = functionSymTab.get(funcName);
             if (funcType == null) {
                 throw new TypeError("Unknown function: " + funcName);
@@ -380,8 +380,7 @@ public class TypeChecker {
             }
 
             for (int i = 0; i < args.size(); i++) {
-                args.get(i).accept(this);
-                Type argType = lastType;
+                Type argType = visitAndGet(args.get(i));
                 Type expectedType = funcType.getParameterTypes().get(i);
                 if (argType != expectedType) {
                     throw new TypeError("Function " + funcName + " argument " + (i + 1) + " expects type " + expectedType + ", but got " + argType);

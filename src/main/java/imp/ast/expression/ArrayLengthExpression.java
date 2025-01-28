@@ -29,8 +29,6 @@ public final class ArrayLengthExpression extends Expression {
         return 31 * arrayExpression.hashCode();
     }
 
-
-
     @Override
     public void accept(ASTVisitor v) {
         v.visit(this);

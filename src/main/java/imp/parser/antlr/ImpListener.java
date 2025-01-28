@@ -148,17 +148,17 @@ public interface ImpListener extends ParseTreeListener {
 	 */
 	void exitVarDeclStmt(ImpParser.VarDeclStmtContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ExprStmt}
+	 * Enter a parse tree produced by the {@code FuncCallStmt}
 	 * labeled alternative in {@link ImpParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void enterExprStmt(ImpParser.ExprStmtContext ctx);
+	void enterFuncCallStmt(ImpParser.FuncCallStmtContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code ExprStmt}
+	 * Exit a parse tree produced by the {@code FuncCallStmt}
 	 * labeled alternative in {@link ImpParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void exitExprStmt(ImpParser.ExprStmtContext ctx);
+	void exitFuncCallStmt(ImpParser.FuncCallStmtContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ImpParser#block}.
 	 * @param ctx the parse tree
@@ -398,18 +398,6 @@ public interface ImpListener extends ParseTreeListener {
 	 */
 	void exitFalseExpr(ImpParser.FalseExprContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code FuncCall}
-	 * labeled alternative in {@link ImpParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterFuncCall(ImpParser.FuncCallContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code FuncCall}
-	 * labeled alternative in {@link ImpParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitFuncCall(ImpParser.FuncCallContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code NewArray}
 	 * labeled alternative in {@link ImpParser#expression}.
 	 * @param ctx the parse tree
@@ -493,6 +481,18 @@ public interface ImpListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAddSubExpr(ImpParser.AddSubExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code FuncCallExpr}
+	 * labeled alternative in {@link ImpParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterFuncCallExpr(ImpParser.FuncCallExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code FuncCallExpr}
+	 * labeled alternative in {@link ImpParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitFuncCallExpr(ImpParser.FuncCallExprContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code VarRef}
 	 * labeled alternative in {@link ImpParser#reference}.

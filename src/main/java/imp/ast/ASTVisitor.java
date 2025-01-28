@@ -60,8 +60,6 @@ public abstract class ASTVisitor {
 
     public abstract void visit(BlockStatement blockStatement);
 
-    public abstract void visit(ExpressionStatement expressionStatement);
-
     public abstract void visit(IfStatement ifStatement);
 
     public abstract void visit(VariableDeclaration variableDeclaration);
@@ -95,4 +93,6 @@ public abstract class ASTVisitor {
     public abstract void visit(VoidType voidType);
 
     public abstract void visit(IntType intType);
+
+    public abstract void visit(FuncCallStatement funcCallStatement);
 }

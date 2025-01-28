@@ -27,7 +27,7 @@ statement:
     | whileStatement          # WhileStmt
     | block                   # BlockStmt
     | varDecl                 # VarDeclStmt
-    | expression SEMICOLON    # ExprStmt
+    | ID LPAREN exprList? RPAREN SEMICOLON    # FuncCallStmt
     ;
 
 block: LBRACE statement* RBRACE;
@@ -48,14 +48,14 @@ varDecl: type ID (ASSIGN expression)? SEMICOLON;
 type:
 	BOOL_TYPE					# BoolType
 	| INT_TYPE					# IntType
-	| INT_ARRAY_TYPE				# IntArrayType
+	| INT_ARRAY_TYPE			# IntArrayType
 	| BOOL_ARRAY_TYPE			# BoolArrayType
 	| LPAREN type RPAREN	# ParenType;
 
 expression:
-      reference                                                                 # ReferenceExpr
+      reference                                                                # ReferenceExpr
     | expression '.length'                                                     # ArrayLength
-    | ID LPAREN exprList? RPAREN                                               # FuncCall
+    | ID LPAREN exprList? RPAREN                                               # FuncCallExpr
     | (MINUS | NOT) expression                                                 # UnaryExpr
     | NEW type LBRACK expression RBRACK                                        # NewArray
     | expression (TIMES | INTDIV | INTMOD) expression                          # MulDivModExpr

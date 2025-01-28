@@ -173,13 +173,13 @@ public class ImpBaseListener implements ImpListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExprStmt(ImpParser.ExprStmtContext ctx) { }
+	@Override public void enterFuncCallStmt(ImpParser.FuncCallStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExprStmt(ImpParser.ExprStmtContext ctx) { }
+	@Override public void exitFuncCallStmt(ImpParser.FuncCallStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -437,18 +437,6 @@ public class ImpBaseListener implements ImpListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFuncCall(ImpParser.FuncCallContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitFuncCall(ImpParser.FuncCallContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterNewArray(ImpParser.NewArrayContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -528,6 +516,18 @@ public class ImpBaseListener implements ImpListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAddSubExpr(ImpParser.AddSubExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFuncCallExpr(ImpParser.FuncCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFuncCallExpr(ImpParser.FuncCallExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

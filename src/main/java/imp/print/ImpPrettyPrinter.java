@@ -244,13 +244,6 @@ public final class ImpPrettyPrinter extends ASTVisitor {
     }
 
     @Override
-    public void visit(ExpressionStatement expressionStatement) {
-        // "expr;"
-        String exprStr = visitAndGet(expressionStatement.expression());
-        this.result = exprStr + ";";
-    }
-
-    @Override
     public void visit(IfStatement ifStatement) {
         /*
          * Representation:
@@ -370,6 +363,11 @@ public final class ImpPrettyPrinter extends ASTVisitor {
         this.result = "int";
     }
 
+    @Override
+    public void visit(FuncCallStatement funcCallStatement) {
+        this.result = visitAndGet(funcCallStatement.funcCallExpression()) + ";";
+    }
+
     // ----------------------------------------------------------------
     // Expression classes
     // ----------------------------------------------------------------
@@ -455,7 +453,7 @@ public final class ImpPrettyPrinter extends ASTVisitor {
         // Representation: identifier(args...)
         // see the original code
         StringBuilder sb = new StringBuilder();
-        sb.append(visitAndGet(funcCallExpression.functionName()))
+        sb.append(visitAndGet(funcCallExpression.identifier()))
                 .append("(");
 
         List<Expression> args = funcCallExpression.arguments();

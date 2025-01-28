@@ -185,9 +185,12 @@ public class ASTBuilder extends ImpBaseListener {
     }
 
     @Override
-    public void exitExprStmt(ImpParser.ExprStmtContext ctx) {
-        Expression expression = (Expression) values.get(ctx.expression());
-        values.put(ctx, new ExpressionStatement(expression));
+    public void exitFuncCallStmt(ImpParser.FuncCallStmtContext ctx) {
+        Identifier funcName = new Identifier(ctx.ID().getText());
+        List<Expression> args = ctx.exprList() != null ? (List<Expression>) values.get(ctx.exprList()) : new ArrayList<>();
+        FuncCallExpression funcCallExpression = new FuncCallExpression(funcName, args);
+
+        values.put(ctx, new FuncCallStatement(funcCallExpression));
     }
 
     @Override
@@ -318,7 +321,8 @@ public class ASTBuilder extends ImpBaseListener {
     }
 
     @Override
-    public void exitFuncCall(ImpParser.FuncCallContext ctx) {
+    public void exitFuncCallExpr(ImpParser.FuncCallExprContext ctx) {
+        // Need to create a new FuncCallExpression
         Identifier funcName = new Identifier(ctx.ID().getText());
         List<Expression> args = ctx.exprList() != null ? (List<Expression>) values.get(ctx.exprList()) : new ArrayList<>();
         values.put(ctx, new FuncCallExpression(funcName, args));
