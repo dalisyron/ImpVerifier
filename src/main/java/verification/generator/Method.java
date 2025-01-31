@@ -1,4 +1,4 @@
-package imp.verification;
+package verification.generator;
 
 import com.microsoft.z3.BoolExpr;
 import com.microsoft.z3.Context;
@@ -6,15 +6,9 @@ import com.microsoft.z3.Solver;
 import com.microsoft.z3.Status;
 
 import imp.ast.method.MethodDeclaration;
-import imp.ast.condition.ConditionClause;
 import imp.ast.condition.ConditionList;
-import imp.ast.condition.EnsuresClause;
-import imp.ast.condition.RequiresClause;
 import imp.ast.statement.BlockStatement;
-import imp.ast.statement.Statement;
-import imp.interpreter.Z3Interpreter;
-
-import java.util.Optional;
+import interpreter.Z3Interpreter;
 
 public class Method {
     private static Method instance;

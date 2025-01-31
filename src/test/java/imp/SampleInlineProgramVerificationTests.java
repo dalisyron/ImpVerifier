@@ -4,7 +4,7 @@ import com.microsoft.z3.*;
 import imp.ast.Program;
 import imp.ast.method.MethodDeclaration;
 import imp.parser.Parser;
-import imp.verification.Method;
+import verification.generator.Method;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

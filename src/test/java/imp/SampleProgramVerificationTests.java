@@ -5,7 +5,7 @@ import com.microsoft.z3.*;
 import imp.ast.Program;
 import imp.ast.method.MethodDeclaration;
 import imp.parser.*;
-import imp.verification.Method;
+import verification.generator.Method;
 
 import java.io.IOException;
 import java.nio.file.Files;

@@ -15,6 +15,7 @@ import imp.ast.statement.AssignStatement;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import verification.generator.Assignment;
 
 
 public class AssignmentTest {

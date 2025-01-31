@@ -1,14 +1,10 @@
-package imp;
+package verification;
 
 import imp.ast.method.MethodDeclaration;
 import imp.ast.Program;
 import imp.parser.Parser;
-import imp.typechecker.TypeChecker;
-import imp.verification.Method;
+import verification.generator.Method;
 
-import org.antlr.v4.runtime.tree.ParseTree;
-
-import com.microsoft.z3.BoolExpr;
 import com.microsoft.z3.Context;
 
 import java.io.IOException;
@@ -21,7 +17,7 @@ public class ImpVerifier {
         // Parse input file
 
         if (args.length != 1) {
-            System.err.println("Usage: java -cp lib/com.microsoft.z3.jar:lib/antlr4-runtime-4.13.2.jar:target/imp-verifier-1.0.jar imp.ImpVerifier <input-file>");
+            System.err.println("Usage: java -cp lib/com.microsoft.z3.jar:lib/antlr4-runtime-4.13.2.jar:target/imp-verifier-1.0.jar verification.ImpVerifier <input-file>");
             System.exit(1);
         }
 

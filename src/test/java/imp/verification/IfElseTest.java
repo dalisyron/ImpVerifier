@@ -2,7 +2,6 @@ package imp.verification;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import imp.ast.typing.data.value.IntType;
 
@@ -19,6 +18,7 @@ import imp.ast.statement.*;
 import imp.ast.expression.Identifier;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import verification.generator.IfElse;
 
 
 public class IfElseTest {

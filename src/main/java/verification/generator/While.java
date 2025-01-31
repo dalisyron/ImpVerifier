@@ -1,15 +1,12 @@
-package imp.verification;
+package verification.generator;
 
 import com.microsoft.z3.BoolExpr;
 import com.microsoft.z3.Context;
-import imp.ast.Invariant;
 import imp.ast.expression.Expression;
 import imp.ast.InvariantList;
 import imp.ast.statement.BlockStatement;
 import imp.ast.statement.WhileStatement;
-import imp.interpreter.Z3Interpreter;
-
-import java.util.Optional;
+import interpreter.Z3Interpreter;
 
 public class While implements VerificationConditionProvider<WhileStatement> {
     private static While instance;

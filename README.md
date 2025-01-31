@@ -155,7 +155,7 @@ Ivy uses the **Z3 Java API** to interpret the generated verification conditions 
    ```bash
    java \
      -cp lib/com.microsoft.z3.jar:lib/antlr4-runtime-4.13.2.jar:target/imp-verifier-1.0.jar \
-     imp.ImpVerifier path/to/yourProgram.imp
+     verification.ImpVerifier path/to/yourProgram.imp
    ```
    - The above command references:
      - `com.microsoft.z3.jar`: Z3 solver library
@@ -188,7 +188,7 @@ You can verify it by running:
 ```bash
 java \
   -cp lib/com.microsoft.z3.jar:lib/antlr4-runtime-4.13.2.jar:target/imp-verifier-1.0.jar \
-  imp.ImpVerifier SumOfFirstNNumbers.imp
+  verification.ImpVerifier SumOfFirstNNumbers.imp
 ```
 
 The output will indicate whether the method’s verification conditions are valid (e.g., “Method SumOfFirstNNaturalNumbers is valid”).

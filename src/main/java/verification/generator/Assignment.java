@@ -1,4 +1,4 @@
-package imp.verification;
+package verification.generator;
 
 import com.microsoft.z3.BoolExpr;
 import com.microsoft.z3.Context;
@@ -6,7 +6,7 @@ import com.microsoft.z3.Expr;
 import imp.ast.expression.Expression;
 import imp.ast.expression.ReferenceExpression;
 import imp.ast.statement.AssignStatement;
-import imp.interpreter.Z3Interpreter;
+import interpreter.Z3Interpreter;
 
 public class Assignment implements VerificationConditionProvider<AssignStatement> {
 

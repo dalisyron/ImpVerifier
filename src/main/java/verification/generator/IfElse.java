@@ -1,13 +1,12 @@
-package imp.verification;
+package verification.generator;
 
 import java.util.Optional;
 
 import com.microsoft.z3.BoolExpr;
 import com.microsoft.z3.Context;
-import com.microsoft.z3.Expr;
 import imp.ast.statement.BlockStatement;
 import imp.ast.statement.IfStatement;
-import imp.interpreter.Z3Interpreter;
+import interpreter.Z3Interpreter;
 
 public class IfElse implements VerificationConditionProvider<IfStatement> {
     private static IfElse instance;

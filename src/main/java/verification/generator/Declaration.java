@@ -1,11 +1,11 @@
-package imp.verification;
+package verification.generator;
 
 import com.microsoft.z3.BoolExpr;
 import com.microsoft.z3.Context;
 import com.microsoft.z3.Expr;
 
 import imp.ast.statement.VariableDeclaration;
-import imp.interpreter.Z3Interpreter;
+import interpreter.Z3Interpreter;
 
 public class Declaration implements VerificationConditionProvider<VariableDeclaration> {
 

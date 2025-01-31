@@ -1,4 +1,4 @@
-package imp.interpreter;
+package interpreter;
 
 import com.microsoft.z3.*;
 import imp.ast.Invariant;
@@ -20,7 +20,6 @@ import imp.ast.expression.constant.integer.IntExpression;
 import imp.ast.expression.unary.bool.NotExpression;
 import imp.ast.expression.unary.integer.NegExpression;
 import imp.ast.statement.Condition;
-import imp.ast.typing.FunctionType;
 import imp.ast.typing.Type;
 import imp.ast.typing.VoidType;
 import imp.ast.typing.data.DataType;
@@ -29,7 +28,6 @@ import imp.ast.typing.data.array.IntArray;
 import imp.ast.typing.data.value.BoolType;
 import imp.ast.typing.data.value.IntType;
 import imp.ast.typing.data.value.PrimitiveType;
-import imp.ast.expression.Identifier;
 import imp.ast.expression.VarRefExpression;
 import imp.ast.expression.ArrayRefExpression;
 
