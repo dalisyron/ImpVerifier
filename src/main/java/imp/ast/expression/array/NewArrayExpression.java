@@ -4,6 +4,7 @@ import com.microsoft.z3.Context;
 import com.microsoft.z3.Expr;
 import imp.ast.ASTVisitor;
 import imp.ast.expression.Expression;
+import imp.ast.expression.ExpressionVisitor;
 import imp.ast.typing.Type;
 
 public final class NewArrayExpression extends Expression {
@@ -39,12 +40,7 @@ public final class NewArrayExpression extends Expression {
 
 
     @Override
-    public void accept(ASTVisitor v) {
-        v.visit(this);
-    }
-
-    @Override
-    public Expr interpret(Context ctx) {
-        throw new UnsupportedOperationException("Not Supported");
+    public void accept(ExpressionVisitor visitor) {
+        visitor.visit(this);
     }
 }

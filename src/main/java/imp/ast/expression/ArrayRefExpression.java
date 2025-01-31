@@ -35,23 +35,16 @@ public final class ArrayRefExpression extends ReferenceExpression {
     }
 
 
-    @Override
-    public void accept(ASTVisitor visitor) {
-        visitor.visit(this);
-    }
-
-    @Override
-    public Expr interpret(Context ctx) {
-        Sort sort = elementType.interpret(ctx);
-
-        return ctx.mkSelect(ctx.mkArrayConst(arrayName.name(), ctx.mkIntSort(), sort), indexExpression.interpret(ctx));
-    }
-
     public PrimitiveType getElementType() {
         return elementType;
     }
 
     public void setElementType(PrimitiveType elementType) {
         this.elementType = elementType;
+    }
+
+    @Override
+    public void accept(ExpressionVisitor v) {
+        v.visit(this);
     }
 }

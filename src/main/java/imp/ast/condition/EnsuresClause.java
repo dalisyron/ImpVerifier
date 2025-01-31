@@ -2,7 +2,6 @@ package imp.ast.condition;
 
 import com.microsoft.z3.BoolExpr;
 import com.microsoft.z3.Context;
-import com.microsoft.z3.Expr;
 import imp.ast.ASTVisitor;
 import imp.ast.expression.Expression;
 
@@ -40,10 +39,5 @@ public final class EnsuresClause extends ConditionClause {
     @Override
     public void accept(ASTVisitor v) {
         v.visit(this);
-    }
-
-    @Override
-    public BoolExpr interpret(Context ctx) {
-        return (BoolExpr) expression.interpret(ctx);
     }
 }

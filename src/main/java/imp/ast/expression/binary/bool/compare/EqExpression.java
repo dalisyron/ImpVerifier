@@ -4,6 +4,7 @@ import com.microsoft.z3.Context;
 import com.microsoft.z3.Expr;
 import imp.ast.expression.BinaryOpExpression;
 import imp.ast.expression.Expression;
+import imp.ast.expression.ExpressionVisitor;
 
 public final class EqExpression extends BinaryOpExpression {
 
@@ -16,8 +17,9 @@ public final class EqExpression extends BinaryOpExpression {
         return "==";
     }
 
+
     @Override
-    public Expr interpret(Context ctx) {
-        return ctx.mkEq(left().interpret(ctx), right().interpret(ctx));
+    public void accept(ExpressionVisitor visitor) {
+        visitor.visit(this);
     }
 }

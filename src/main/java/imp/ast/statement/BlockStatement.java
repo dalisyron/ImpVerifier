@@ -1,6 +1,5 @@
 package imp.ast.statement;
 
-import imp.ast.ASTNode;
 import imp.ast.ASTVisitor;
 
 import java.util.List;

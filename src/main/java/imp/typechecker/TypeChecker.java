@@ -5,11 +5,18 @@ import imp.ast.*;
 import imp.ast.condition.*;
 import imp.ast.expression.*;
 import imp.ast.expression.array.NewArrayExpression;
+import imp.ast.expression.binary.bool.compare.*;
+import imp.ast.expression.binary.bool.logic.AndExpression;
+import imp.ast.expression.binary.bool.logic.ImpliesExpression;
+import imp.ast.expression.binary.bool.logic.OrExpression;
+import imp.ast.expression.binary.integer.*;
 import imp.ast.expression.bool.ExistsExpression;
 import imp.ast.expression.bool.ForallExpression;
 import imp.ast.expression.constant.bool.FalseExpression;
 import imp.ast.expression.constant.bool.TrueExpression;
 import imp.ast.expression.constant.integer.IntExpression;
+import imp.ast.expression.unary.bool.NotExpression;
+import imp.ast.expression.unary.integer.NegExpression;
 import imp.ast.method.*;
 import imp.ast.statement.*;
 import imp.ast.typing.*;
@@ -20,6 +27,7 @@ import imp.ast.typing.data.array.IntArray;
 import imp.ast.typing.data.value.BoolType;
 import imp.ast.typing.data.value.IntType;
 import imp.ast.expression.Identifier;
+import imp.ast.ASTVisitor;
 
 import java.util.*;
 
@@ -277,7 +285,6 @@ public class TypeChecker {
             }
         }
 
-        @Override
         public void visit(BinaryOpExpression binaryOpExpression) {
             binaryOpExpression.left().accept(this);
             Type leftType = lastType;
@@ -294,7 +301,6 @@ public class TypeChecker {
             lastType = resultType;
         }
 
-        @Override
         public void visit(UnaryExpression unaryExpression) {
             unaryExpression.expression().accept(this);
             Type operandType = lastType;
@@ -324,6 +330,81 @@ public class TypeChecker {
         }
 
         @Override
+        public void visit(NotExpression notExpression) {
+            visit((UnaryExpression) notExpression);
+        }
+
+        @Override
+        public void visit(NegExpression negExpression) {
+            visit((UnaryExpression) negExpression);
+        }
+
+        @Override
+        public void visit(ImpliesExpression impliesExpression) {
+            visit((BinaryOpExpression) impliesExpression);
+        }
+
+        @Override
+        public void visit(OrExpression orExpression) {
+            visit((BinaryOpExpression) orExpression);
+        }
+
+        @Override
+        public void visit(MulExpression mulExpression) {
+            visit((BinaryOpExpression) mulExpression);
+        }
+
+        @Override
+        public void visit(EqExpression eqExpression) {
+            visit((BinaryOpExpression) eqExpression);
+        }
+
+        @Override
+        public void visit(LessThanOrEqualExpression lessThanOrEqualExpression) {
+            visit((BinaryOpExpression) lessThanOrEqualExpression);
+        }
+
+        @Override
+        public void visit(SubExpression subExpression) {
+            visit((BinaryOpExpression) subExpression);
+        }
+
+        @Override
+        public void visit(ModExpression modExpression) {
+            visit((BinaryOpExpression) modExpression);
+        }
+
+        @Override
+        public void visit(GreaterThanOrEqualExpression greaterThanOrEqualExpression) {
+            visit((BinaryOpExpression) greaterThanOrEqualExpression);
+        }
+
+        @Override
+        public void visit(AddExpression addExpression) {
+            visit((BinaryOpExpression) addExpression);
+        }
+
+        @Override
+        public void visit(LessThanExpression lessThanExpression) {
+            visit((BinaryOpExpression) lessThanExpression);
+        }
+
+        @Override
+        public void visit(DivExpression divExpression) {
+            visit((BinaryOpExpression) divExpression);
+        }
+
+        @Override
+        public void visit(GreaterThanExpression greaterThanExpression) {
+            visit((BinaryOpExpression) greaterThanExpression);
+        }
+
+        @Override
+        public void visit(AndExpression andExpression) {
+            visit((BinaryOpExpression) andExpression);
+        }
+
+        @Override
         public void visit(Condition condition) {
             condition.expression().accept(this);
             if (!(lastType instanceof BoolType)) {
@@ -334,11 +415,6 @@ public class TypeChecker {
         @Override
         public void visit(BoolType boolType) {
             lastType = BoolType.getInstance();
-        }
-
-        @Override
-        public void visit(FunctionType functionType) {
-            lastType = functionType;
         }
 
         @Override
@@ -435,11 +511,6 @@ public class TypeChecker {
             }
             symTab.popState();
             lastType = BoolType.getInstance();
-        }
-
-        @Override
-        public void visit(Identifier identifier) {
-            // Typically handled in VarRefExpression
         }
 
         private Type getBinaryOpResultType(String op, Type leftType, Type rightType) {

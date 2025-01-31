@@ -1,9 +1,6 @@
 package imp.ast.statement;
 
 import imp.ast.ASTVisitor;
-import imp.ast.expression.Expression;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.Optional;

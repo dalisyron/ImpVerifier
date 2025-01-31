@@ -1,6 +1,7 @@
 package imp.ast.typing;
 
 import imp.ast.ASTVisitor;
+import imp.ast.expression.TypeVisitor;
 import imp.ast.typing.data.DataType;
 
 import java.util.List;
@@ -39,7 +40,7 @@ public final class FunctionType extends Type {
 
 
     @Override
-    public void accept(ASTVisitor v) {
-        v.visit(this);
+    public void accept(TypeVisitor v) {
+        throw new UnsupportedOperationException("FunctionType visit not implemented");
     }
 }

@@ -1,10 +1,6 @@
 package imp.ast;
 
-import com.microsoft.z3.BoolExpr;
-import com.microsoft.z3.Context;
-import imp.ast.ASTNode;
 import imp.ast.expression.Expression;
-import imp.interpreter.expr.Z3BoolExprInterpreter;
 
 import java.util.Objects;
 

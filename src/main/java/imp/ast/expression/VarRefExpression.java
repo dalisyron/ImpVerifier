@@ -30,19 +30,13 @@ public final class VarRefExpression extends ReferenceExpression {
         return variableName.hashCode();
     }
 
-
-    @Override
-    public void accept(ASTVisitor visitor) {
-        visitor.visit(this);
-    }
-
-    @Override
-    public Expr interpret(Context ctx) {
-        return ctx.mkConst(variableName.name(), type.interpret(ctx));
-    }
-
     public DataType getType() {
         return type;
+    }
+
+    @Override
+    public void accept(ExpressionVisitor visitor) {
+        visitor.visit(this);
     }
 
     public void setType(DataType type) {

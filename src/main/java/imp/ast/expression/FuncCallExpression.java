@@ -3,7 +3,6 @@ package imp.ast.expression;
 import com.microsoft.z3.*;
 import imp.ast.ASTVisitor;
 import imp.ast.typing.FunctionType;
-import imp.ast.typing.Type;
 
 import java.util.List;
 
@@ -11,6 +10,7 @@ public final class FuncCallExpression extends Expression {
 
     private final Identifier identifier;
     private final List<Expression> arguments;
+    private FunctionType functionType;
 
     public FuncCallExpression(Identifier identifier, List<Expression> arguments) {
         this.identifier = identifier;
@@ -34,18 +34,16 @@ public final class FuncCallExpression extends Expression {
         return arguments.equals(that.arguments);
     }
 
-
     @Override
-    public void accept(ASTVisitor v) {
-        v.visit(this);
+    public void accept(ExpressionVisitor visitor) {
+        visitor.visit(this);
     }
 
-    @Override
-    public Expr interpret(Context ctx) {
-        AST variable = identifier.interpret(ctx);
-        if (!(variable instanceof FuncDecl)) {
-            throw new IllegalStateException("Identifier does not have a function type");
-        }
-        return ctx.mkApp((FuncDecl) variable, arguments.stream().map(e -> e.interpret(ctx)).toArray(Expr[]::new));
+    public FunctionType getFunctionType() {
+        return functionType;
+    }
+
+    public void setFunctionType(FunctionType functionType) {
+        this.functionType = functionType;
     }
 }

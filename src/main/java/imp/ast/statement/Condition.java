@@ -1,14 +1,10 @@
 package imp.ast.statement;
 
-import com.microsoft.z3.BoolExpr;
-import com.microsoft.z3.Context;
-import com.microsoft.z3.Expr;
 import imp.ast.ASTNode;
 import imp.ast.ASTVisitor;
 import imp.ast.expression.Expression;
-import imp.interpreter.expr.Z3BoolExprInterpreter;
 
-public final class Condition extends ASTNode implements Z3BoolExprInterpreter {
+public final class Condition extends ASTNode {
     private final Expression expression;
 
     public Condition(Expression expression) {
@@ -29,16 +25,11 @@ public final class Condition extends ASTNode implements Z3BoolExprInterpreter {
         return expression.hashCode();
     }
 
-    @Override
-    public BoolExpr interpret(Context ctx) {
-        return (BoolExpr) expression.interpret(ctx);
-    }
-
     public void accept(ASTVisitor visitor) {
         visitor.visit(this);
     }
 
-    public ASTNode expression() {
+    public Expression expression() {
         return expression;
     }
 }

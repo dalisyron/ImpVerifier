@@ -3,6 +3,7 @@ package imp.ast.typing.data.value;
 import com.microsoft.z3.Context;
 import com.microsoft.z3.Sort;
 import imp.ast.ASTVisitor;
+import imp.ast.expression.TypeVisitor;
 
 public class IntType extends PrimitiveType {
     private static final IntType instance = new IntType();
@@ -24,14 +25,8 @@ public class IntType extends PrimitiveType {
         return getClass().getName().hashCode();
     }
 
-
     @Override
-    public Sort interpret(Context ctx) {
-        return ctx.getIntSort();
-    }
-
-    @Override
-    public void accept(ASTVisitor v) {
+    public void accept(TypeVisitor v) {
         v.visit(this);
     }
 }

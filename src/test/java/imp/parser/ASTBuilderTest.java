@@ -25,6 +25,7 @@ class ASTBuilderTest {
             paths.filter(Files::isRegularFile)
                     .filter(path -> path.toString().endsWith(".imp"))
                     .forEach(path -> {
+                        System.out.println("Testing file: " + path);
                         try {
                             // Test each .imp file
                             testAstEqualsReparsedAst(path.toString());

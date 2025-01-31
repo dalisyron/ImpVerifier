@@ -5,6 +5,7 @@ import com.microsoft.z3.Context;
 import com.microsoft.z3.Expr;
 
 import imp.ast.statement.VariableDeclaration;
+import imp.interpreter.Z3Interpreter;
 
 public class Declaration implements VerificationConditionProvider<VariableDeclaration> {
 
@@ -15,10 +16,12 @@ public class Declaration implements VerificationConditionProvider<VariableDeclar
 
     @Override
     public BoolExpr awp(Context ctx, VariableDeclaration declaration, BoolExpr Q) {
+        Z3Interpreter interpreter = Z3Interpreter.create(ctx);
+
         if (declaration.initializer().isEmpty()) {
             return (BoolExpr) Q;
         } else {
-            Expr rhs = declaration.initializer().get().interpret(ctx);
+            Expr rhs = interpreter.interpret(declaration.initializer().get());
             Expr varname = ctx.mkConst(declaration.variableName().name(), rhs.getSort());
             return (BoolExpr) Q.substitute(varname, rhs);
         }

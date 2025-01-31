@@ -2,7 +2,6 @@ package imp.ast.condition;
 
 import imp.ast.ASTNode;
 import imp.ast.ASTVisitor;
-import imp.ast.statement.Condition;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

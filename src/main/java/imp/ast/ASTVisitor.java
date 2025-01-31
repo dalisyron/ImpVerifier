@@ -4,35 +4,10 @@ import imp.ast.condition.ConditionList;
 import imp.ast.condition.EnsuresClause;
 import imp.ast.condition.RequiresClause;
 import imp.ast.expression.*;
-import imp.ast.expression.array.NewArrayExpression;
-import imp.ast.expression.bool.ExistsExpression;
-import imp.ast.expression.bool.ForallExpression;
-import imp.ast.expression.constant.bool.FalseExpression;
-import imp.ast.expression.constant.bool.TrueExpression;
-import imp.ast.expression.constant.integer.IntExpression;
 import imp.ast.method.*;
 import imp.ast.statement.*;
-import imp.ast.expression.Identifier;
-import imp.ast.typing.FunctionType;
-import imp.ast.typing.VoidType;
-import imp.ast.typing.data.array.BoolArray;
-import imp.ast.typing.data.array.IntArray;
-import imp.ast.typing.data.value.BoolType;
-import imp.ast.typing.data.value.IntType;
 
-public abstract class ASTVisitor {
-
-    public abstract void visit(BinaryOpExpression binaryOpExpression);
-
-    public abstract void visit(ArrayRefExpression arrayRefExpression);
-
-    public abstract void visit(VarRefExpression varRefExpression);
-
-    public abstract void visit(ForallExpression forallExpression);
-
-    public abstract void visit(ExistsExpression existsExpression);
-
-    public abstract void visit(Identifier identifier);
+public abstract class ASTVisitor implements StatementVisitor {
 
     public abstract void visit(Program program);
 
@@ -48,51 +23,13 @@ public abstract class ASTVisitor {
 
     public abstract void visit(EnsuresClause ensuresClause);
 
-    public abstract void visit(UnaryExpression unaryExpression);
-
-    public abstract void visit(ArrayLengthExpression arrayLengthExpression);
-
-    public abstract void visit(FuncCallExpression funcCallExpression);
-
     public abstract void visit(MethodBody methodBody);
-
-    public abstract void visit(AssignStatement assignStatement);
-
-    public abstract void visit(BlockStatement blockStatement);
-
-    public abstract void visit(IfStatement ifStatement);
-
-    public abstract void visit(VariableDeclaration variableDeclaration);
-
-    public abstract void visit(WhileStatement whileStatement);
 
     public abstract void visit(Invariant invariant);
 
     public abstract void visit(InvariantList invariantList);
 
-    public abstract void visit(FalseExpression falseExpression);
-
-    public abstract void visit(IntExpression intExpression);
-
     public abstract void visit(RequiresClause requiresClause);
 
-    public abstract void visit(NewArrayExpression newArrayExpression);
-
-    public abstract void visit(TrueExpression trueExpression);
-
     public abstract void visit(Condition condition);
-
-    public abstract void visit(BoolType boolType);
-
-    public abstract void visit(FunctionType functionType);
-
-    public abstract void visit(IntArray intArray);
-
-    public abstract void visit(BoolArray boolArray);
-
-    public abstract void visit(VoidType voidType);
-
-    public abstract void visit(IntType intType);
-
-    public abstract void visit(FuncCallStatement funcCallStatement);
 }

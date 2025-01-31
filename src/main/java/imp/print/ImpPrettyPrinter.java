@@ -7,11 +7,18 @@ import imp.ast.condition.EnsuresClause;
 import imp.ast.condition.RequiresClause;
 import imp.ast.expression.*;
 import imp.ast.expression.array.NewArrayExpression;
+import imp.ast.expression.binary.bool.compare.*;
+import imp.ast.expression.binary.bool.logic.AndExpression;
+import imp.ast.expression.binary.bool.logic.ImpliesExpression;
+import imp.ast.expression.binary.bool.logic.OrExpression;
+import imp.ast.expression.binary.integer.*;
 import imp.ast.expression.bool.ExistsExpression;
 import imp.ast.expression.bool.ForallExpression;
 import imp.ast.expression.constant.bool.FalseExpression;
 import imp.ast.expression.constant.bool.TrueExpression;
 import imp.ast.expression.constant.integer.IntExpression;
+import imp.ast.expression.unary.bool.NotExpression;
+import imp.ast.expression.unary.integer.NegExpression;
 import imp.ast.method.*;
 import imp.ast.statement.*;
 import imp.ast.expression.Identifier;
@@ -21,6 +28,7 @@ import imp.ast.typing.data.array.BoolArray;
 import imp.ast.typing.data.array.IntArray;
 import imp.ast.typing.data.value.BoolType;
 import imp.ast.typing.data.value.IntType;
+import imp.ast.ASTVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,7 +108,7 @@ public final class ImpPrettyPrinter extends ASTVisitor {
         StringBuilder sb = new StringBuilder();
 
         sb.append("method ");
-        sb.append(visitAndGet(methodDeclaration.name()));
+        sb.append(methodDeclaration.name());
 
         // parameter list or ()
         if (!methodDeclaration.parameterList().isEmpty()) {
@@ -157,7 +165,7 @@ public final class ImpPrettyPrinter extends ASTVisitor {
          */
         // parameter.type() is not necessarily an ASTNode, so we call its .toString() directly
         String typeString = parameter.type() != null ? parameter.type().toString() : "nulltype";
-        String nameString = visitAndGet(parameter.name());
+        String nameString = parameter.name().name();
         this.result = typeString + " " + nameString;
     }
 
@@ -168,7 +176,7 @@ public final class ImpPrettyPrinter extends ASTVisitor {
          *   type + " " + name
          */
         String typeString = returnValue.type() != null ? returnValue.type().toString() : "nulltype";
-        String nameString = visitAndGet(returnValue.name());
+        String nameString = returnValue.name().name();
         this.result = typeString + " " + nameString;
     }
 
@@ -271,7 +279,7 @@ public final class ImpPrettyPrinter extends ASTVisitor {
         // variableDeclaration.declaredType() is not an AST node, so .toString() directly
         sb.append(variableDeclaration.declaredType())
                 .append(" ")
-                .append(visitAndGet(variableDeclaration.variableName()));
+                .append(variableDeclaration.variableName());
         if (variableDeclaration.initializer().isPresent()) {
             sb.append(" = ")
                     .append(visitAndGet(variableDeclaration.initializer().get()));
@@ -324,25 +332,6 @@ public final class ImpPrettyPrinter extends ASTVisitor {
     }
 
     @Override
-    public void visit(FunctionType functionType) {
-        // (type1, type2, ...) -> returnType
-        List<String> paramTypes = visitAll(functionType.getParameterTypes());
-        String returnType = functionType.getReturnType().toString();
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("(");
-        for (int i = 0; i < paramTypes.size(); i++) {
-            sb.append(paramTypes.get(i));
-            if (i < paramTypes.size() - 1) {
-                sb.append(", ");
-            }
-        }
-        sb.append(") -> ");
-        sb.append(returnType);
-        this.result = sb.toString();
-    }
-
-    @Override
     public void visit(IntArray intArray) {
         this.result = "int[]";
     }
@@ -372,7 +361,6 @@ public final class ImpPrettyPrinter extends ASTVisitor {
     // Expression classes
     // ----------------------------------------------------------------
 
-    @Override
     public void visit(BinaryOpExpression binaryOpExpression) {
         /*
          * Old toString():
@@ -389,7 +377,7 @@ public final class ImpPrettyPrinter extends ASTVisitor {
     @Override
     public void visit(ArrayRefExpression arrayRefExpression) {
         // Representation: "arrayName[indexExpr]"
-        String arrName = visitAndGet(arrayRefExpression.arrayName());
+        String arrName = arrayRefExpression.arrayName().name();
         String idxStr = visitAndGet(arrayRefExpression.indexExpr());
         this.result = arrName + "[" + idxStr + "]";
     }
@@ -397,7 +385,7 @@ public final class ImpPrettyPrinter extends ASTVisitor {
     @Override
     public void visit(VarRefExpression varRefExpression) {
         // Representation: just variableName.toString()
-        this.result = visitAndGet(varRefExpression.variableName());
+        this.result = varRefExpression.variableName().name();
     }
 
     @Override
@@ -407,7 +395,7 @@ public final class ImpPrettyPrinter extends ASTVisitor {
         this.result = "forall (" +
                 forallExpression.getType() +   // type is not an AST node
                 " " +
-                visitAndGet(forallExpression.variable()) +
+                forallExpression.variable().name() +
                 ") :: " +
                 visitAndGet(forallExpression.body());
     }
@@ -418,18 +406,11 @@ public final class ImpPrettyPrinter extends ASTVisitor {
         this.result = "exists (" +
                 existsExpression.getType() +
                 " " +
-                visitAndGet(existsExpression.variable()) +
+                existsExpression.variable().name() +
                 ") :: " +
                 visitAndGet(existsExpression.body());
     }
 
-    @Override
-    public void visit(Identifier identifier) {
-        // Representation: just name
-        this.result = identifier.name();
-    }
-
-    @Override
     public void visit(UnaryExpression unaryExpression) {
         /*
          * Old toString():
@@ -453,7 +434,7 @@ public final class ImpPrettyPrinter extends ASTVisitor {
         // Representation: identifier(args...)
         // see the original code
         StringBuilder sb = new StringBuilder();
-        sb.append(visitAndGet(funcCallExpression.identifier()))
+        sb.append(funcCallExpression.identifier().name())
                 .append("(");
 
         List<Expression> args = funcCallExpression.arguments();
@@ -491,5 +472,80 @@ public final class ImpPrettyPrinter extends ASTVisitor {
     public void visit(TrueExpression trueExpression) {
         // Representation: "true"
         this.result = "true";
+    }
+
+    @Override
+    public void visit(NotExpression notExpression) {
+        visit((UnaryExpression) notExpression);
+    }
+
+    @Override
+    public void visit(NegExpression negExpression) {
+        visit((UnaryExpression) negExpression);
+    }
+
+    @Override
+    public void visit(ImpliesExpression impliesExpression) {
+        visit((BinaryOpExpression) impliesExpression);
+    }
+
+    @Override
+    public void visit(OrExpression orExpression) {
+        visit((BinaryOpExpression) orExpression);
+    }
+
+    @Override
+    public void visit(MulExpression mulExpression) {
+        visit((BinaryOpExpression) mulExpression);
+    }
+
+    @Override
+    public void visit(EqExpression eqExpression) {
+        visit((BinaryOpExpression) eqExpression);
+    }
+
+    @Override
+    public void visit(LessThanOrEqualExpression lessThanOrEqualExpression) {
+        visit((BinaryOpExpression) lessThanOrEqualExpression);
+    }
+
+    @Override
+    public void visit(SubExpression subExpression) {
+        visit((BinaryOpExpression) subExpression);
+    }
+
+    @Override
+    public void visit(ModExpression modExpression) {
+        visit((BinaryOpExpression) modExpression);
+    }
+
+    @Override
+    public void visit(GreaterThanOrEqualExpression greaterThanOrEqualExpression) {
+        visit((BinaryOpExpression) greaterThanOrEqualExpression);
+    }
+
+    @Override
+    public void visit(AddExpression addExpression) {
+        visit((BinaryOpExpression) addExpression);
+    }
+
+    @Override
+    public void visit(LessThanExpression lessThanExpression) {
+        visit((BinaryOpExpression) lessThanExpression);
+    }
+
+    @Override
+    public void visit(DivExpression divExpression) {
+        visit((BinaryOpExpression) divExpression);
+    }
+
+    @Override
+    public void visit(GreaterThanExpression greaterThanExpression) {
+        visit((BinaryOpExpression) greaterThanExpression);
+    }
+
+    @Override
+    public void visit(AndExpression andExpression) {
+        visit((BinaryOpExpression) andExpression);
     }
 }

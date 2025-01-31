@@ -32,9 +32,4 @@ public abstract class UnaryExpression extends Expression {
         return 31 * expression.hashCode();
     }
 
-
-    @Override
-    public void accept(ASTVisitor visitor) {
-        visitor.visit(this);
-    }
 }

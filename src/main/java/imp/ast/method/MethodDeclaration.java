@@ -7,7 +7,6 @@ import imp.ast.expression.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
 import java.util.Objects;
 
 public final class MethodDeclaration extends ASTNode {
