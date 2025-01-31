@@ -148,17 +148,17 @@ public interface ImpListener extends ParseTreeListener {
 	 */
 	void exitVarDeclStmt(ImpParser.VarDeclStmtContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ExprStmt}
+	 * Enter a parse tree produced by the {@code FuncCallStmt}
 	 * labeled alternative in {@link ImpParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void enterExprStmt(ImpParser.ExprStmtContext ctx);
+	void enterFuncCallStmt(ImpParser.FuncCallStmtContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code ExprStmt}
+	 * Exit a parse tree produced by the {@code FuncCallStmt}
 	 * labeled alternative in {@link ImpParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void exitExprStmt(ImpParser.ExprStmtContext ctx);
+	void exitFuncCallStmt(ImpParser.FuncCallStmtContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ImpParser#block}.
 	 * @param ctx the parse tree
@@ -254,29 +254,29 @@ public interface ImpListener extends ParseTreeListener {
 	 */
 	void exitIntType(ImpParser.IntTypeContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ArrayInt}
+	 * Enter a parse tree produced by the {@code IntArrayType}
 	 * labeled alternative in {@link ImpParser#type}.
 	 * @param ctx the parse tree
 	 */
-	void enterArrayInt(ImpParser.ArrayIntContext ctx);
+	void enterIntArrayType(ImpParser.IntArrayTypeContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code ArrayInt}
+	 * Exit a parse tree produced by the {@code IntArrayType}
 	 * labeled alternative in {@link ImpParser#type}.
 	 * @param ctx the parse tree
 	 */
-	void exitArrayInt(ImpParser.ArrayIntContext ctx);
+	void exitIntArrayType(ImpParser.IntArrayTypeContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ArrayBool}
+	 * Enter a parse tree produced by the {@code BoolArrayType}
 	 * labeled alternative in {@link ImpParser#type}.
 	 * @param ctx the parse tree
 	 */
-	void enterArrayBool(ImpParser.ArrayBoolContext ctx);
+	void enterBoolArrayType(ImpParser.BoolArrayTypeContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code ArrayBool}
+	 * Exit a parse tree produced by the {@code BoolArrayType}
 	 * labeled alternative in {@link ImpParser#type}.
 	 * @param ctx the parse tree
 	 */
-	void exitArrayBool(ImpParser.ArrayBoolContext ctx);
+	void exitBoolArrayType(ImpParser.BoolArrayTypeContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code ParenType}
 	 * labeled alternative in {@link ImpParser#type}.
@@ -338,18 +338,6 @@ public interface ImpListener extends ParseTreeListener {
 	 */
 	void exitReferenceExpr(ImpParser.ReferenceExprContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code NegExpr}
-	 * labeled alternative in {@link ImpParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterNegExpr(ImpParser.NegExprContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code NegExpr}
-	 * labeled alternative in {@link ImpParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitNegExpr(ImpParser.NegExprContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code ArrayLength}
 	 * labeled alternative in {@link ImpParser#expression}.
 	 * @param ctx the parse tree
@@ -374,6 +362,18 @@ public interface ImpListener extends ParseTreeListener {
 	 */
 	void exitCompExpr(ImpParser.CompExprContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code UnaryExpr}
+	 * labeled alternative in {@link ImpParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterUnaryExpr(ImpParser.UnaryExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code UnaryExpr}
+	 * labeled alternative in {@link ImpParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitUnaryExpr(ImpParser.UnaryExprContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code OrExpr}
 	 * labeled alternative in {@link ImpParser#expression}.
 	 * @param ctx the parse tree
@@ -397,18 +397,6 @@ public interface ImpListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFalseExpr(ImpParser.FalseExprContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code FuncCall}
-	 * labeled alternative in {@link ImpParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterFuncCall(ImpParser.FuncCallContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code FuncCall}
-	 * labeled alternative in {@link ImpParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitFuncCall(ImpParser.FuncCallContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code NewArray}
 	 * labeled alternative in {@link ImpParser#expression}.
@@ -458,18 +446,6 @@ public interface ImpListener extends ParseTreeListener {
 	 */
 	void exitEqExpr(ImpParser.EqExprContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code NotExpr}
-	 * labeled alternative in {@link ImpParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterNotExpr(ImpParser.NotExprContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code NotExpr}
-	 * labeled alternative in {@link ImpParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitNotExpr(ImpParser.NotExprContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code IntExpr}
 	 * labeled alternative in {@link ImpParser#expression}.
 	 * @param ctx the parse tree
@@ -505,6 +481,18 @@ public interface ImpListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAddSubExpr(ImpParser.AddSubExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code FuncCallExpr}
+	 * labeled alternative in {@link ImpParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterFuncCallExpr(ImpParser.FuncCallExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code FuncCallExpr}
+	 * labeled alternative in {@link ImpParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitFuncCallExpr(ImpParser.FuncCallExprContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code VarRef}
 	 * labeled alternative in {@link ImpParser#reference}.

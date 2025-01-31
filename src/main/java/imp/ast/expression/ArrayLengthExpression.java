@@ -2,6 +2,7 @@ package imp.ast.expression;
 
 import com.microsoft.z3.Context;
 import com.microsoft.z3.Expr;
+import com.microsoft.z3.IntSort;
 import imp.ast.ASTVisitor;
 
 public final class ArrayLengthExpression extends Expression {
@@ -30,18 +31,7 @@ public final class ArrayLengthExpression extends Expression {
     }
 
     @Override
-    public String toString() {
-        return arrayExpression.toString() + ".length";
-    }
-
-
-    @Override
-    public void accept(ASTVisitor v) {
-        v.visit(this);
-    }
-
-    @Override
-    public Expr interpret(Context ctx) {
-        throw new UnsupportedOperationException("Not Implemented");
+    public void accept(ExpressionVisitor visitor) {
+        visitor.visit(this);
     }
 }

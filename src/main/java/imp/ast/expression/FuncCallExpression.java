@@ -3,7 +3,6 @@ package imp.ast.expression;
 import com.microsoft.z3.*;
 import imp.ast.ASTVisitor;
 import imp.ast.typing.FunctionType;
-import imp.ast.typing.Type;
 
 import java.util.List;
 
@@ -11,13 +10,14 @@ public final class FuncCallExpression extends Expression {
 
     private final Identifier identifier;
     private final List<Expression> arguments;
+    private FunctionType functionType;
 
     public FuncCallExpression(Identifier identifier, List<Expression> arguments) {
         this.identifier = identifier;
         this.arguments = arguments;
     }
 
-    public Identifier functionName() {
+    public Identifier identifier() {
         return identifier;
     }
 
@@ -35,30 +35,15 @@ public final class FuncCallExpression extends Expression {
     }
 
     @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(identifier).append("(");
-        for (int i = 0; i < arguments.size(); i++) {
-            sb.append(arguments.get(i).toString());
-            if (i < arguments.size() - 1) {
-                sb.append(", ");
-            }
-        }
-        sb.append(")");
-        return sb.toString();
+    public void accept(ExpressionVisitor visitor) {
+        visitor.visit(this);
     }
 
-    @Override
-    public void accept(ASTVisitor v) {
-        v.visit(this);
+    public FunctionType getFunctionType() {
+        return functionType;
     }
 
-    @Override
-    public Expr interpret(Context ctx) {
-        AST variable = identifier.interpret(ctx);
-        if (!(variable instanceof FuncDecl)) {
-            throw new IllegalStateException("Identifier does not have a function type");
-        }
-        return ctx.mkApp((FuncDecl) variable, arguments.stream().map(e -> e.interpret(ctx)).toArray(Expr[]::new));
+    public void setFunctionType(FunctionType functionType) {
+        this.functionType = functionType;
     }
 }

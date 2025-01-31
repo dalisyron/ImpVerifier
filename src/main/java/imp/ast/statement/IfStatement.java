@@ -1,14 +1,11 @@
 package imp.ast.statement;
 
 import imp.ast.ASTVisitor;
-import imp.ast.expression.Expression;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.Optional;
 
-public final class IfStatement implements Statement {
+public final class IfStatement extends Statement {
 
     private final Condition condition;
     private final BlockStatement thenBlock;
@@ -32,16 +29,6 @@ public final class IfStatement implements Statement {
         return Optional.ofNullable(elseBlock);
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("if (").append(condition).append(") ");
-        sb.append(thenBlock);
-        if (elseBlock != null) {
-            sb.append(" else ").append(elseBlock);
-        }
-        return sb.toString();
-    }
 
     @Override
     public boolean equals(Object o) {

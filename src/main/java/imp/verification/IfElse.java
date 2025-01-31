@@ -7,6 +7,7 @@ import com.microsoft.z3.Context;
 import com.microsoft.z3.Expr;
 import imp.ast.statement.BlockStatement;
 import imp.ast.statement.IfStatement;
+import imp.interpreter.Z3Interpreter;
 
 public class IfElse implements VerificationConditionProvider<IfStatement> {
     private static IfElse instance;
@@ -18,10 +19,12 @@ public class IfElse implements VerificationConditionProvider<IfStatement> {
     // first element returned is Q, the remainder is the AVC of the ifelse statement
     @Override
     public BoolExpr awp(Context ctx, IfStatement ast, BoolExpr Q) {
+        Z3Interpreter interpreter = Z3Interpreter.create(ctx);
+
         BlockStatement thenBlock = ast.thenBlock();
         Optional<BlockStatement> elseBlock = ast.elseBlock();
         // get statement 1 and 2 and condition from AST when its done
-        BoolExpr condition = ast.condition().interpret(ctx);
+        BoolExpr condition = (BoolExpr) interpreter.interpret(ast.condition());
 
         BoolExpr A = AWP.getInstance().awp(ctx, thenBlock, Q);
         BoolExpr B;

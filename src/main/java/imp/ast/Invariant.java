@@ -1,19 +1,16 @@
 package imp.ast;
 
-import com.microsoft.z3.BoolExpr;
-import com.microsoft.z3.Context;
-import imp.ast.ASTNode;
 import imp.ast.expression.Expression;
-import imp.interpreter.expr.Z3BoolExprInterpreter;
 
 import java.util.Objects;
 
-public record Invariant(Expression expression) implements ASTNode {
+public final class Invariant extends ASTNode {
+    private final Expression expression;
 
-    @Override
-    public String toString() {
-        return "invariant " + expression;
+    public Invariant(Expression expression) {
+        this.expression = expression;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -29,4 +26,15 @@ public record Invariant(Expression expression) implements ASTNode {
     public void accept(ASTVisitor v) {
         v.visit(this);
     }
+
+    public Expression expression() {
+        return expression;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(expression);
+    }
+
+
 }

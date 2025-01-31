@@ -5,9 +5,8 @@ import imp.ast.Program;
 import imp.ast.method.MethodDeclaration;
 import imp.parser.Parser;
 import imp.verification.Method;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -629,7 +628,7 @@ public class SampleInlineProgramVerificationTests {
             } else {
                 System.out.printf("Method %s is invalid%n", method.name());
             }
-            Assert.assertTrue("Expected method " + method.name() + " to be valid", valid);
+            Assertions.assertTrue(valid, "Expected method " + method.name() + " to be valid");
         }
     }
 
@@ -646,7 +645,7 @@ public class SampleInlineProgramVerificationTests {
             } else {
                 System.out.printf("Method %s is invalid%n", method.name());
             }
-            Assert.assertFalse("Expected method " + method.name() + " to be invalid", valid);
+            Assertions.assertFalse(valid, "Expected method " + method.name() + " to be invalid");
         }
     }
 }

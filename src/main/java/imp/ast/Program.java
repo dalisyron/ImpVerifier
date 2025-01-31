@@ -5,21 +5,20 @@ import imp.ast.method.MethodDeclaration;
 import java.util.List;
 import java.util.Objects;
 
-public record Program(List<MethodDeclaration> methods) implements ASTNode {
+public final class Program extends ASTNode {
+    private final List<MethodDeclaration> methods;
 
-    public Program {
+
+    public Program(List<MethodDeclaration> methods) {
         if (methods == null) {
             throw new IllegalArgumentException("Methods cannot be null");
         }
         if (methods.isEmpty()) {
             throw new IllegalArgumentException("Methods cannot be empty");
         }
+        this.methods = methods;
     }
 
-    @Override
-    public String toString() {
-        return String.join("\n\n", methods.stream().map(MethodDeclaration::toString).toList());
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -35,4 +34,14 @@ public record Program(List<MethodDeclaration> methods) implements ASTNode {
     public void accept(ASTVisitor v) {
         v.visit(this);
     }
+
+    public List<MethodDeclaration> methods() {
+        return methods;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(methods);
+    }
+
 }

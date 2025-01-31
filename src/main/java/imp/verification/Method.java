@@ -12,6 +12,7 @@ import imp.ast.condition.EnsuresClause;
 import imp.ast.condition.RequiresClause;
 import imp.ast.statement.BlockStatement;
 import imp.ast.statement.Statement;
+import imp.interpreter.Z3Interpreter;
 
 import java.util.Optional;
 
@@ -21,15 +22,16 @@ public class Method {
     private Method() {
         }
     public boolean Verify(Context ctx, MethodDeclaration method) {
+        Z3Interpreter interpreter = Z3Interpreter.create(ctx);
         ConditionList conditionals = method.conditionList();
 
         // Format conditions list to P and Q
         BoolExpr P = conditionals.requiresClauses().stream()
-                .map(condition -> condition.interpret(ctx))
+                .map(interpreter::interpret)
                 .reduce(ctx.mkTrue(), ctx::mkAnd);
 
         BoolExpr Q = conditionals.ensuresClauses().stream()
-                .map(condition -> condition.interpret(ctx))
+                .map(interpreter::interpret)
                 .reduce(ctx.mkTrue(), ctx::mkAnd);
 
         BlockStatement statements = new BlockStatement(method.methodBody().statements());

@@ -2,30 +2,22 @@ package imp.ast.condition;
 
 import imp.ast.ASTNode;
 import imp.ast.ASTVisitor;
-import imp.ast.statement.Condition;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;
 
-public record ConditionList(@NotNull List<ConditionClause> conditions) implements ASTNode {
+public final class ConditionList extends ASTNode {
+    @NotNull
+    private final List<ConditionClause> conditions;
 
-    public ConditionList {
+
+    public ConditionList(@NotNull List<ConditionClause> conditions) {
         // Ensure the list is not null and not empty
         Objects.requireNonNull(conditions, "conditions must not be null");
+        this.conditions = conditions;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < conditions.size(); i++) {
-            sb.append(conditions.get(i));
-            if (i < conditions.size() - 1) {
-                sb.append("\n");
-            }
-        }
-        return sb.toString();
-    }
 
     public List<EnsuresClause> ensuresClauses() {
         return conditions.stream()
@@ -53,4 +45,24 @@ public record ConditionList(@NotNull List<ConditionClause> conditions) implement
     public static ConditionList emptyList() {
         return new ConditionList(List.of());
     }
+
+    @NotNull
+    public List<ConditionClause> conditions() {
+        return conditions;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj == null || obj.getClass() != this.getClass()) return false;
+        var that = (ConditionList) obj;
+        return Objects.equals(this.conditions, that.conditions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(conditions);
+    }
+
+
 }

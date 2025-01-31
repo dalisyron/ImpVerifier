@@ -7,7 +7,7 @@ import imp.ast.expression.Identifier;
 
 import java.util.Objects;
 
-public final class ReturnValue implements ASTNode {
+public final class ReturnValue extends ASTNode {
 
     private final DataType type;
     private final Identifier name;
@@ -28,10 +28,6 @@ public final class ReturnValue implements ASTNode {
     public Identifier name() { return name;
     }
 
-    @Override
-    public String toString() {
-        return type.toString() + " " + name.toString();
-    }
 
     @Override
     public boolean equals(Object o) {

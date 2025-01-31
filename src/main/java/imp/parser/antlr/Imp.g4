@@ -1,166 +1,167 @@
 grammar Imp;
 
-parse
-	: (methodDeclaration)+ EOF
-	;
+// ─────────────────────────────────────────────────────────────────
+// Parser Rules (unchanged)
+// ─────────────────────────────────────────────────────────────────
 
-methodDeclaration
-	: 'method' ID LPAREN formalParameters? RPAREN returnsBlock? conditionBlock block
-	;
+parse: (methodDeclaration)+ EOF;
 
-formalParameters
-	: formalParameter (',' formalParameter)*
-	;
+methodDeclaration:
+    'method' ID LPAREN formalParameters? RPAREN returnsBlock? conditionBlock block;
 
-formalParameter
-	: type ID
-	;
+formalParameters: formalParameter (',' formalParameter)*;
 
-returnsBlock
-	: RETURNS LPAREN formalParameter RPAREN
-	;
+formalParameter: type ID;
 
-conditionBlock
-	: (requiresClause | ensuresClause)*
-	;
+returnsBlock: RETURNS LPAREN formalParameter RPAREN;
 
-requiresClause
-	: REQUIRES expression
-	;
+conditionBlock: (requiresClause | ensuresClause)*;
 
-ensuresClause
-	: ENSURES expression
-	;
+requiresClause: REQUIRES expression;
 
-statement
-	: assignStatement                                            # AssignStmt
-	| ifStatement                                                # IfStmt
-	| whileStatement                                             # WhileStmt
-	| block                                                      # BlockStmt
-	| varDecl                                                    # VarDeclStmt
-	| expression SEMICOLON                                             # ExprStmt
-	;
+ensuresClause: ENSURES expression;
 
-block
-	: LBRACE statement* RBRACE
-	;
-
-ifStatement
-	: IF parenthesizedCondition block (ELSE block)?
-	;
-
-whileStatement
-	: WHILE parenthesizedCondition invariantList? block
-	;
-
-invariantList
-    : (INVARIANT expression)+
+statement:
+    assignStatement            # AssignStmt
+    | ifStatement             # IfStmt
+    | whileStatement          # WhileStmt
+    | block                   # BlockStmt
+    | varDecl                 # VarDeclStmt
+    | ID LPAREN exprList? RPAREN SEMICOLON    # FuncCallStmt
     ;
 
-parenthesizedCondition
-	: LPAREN expression RPAREN
-	;
+block: LBRACE statement* RBRACE;
 
-assignStatement
-	: reference ASSIGN expression SEMICOLON
-	;
+ifStatement: IF parenthesizedCondition block (ELSE block)?;
 
-varDecl
-	: type ID (ASSIGN expression)? SEMICOLON
-	;
+whileStatement:
+    WHILE parenthesizedCondition invariantList? block;
 
-type
-	: 'bool'                 # BoolType
-	| 'int'                  # IntType
-	| 'int[]'                # ArrayInt
-	| 'bool[]'               # ArrayBool
-	| LPAREN type RPAREN     # ParenType
-	;
+invariantList: (INVARIANT expression)+;
 
-expression
-	:
-	expression'.length'                                               # ArrayLength
-	| MINUS expression                                                  # NegExpr // Level 35
-	| expression (TIMES | INTDIV | INTMOD) expression                                  # MulDivModExpr // Level 40
-	| expression (PLUS | MINUS) expression                                    # AddSubExpr // Level 50
-	| expression (LEQ | GEQ | GREATER | LESS) expression                      # CompExpr // Level 70
-	| NOT expression                                                    # NotExpr // Level 75
-	| expression EQUAL expression                                             # EqExpr // Level 71
-	| expression AND expression                                               # AndExpr // Level 80
-	| expression OR expression                                                # OrExpr // Level 85
-	| LPAREN expression RPAREN                                          # ParenExpr
-	| ID LPAREN exprList? RPAREN                                  # FuncCall
-	| INT                                                         # IntExpr
-    | TRUE                                                        # TrueExpr
-    | FALSE                                                       # FalseExpr
-	| expression IMPLIES (expression)                                         # F_Implies
-	| (FORALL | EXISTS) LPAREN formalParameter RPAREN DOUBLECOLON expression                # QuantifiedExpr
-	| NEW type '[' expression ']'                                       # NewArray
-	| reference                                                   # ReferenceExpr
-	;
+parenthesizedCondition: LPAREN expression RPAREN;
+
+assignStatement: reference ASSIGN expression SEMICOLON;
+
+varDecl: type ID (ASSIGN expression)? SEMICOLON;
+
+type:
+	BOOL_TYPE					# BoolType
+	| INT_TYPE					# IntType
+	| INT_ARRAY_TYPE			# IntArrayType
+	| BOOL_ARRAY_TYPE			# BoolArrayType
+	| LPAREN type RPAREN	# ParenType;
+
+expression:
+      reference                                                                # ReferenceExpr
+    | expression '.length'                                                     # ArrayLength
+    | ID LPAREN exprList? RPAREN                                               # FuncCallExpr
+    | (MINUS | NOT) expression                                                 # UnaryExpr
+    | NEW type LBRACK expression RBRACK                                        # NewArray
+    | expression (TIMES | INTDIV | INTMOD) expression                          # MulDivModExpr
+    | expression (PLUS | MINUS) expression                                     # AddSubExpr
+    | expression (LEQ | GEQ | GREATER | LESS) expression                       # CompExpr
+    | expression EQUAL expression                                              # EqExpr
+    | expression AND expression                                                # AndExpr
+    | expression OR expression                                                 # OrExpr
+    | LPAREN expression RPAREN                                                 # ParenExpr
+    | INT                                                                      # IntExpr
+    | TRUE                                                                     # TrueExpr
+    | FALSE                                                                    # FalseExpr
+    | expression IMPLIES expression                                            # F_Implies
+    | (FORALL | EXISTS) LPAREN formalParameter RPAREN DOUBLECOLON expression   # QuantifiedExpr
+    ;
 
 reference:
-      ID                                             # VarRef
-    | ID '[' expression ']'                                # ArrayRef
+      ID                         # VarRef
+    | ID LBRACK expression RBRACK # ArrayRef
     ;
 
-exprList
-	: expression (ARGSEP expression)*
-	;
+exprList: expression (ARGSEP expression)*;
 
-TRUE       : 'true';
-FALSE      : 'false';
-IF         : 'if';
-ELSE       : 'else';
-WHILE      : 'while';
-ASSIGN     : '=';
-PLUS       : '+';
-TIMES      : '*';
-EQUAL      : '==';
-LEQ        : '<=';
-GEQ        : '>=';
-SEMICOLON  : ';';
-GREATER    : '>';
-LESS       : '<';
-NOT        : '!';
-AND        : '&&';
-OR         : '||';
-LPAREN     : '(';
-RPAREN     : ')';
-LBRACE     : '{';
-RBRACE     : '}';
-REQUIRES   : 'requires';
-ENSURES    : 'ensures';
-INVARIANT  : 'invariant';
-FORALL     : 'forall';
-EXISTS     : 'exists';
-IMPLIES    : '==>';
+// ─────────────────────────────────────────────────────────────────
+// Lexer Rules (refactored and grouped)
+// ─────────────────────────────────────────────────────────────────
+
+
+// ─────────────────────────────────────────────────────────────────
+// 1. Terminals to separate arguments, etc.
+// ─────────────────────────────────────────────────────────────────
+ARGSEP: ',';  // Used where the grammar has (ARGSEP expression)*
+
+
+// ─────────────────────────────────────────────────────────────────
+// 2. Core keywords (appear as string literals in parser rules)
+// ─────────────────────────────────────────────────────────────────
+METHOD: 'method';       // The parser still uses 'method' as a literal
+REQUIRES: 'requires';
+ENSURES: 'ensures';
+INVARIANT: 'invariant';
+FORALL: 'forall';
+EXISTS: 'exists';
+NEW: 'new';
+RETURNS: 'returns';
+IF: 'if';
+ELSE: 'else';
+WHILE: 'while';
+TRUE: 'true';
+FALSE: 'false';
+
+// ─────────────────────────────────────────────────────────────────
+// 3. Operators and punctuation
+// ─────────────────────────────────────────────────────────────────
+ASSIGN: '=';
+PLUS: '+';
+MINUS: '-';
+TIMES: '*';
+INTDIV: '/';
+INTMOD: '%';
+EQUAL: '==';
+LEQ: '<=';
+GEQ: '>=';
+GREATER: '>';
+LESS: '<';
+NOT: '!';
+AND: '&&';
+OR: '||';
+IMPLIES: '==>';
 DOUBLECOLON: '::';
-MINUS      : '-';
-INTDIV     : '/';
-RETURNS    : 'returns';
-ARGSEP     : ',';
-NEW        : 'new';
-COLON      : ':';
-INTMOD     : '%';
+COLON: ':';
+SEMICOLON: ';';
 
-ID
-	: LETTER (LETTER | [0-9])*
-	;
+// ─────────────────────────────────────────────────────────────────
+// 4. Brackets
+// ─────────────────────────────────────────────────────────────────
+LPAREN: '(';
+RPAREN: ')';
+LBRACE: '{';
+RBRACE: '}';
+LBRACK: '[';
+RBRACK: ']';
 
-fragment LETTER
-	: [a-zA-Z]
-	;
 
-INT
-	: [0-9]+
-	;
+// ─────────────────────────────────────────────────────────────────
+// 5. Type names (used as string literals in the `type` rule)
+// ─────────────────────────────────────────────────────────────────
+BOOL_TYPE: 'bool';
+INT_TYPE: 'int';
+INT_ARRAY_TYPE: 'int[]';
+BOOL_ARRAY_TYPE: 'bool[]';
 
-WS
-	: [ \t\r\n]+ -> skip
-	;
 
-SL_COMMENT
-	: '//' .*? '\n' -> skip
-	;
+// ─────────────────────────────────────────────────────────────────
+// 6. Identifier and numeric literal
+// ─────────────────────────────────────────────────────────────────
+ID: LETTER (LETTER | [0-9])*;
 
+fragment LETTER: [a-zA-Z];
+
+INT: [0-9]+;
+
+
+// ─────────────────────────────────────────────────────────────────
+// 7. Whitespace and comments
+// ─────────────────────────────────────────────────────────────────
+WS: [ \t\r\n]+ -> skip;
+
+SL_COMMENT: '//' .*? '\n' -> skip;

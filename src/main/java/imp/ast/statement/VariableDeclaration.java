@@ -8,7 +8,7 @@ import imp.ast.expression.Identifier;
 import java.util.Objects;
 import java.util.Optional;
 
-public final class VariableDeclaration implements Statement {
+public final class VariableDeclaration extends Statement {
 
     private final Type declaredType;
     private final Identifier variableName;
@@ -36,14 +36,6 @@ public final class VariableDeclaration implements Statement {
         return Optional.ofNullable(initializer);
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(declaredType).append(" ").append(variableName);
-        initializer().ifPresent(expr -> sb.append(" = ").append(expr));
-        sb.append(";");
-        return sb.toString();
-    }
 
     @Override
     public boolean equals(Object o) {

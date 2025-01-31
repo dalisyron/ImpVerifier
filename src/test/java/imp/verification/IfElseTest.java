@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import imp.ast.typing.data.value.IntType;
-import org.junit.Assert;
-import org.junit.Test;
 
 import com.microsoft.z3.BoolExpr;
 import com.microsoft.z3.Context;
@@ -19,6 +17,8 @@ import imp.ast.expression.binary.bool.compare.LessThanExpression;
 import imp.ast.expression.constant.integer.IntExpression;
 import imp.ast.statement.*;
 import imp.ast.expression.Identifier;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 
 public class IfElseTest {
@@ -56,6 +56,6 @@ public class IfElseTest {
         Solver solver = ctx.mkSolver();
         solver.add(ctx.mkNot(ctx.mkAnd(vc1, vc2)));
         Status status = solver.check();
-        Assert.assertEquals(Status.UNSATISFIABLE, status);
+        Assertions.assertEquals(Status.UNSATISFIABLE, status);
     }
 }

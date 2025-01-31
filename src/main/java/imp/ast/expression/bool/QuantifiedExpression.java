@@ -44,10 +44,6 @@ public abstract sealed class QuantifiedExpression extends Expression
         return quantifier.hashCode() ^ variable.hashCode() ^ body.hashCode();
     }
 
-    @Override
-    public String toString() {
-        return quantifier + " " + "(" + type + " " + variable + ") :: " + body;
-    }
 
 
     public DataType getType() {

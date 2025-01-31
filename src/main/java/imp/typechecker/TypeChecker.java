@@ -5,11 +5,18 @@ import imp.ast.*;
 import imp.ast.condition.*;
 import imp.ast.expression.*;
 import imp.ast.expression.array.NewArrayExpression;
+import imp.ast.expression.binary.bool.compare.*;
+import imp.ast.expression.binary.bool.logic.AndExpression;
+import imp.ast.expression.binary.bool.logic.ImpliesExpression;
+import imp.ast.expression.binary.bool.logic.OrExpression;
+import imp.ast.expression.binary.integer.*;
 import imp.ast.expression.bool.ExistsExpression;
 import imp.ast.expression.bool.ForallExpression;
 import imp.ast.expression.constant.bool.FalseExpression;
 import imp.ast.expression.constant.bool.TrueExpression;
 import imp.ast.expression.constant.integer.IntExpression;
+import imp.ast.expression.unary.bool.NotExpression;
+import imp.ast.expression.unary.integer.NegExpression;
 import imp.ast.method.*;
 import imp.ast.statement.*;
 import imp.ast.typing.*;
@@ -20,6 +27,7 @@ import imp.ast.typing.data.array.IntArray;
 import imp.ast.typing.data.value.BoolType;
 import imp.ast.typing.data.value.IntType;
 import imp.ast.expression.Identifier;
+import imp.ast.ASTVisitor;
 
 import java.util.*;
 
@@ -31,8 +39,8 @@ public class TypeChecker {
     }
 
     private static class TypeCheckVisitor extends ASTVisitor {
-        private TypeSymbolTable symTab;
-        private Map<Identifier, FunctionType> functionSymTab;
+        private final TypeSymbolTable symTab;
+        private final Map<Identifier, FunctionType> functionSymTab;
         private Type lastType;
 
         public TypeCheckVisitor() {
@@ -158,20 +166,26 @@ public class TypeChecker {
             }
         }
 
+        private Type visitAndGet(ASTNode node) {
+            node.accept(this);
+            return lastType;
+        }
+
         @Override
         public void visit(VariableDeclaration variableDeclaration) {
             Identifier varName = variableDeclaration.variableName();
-            Type varType = variableDeclaration.declaredType();
             if (symTab.containsKey(varName)) {
                 throw new TypeError("Variable " + varName + " already declared.");
             }
-            symTab.put(varName, varType);
+            Type declaredType = visitAndGet(variableDeclaration.declaredType());
+
+            symTab.put(varName, declaredType);
 
             if (variableDeclaration.initializer().isPresent()) {
-                variableDeclaration.initializer().get().accept(this);
-                Type initType = lastType;
-                if (!canBeAssigned(initType, varType)) {
-                    throw new TypeError("Cannot assign " + initType + " to variable " + varName + " of type " + varType);
+                Type initializerType = visitAndGet(variableDeclaration.initializer().get());
+
+                if (initializerType != declaredType) {
+                    throw new TypeError("Cannot assign " + initializerType + " to variable " + varName + " of type " + declaredType);
                 }
             }
         }
@@ -184,7 +198,7 @@ public class TypeChecker {
             assignStatement.expression().accept(this);
             Type rhsType = lastType;
 
-            if (!canBeAssigned(rhsType, lhsType)) {
+            if (rhsType != lhsType) {
                 throw new TypeError("Cannot assign " + rhsType + " to " + assignStatement.lhs());
             }
         }
@@ -233,11 +247,6 @@ public class TypeChecker {
         }
 
         @Override
-        public void visit(ExpressionStatement expressionStatement) {
-            expressionStatement.expression().accept(this);
-        }
-
-        @Override
         public void visit(VarRefExpression varRefExpression) {
             Identifier varName = varRefExpression.variableName();
             Type varType = symTab.get(varName);
@@ -276,7 +285,6 @@ public class TypeChecker {
             }
         }
 
-        @Override
         public void visit(BinaryOpExpression binaryOpExpression) {
             binaryOpExpression.left().accept(this);
             Type leftType = lastType;
@@ -293,7 +301,6 @@ public class TypeChecker {
             lastType = resultType;
         }
 
-        @Override
         public void visit(UnaryExpression unaryExpression) {
             unaryExpression.expression().accept(this);
             Type operandType = lastType;
@@ -323,6 +330,81 @@ public class TypeChecker {
         }
 
         @Override
+        public void visit(NotExpression notExpression) {
+            visit((UnaryExpression) notExpression);
+        }
+
+        @Override
+        public void visit(NegExpression negExpression) {
+            visit((UnaryExpression) negExpression);
+        }
+
+        @Override
+        public void visit(ImpliesExpression impliesExpression) {
+            visit((BinaryOpExpression) impliesExpression);
+        }
+
+        @Override
+        public void visit(OrExpression orExpression) {
+            visit((BinaryOpExpression) orExpression);
+        }
+
+        @Override
+        public void visit(MulExpression mulExpression) {
+            visit((BinaryOpExpression) mulExpression);
+        }
+
+        @Override
+        public void visit(EqExpression eqExpression) {
+            visit((BinaryOpExpression) eqExpression);
+        }
+
+        @Override
+        public void visit(LessThanOrEqualExpression lessThanOrEqualExpression) {
+            visit((BinaryOpExpression) lessThanOrEqualExpression);
+        }
+
+        @Override
+        public void visit(SubExpression subExpression) {
+            visit((BinaryOpExpression) subExpression);
+        }
+
+        @Override
+        public void visit(ModExpression modExpression) {
+            visit((BinaryOpExpression) modExpression);
+        }
+
+        @Override
+        public void visit(GreaterThanOrEqualExpression greaterThanOrEqualExpression) {
+            visit((BinaryOpExpression) greaterThanOrEqualExpression);
+        }
+
+        @Override
+        public void visit(AddExpression addExpression) {
+            visit((BinaryOpExpression) addExpression);
+        }
+
+        @Override
+        public void visit(LessThanExpression lessThanExpression) {
+            visit((BinaryOpExpression) lessThanExpression);
+        }
+
+        @Override
+        public void visit(DivExpression divExpression) {
+            visit((BinaryOpExpression) divExpression);
+        }
+
+        @Override
+        public void visit(GreaterThanExpression greaterThanExpression) {
+            visit((BinaryOpExpression) greaterThanExpression);
+        }
+
+        @Override
+        public void visit(AndExpression andExpression) {
+            visit((BinaryOpExpression) andExpression);
+        }
+
+        @Override
         public void visit(Condition condition) {
             condition.expression().accept(this);
             if (!(lastType instanceof BoolType)) {
@@ -331,8 +413,38 @@ public class TypeChecker {
         }
 
         @Override
+        public void visit(BoolType boolType) {
+            lastType = BoolType.getInstance();
+        }
+
+        @Override
+        public void visit(IntArray intArray) {
+            lastType = IntArray.getInstance();
+        }
+
+        @Override
+        public void visit(BoolArray boolArray) {
+            lastType = BoolArray.getInstance();
+        }
+
+        @Override
+        public void visit(VoidType voidType) {
+            lastType = VoidType.getInstance();
+        }
+
+        @Override
+        public void visit(IntType intType) {
+            lastType = IntType.getInstance();
+        }
+
+        @Override
+        public void visit(FuncCallStatement funcCallStatement) {
+            funcCallStatement.funcCallExpression().accept(this);
+        }
+
+        @Override
         public void visit(FuncCallExpression funcCallExpression) {
-            Identifier funcName = funcCallExpression.functionName();
+            Identifier funcName = funcCallExpression.identifier();
             FunctionType funcType = functionSymTab.get(funcName);
             if (funcType == null) {
                 throw new TypeError("Unknown function: " + funcName);
@@ -344,10 +456,9 @@ public class TypeChecker {
             }
 
             for (int i = 0; i < args.size(); i++) {
-                args.get(i).accept(this);
-                Type argType = lastType;
+                Type argType = visitAndGet(args.get(i));
                 Type expectedType = funcType.getParameterTypes().get(i);
-                if (!canBeAssigned(argType, expectedType)) {
+                if (argType != expectedType) {
                     throw new TypeError("Function " + funcName + " argument " + (i + 1) + " expects type " + expectedType + ", but got " + argType);
                 }
             }
@@ -400,16 +511,6 @@ public class TypeChecker {
             }
             symTab.popState();
             lastType = BoolType.getInstance();
-        }
-
-        @Override
-        public void visit(Identifier identifier) {
-            // Typically handled in VarRefExpression
-        }
-
-        // Helper methods
-        private boolean canBeAssigned(Type from, Type to) {
-            return from.equals(to);
         }
 
         private Type getBinaryOpResultType(String op, Type leftType, Type rightType) {

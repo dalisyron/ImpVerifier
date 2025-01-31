@@ -1,12 +1,10 @@
 package imp.ast.expression.binary.integer;
 
-import com.microsoft.z3.Context;
-import com.microsoft.z3.IntExpr;
 import imp.ast.expression.BinaryOpExpression;
 import imp.ast.expression.Expression;
-import imp.interpreter.expr.Z3IntExprInterpreter;
+import imp.ast.expression.ExpressionVisitor;
 
-public class ModExpression extends BinaryOpExpression implements Z3IntExprInterpreter {
+public class ModExpression extends BinaryOpExpression {
 
     public ModExpression(Expression left, Expression right) {
         super(left, right);
@@ -17,8 +15,9 @@ public class ModExpression extends BinaryOpExpression implements Z3IntExprInterp
         return "%";
     }
 
+
     @Override
-    public IntExpr interpret(Context ctx) {
-        return (IntExpr) ctx.mkMod((IntExpr) left().interpret(ctx), (IntExpr) right().interpret(ctx));
+    public void accept(ExpressionVisitor visitor) {
+        visitor.visit(this);
     }
 }

@@ -2,7 +2,8 @@ package imp.ast.typing.data.value;
 
 import com.microsoft.z3.Context;
 import com.microsoft.z3.Sort;
-import imp.ast.typing.data.DataType;
+import imp.ast.ASTVisitor;
+import imp.ast.expression.TypeVisitor;
 
 public final class BoolType extends PrimitiveType {
     private static final BoolType instance = new BoolType();
@@ -25,12 +26,7 @@ public final class BoolType extends PrimitiveType {
     }
 
     @Override
-    public Sort interpret(Context ctx) {
-        return ctx.mkBoolSort();
-    }
-
-    @Override
-    public String toString() {
-        return "bool";
+    public void accept(TypeVisitor v) {
+        v.visit(this);
     }
 }

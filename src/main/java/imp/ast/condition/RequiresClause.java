@@ -2,13 +2,12 @@ package imp.ast.condition;
 
 import com.microsoft.z3.BoolExpr;
 import com.microsoft.z3.Context;
-import com.microsoft.z3.Expr;
 import imp.ast.ASTVisitor;
 import imp.ast.expression.Expression;
 
 import java.util.Objects;
 
-public final class RequiresClause implements ConditionClause {
+public final class RequiresClause extends ConditionClause {
 
     private final Expression expression;
 
@@ -21,10 +20,6 @@ public final class RequiresClause implements ConditionClause {
         return expression;
     }
 
-    @Override
-    public String toString() {
-        return "requires " + expression.toString();
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -46,8 +41,4 @@ public final class RequiresClause implements ConditionClause {
         v.visit(this);
     }
 
-    @Override
-    public BoolExpr interpret(Context ctx) {
-        return (BoolExpr) expression.interpret(ctx);
-    }
 }

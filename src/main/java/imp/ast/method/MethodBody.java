@@ -10,7 +10,7 @@ import java.util.Objects;
 /**
  * Syntactically similar to {@link imp.ast.statement.BlockStatement} but not implementing {@link imp.ast.statement.Statement}.
  */
-public final class MethodBody implements ASTNode {
+public final class MethodBody extends ASTNode {
 
     private final List<Statement> statements;
 
@@ -22,15 +22,6 @@ public final class MethodBody implements ASTNode {
         return statements;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for (Statement statement : statements) {
-            sb.append(statement.toString());
-            sb.append("\n");
-        }
-        return sb.toString();
-    }
 
     @Override
     public boolean equals(Object o) {

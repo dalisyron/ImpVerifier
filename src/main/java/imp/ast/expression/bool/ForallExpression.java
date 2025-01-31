@@ -3,6 +3,7 @@ package imp.ast.expression.bool;
 import com.microsoft.z3.*;
 import imp.ast.ASTVisitor;
 import imp.ast.expression.Expression;
+import imp.ast.expression.ExpressionVisitor;
 import imp.ast.typing.data.DataType;
 import imp.ast.expression.Identifier;
 
@@ -24,17 +25,7 @@ public final class ForallExpression extends QuantifiedExpression {
     }
 
     @Override
-    public void accept(ASTVisitor v) {
-        v.visit(this);
-    }
-
-    @Override
-    public Expr interpret(Context ctx) {
-        DataType type = getType();
-        Sort sort = type.interpret(ctx);
-
-        BoolExpr bodyExpr = (BoolExpr) body.interpret(ctx);
-
-        return ctx.mkForall(new Expr[] { ctx.mkConst(variable.name(), sort) }, bodyExpr, 1, null, null, null, null);
+    public void accept(ExpressionVisitor visitor) {
+        visitor.visit(this);
     }
 }

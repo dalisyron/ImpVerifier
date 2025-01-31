@@ -2,7 +2,6 @@ package imp.verification;
 
 import imp.ast.expression.Identifier;
 import imp.ast.typing.data.value.IntType;
-import org.junit.Test;
 
 import com.microsoft.z3.BoolExpr;
 import com.microsoft.z3.Context;
@@ -14,10 +13,12 @@ import imp.ast.expression.VarRefExpression;
 import imp.ast.expression.constant.integer.IntExpression;
 import imp.ast.statement.AssignStatement;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 
 public class AssignmentTest {
+
     @Test
     public void AssignIntTest() {
         Context ctx = new Context();
@@ -31,7 +32,7 @@ public class AssignmentTest {
         Solver solver = ctx.mkSolver();
         solver.add(ctx.mkNot(ctx.mkAnd(awp, avc)));
         Status status = solver.check();
-        Assert.assertEquals(Status.UNSATISFIABLE, status);
+        Assertions.assertEquals(Status.UNSATISFIABLE, status);
     }
 
 }

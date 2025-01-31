@@ -34,22 +34,6 @@ public final class ArrayRefExpression extends ReferenceExpression {
         return arrayName.equals(other.arrayName) && indexExpression.equals(other.indexExpression);
     }
 
-    @Override
-    public String toString() {
-        return arrayName + "[" + indexExpression + "]";
-    }
-
-    @Override
-    public void accept(ASTVisitor visitor) {
-        visitor.visit(this);
-    }
-
-    @Override
-    public Expr interpret(Context ctx) {
-        Sort sort = elementType.interpret(ctx);
-
-        return ctx.mkSelect(ctx.mkArrayConst(arrayName.name(), ctx.mkIntSort(), sort), indexExpression.interpret(ctx));
-    }
 
     public PrimitiveType getElementType() {
         return elementType;
@@ -57,5 +41,10 @@ public final class ArrayRefExpression extends ReferenceExpression {
 
     public void setElementType(PrimitiveType elementType) {
         this.elementType = elementType;
+    }
+
+    @Override
+    public void accept(ExpressionVisitor v) {
+        v.visit(this);
     }
 }
